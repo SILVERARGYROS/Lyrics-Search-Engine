@@ -1,0 +1,6 @@
+
+*.log
+*.class
+FALSE/RUNNING_PID
+FALSE/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+FALSE/target/jpro/jprocp-file
