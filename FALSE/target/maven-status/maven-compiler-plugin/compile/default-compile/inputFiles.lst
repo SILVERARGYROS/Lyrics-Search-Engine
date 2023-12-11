@@ -1,9 +1,9 @@
 C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\module-info.java
-C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\LuceneConstants.java
+C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\FXControllers\SecondaryController.java
+C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\Lucene\TextFileFilter.java
 C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\App.java
-C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\Searcher.java
-C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\Indexer.java
-C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\TextFileFilter.java
-C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\SecondaryController.java
-C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\LuceneTester.java
-C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\PrimaryController.java
+C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\FXControllers\PrimaryController.java
+C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\Lucene\LuceneTester.java
+C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\Lucene\Searcher.java
+C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\Lucene\LuceneConstants.java
+C:\Users\SILVERARGYROS\Desktop\Lyrics-Search-Engine\FALSE\src\main\java\com\example\Lucene\Indexer.java

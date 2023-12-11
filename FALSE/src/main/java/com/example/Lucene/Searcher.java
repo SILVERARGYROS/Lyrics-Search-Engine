@@ -1,4 +1,4 @@
-package com.example;
+package com.example.Lucene;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -27,7 +27,7 @@ public class Searcher {
 	public Searcher(String indexDirectoryPath) throws IOException {
 		Path indexPath = Paths.get(indexDirectoryPath);
 		indexDirectory = FSDirectory.open(indexPath);
-		indexReader = DirectoryReader.open(indexDirectory);
+		indexReader = DirectoryReader.open(indexDirectory);	
 		indexSearcher = new IndexSearcher(indexReader);
 		queryParser = new QueryParser(LuceneConstants.CONTENTS, new StandardAnalyzer());
 	}

@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import com.example.Lucene.LuceneTester;
+
 /**
  * JavaFX App
  */
@@ -20,9 +22,10 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         LuceneTester.run(null);
+        return;
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 

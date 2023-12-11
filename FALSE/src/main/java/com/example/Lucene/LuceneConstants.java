@@ -1,4 +1,4 @@
-package com.example;
+package com.example.Lucene;
 
 public class LuceneConstants {
 	public static final String CONTENTS = "fieldName";

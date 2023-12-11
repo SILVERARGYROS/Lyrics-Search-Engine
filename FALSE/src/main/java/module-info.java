@@ -4,6 +4,6 @@ module com.example {
     requires lucene.queryparser;
     requires lucene.core;
 
-    opens com.example to javafx.fxml;
+    opens com.example.FXControllers to javafx.fxml;
     exports com.example;
 }

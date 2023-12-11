@@ -1,4 +1,4 @@
-package com.example;
+package com.example.Lucene;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -43,15 +43,18 @@ public class Indexer {
 		Document document = new Document();
 		// index file contents
 		BufferedReader br = new BufferedReader(new FileReader(file));
-		String currentLine = br.readLine().toString();
-		Field contentField = new Field(LuceneConstants.CONTENTS, currentLine, TextField.TYPE_STORED);
-		// index file name
-		Field fileNameField = new Field(LuceneConstants.FILE_NAME, file.getName(), StringField.TYPE_STORED);
-		// index file path
-		Field filePathField = new Field(LuceneConstants.FILE_PATH, file.getCanonicalPath(), StringField.TYPE_STORED);
-		document.add(contentField);
-		document.add(fileNameField);
-		document.add(filePathField);
+		String brLine;
+		while((brLine = br.readLine()) != null){
+			String currentLine = brLine.toString();
+			Field contentField = new Field(LuceneConstants.CONTENTS, currentLine, TextField.TYPE_STORED);
+			// index file name
+			Field fileNameField = new Field(LuceneConstants.FILE_NAME, file.getName(), StringField.TYPE_STORED);
+			// index file path
+			Field filePathField = new Field(LuceneConstants.FILE_PATH, file.getCanonicalPath(), StringField.TYPE_STORED);
+			document.add(contentField);
+			document.add(fileNameField);
+			document.add(filePathField);
+		}
 		br.close();
 		return document;
 	}

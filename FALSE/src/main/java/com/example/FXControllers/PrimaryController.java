@@ -1,7 +1,9 @@
-package com.example;
+package com.example.FXControllers;
 
-import java.io.IOException;
+import com.example.App;
+
 import javafx.fxml.FXML;
+import java.io.IOException;
 
 public class PrimaryController {
 
