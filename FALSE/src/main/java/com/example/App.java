@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-import com.example.Lucene.LuceneTester;
+import com.example.Lucene.LuceneManager;
 
 /**
  * JavaFX App
@@ -15,13 +15,15 @@ import com.example.Lucene.LuceneTester;
 public class App extends Application {
 
     private static Scene scene;
-
+    private static LuceneManager luceneManager;
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
-        LuceneTester.run(null);
+        luceneManager = new LuceneManager();
+        luceneManager.run(null);
+        
         return;
     }
 
