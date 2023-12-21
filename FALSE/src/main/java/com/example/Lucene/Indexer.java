@@ -16,7 +16,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-
 import com.opencsv.CSVReader;
 
 public class Indexer {
@@ -99,19 +98,29 @@ public class Indexer {
 			// index file contents
 			FileReader fr = new FileReader(file);
 			CSVReader reader = new CSVReader(fr);
-			String[] record;
-			while((record = reader.readNext()) != null){
+			String[] currentRecord;
+			while((currentRecord = reader.readNext()) != null){ // id,singer_name,name,type,year
+				// index general field
+				String generalString = "";
+				for(String field : currentRecord){
+					generalString += field + " ";
+				}
+				Field generalField = new Field("general", generalString.strip(), TextField.TYPE_STORED);
+				// index album_id
+				Field albumIdField = new Field("album_id", currentRecord[0], TextField.TYPE_STORED);
 				// index singer_name
-				Field singerNameField = new Field("singer_name", record[2], TextField.TYPE_STORED);
+				Field singerNameField = new Field("singer_name", currentRecord[1], TextField.TYPE_STORED);
 				// index album_name
-				Field albumNameField = new Field("album_name", record[3], TextField.TYPE_STORED);
+				Field albumNameField = new Field("album_name", currentRecord[2], TextField.TYPE_STORED);
 				// index album_type
-				Field albumTypeField = new Field("album_type", record[4], TextField.TYPE_STORED);
+				Field albumTypeField = new Field("album_type", currentRecord[3], TextField.TYPE_STORED);
 				// index album_year
-				Field albumYearField = new Field("album_year", record[5], TextField.TYPE_STORED);
+				Field albumYearField = new Field("album_year", currentRecord[4], TextField.TYPE_STORED);
 	
 				// document.add(contentField);
 				document = new Document();
+				document.add(generalField);
+				document.add(albumIdField);
 				document.add(singerNameField);
 				document.add(albumNameField);
 				document.add(albumTypeField);
@@ -133,18 +142,31 @@ public class Indexer {
 			// index file contents
 			FileReader fr = new FileReader(file);
 			CSVReader reader = new CSVReader(fr);
-			String[] record;
-			while((record = reader.readNext()) != null){
-				// index singer_name
-				Field singerNameField = new Field("singer_name", record[2], TextField.TYPE_STORED);
+			String[] currentRecord;
+			while((currentRecord = reader.readNext()) != null){ // song_id,singer_name (album_name),song_name,song_href
+				// index general field
+				String generalString = "";
+				for(String field : currentRecord){
+					generalString += field + " ";
+				}
+				Field generalField = new Field("general", generalString.strip(), TextField.TYPE_STORED);
+				// index song_id
+				Field songIdField = new Field("song_id", currentRecord[0], TextField.TYPE_STORED);
 				// index album_name
-				Field songNameField = new Field("song_name", record[3], TextField.TYPE_STORED);
+				Field albumNameField = new Field("album_name", currentRecord[1], TextField.TYPE_STORED);
+				// index singer_name
+				Field songHrefField = new Field("song_href", currentRecord[2], TextField.TYPE_STORED);
+				// index album_name
+				Field songNameField = new Field("song_name", currentRecord[3], TextField.TYPE_STORED);
 				// index lyrics
-				Field lyricsField = new Field("lyrics", "Not Defined", TextField.TYPE_STORED);
-
+				Field lyricsField = new Field("lyrics", "not_defined", TextField.TYPE_STORED);
+				
 				// document.add(contentField);
 				document = new Document();
-				document.add(singerNameField);
+				document.add(generalField);
+				document.add(songIdField);
+				document.add(albumNameField);
+				document.add(songHrefField);
 				document.add(songNameField);
 				document.add(lyricsField);
 			}
@@ -164,25 +186,32 @@ public class Indexer {
 			// index file contents
 			FileReader fr = new FileReader(file);
 			CSVReader reader = new CSVReader(fr);
-			String[] record;
+			String[] currentRecord;
 
-			// Storing whole file into a 
-			while((record = reader.readNext()) != null){
-				/* System.out.println("DEBUG LYRICS LINE:");
-				for(String field :record){
-					System.out.println(" " + field);
-				} */
-
-				// index singer_name
-				Field singerNameField = new Field("singer_name", record[2], TextField.TYPE_STORED);
+			while((currentRecord = reader.readNext()) != null){ // link (href),artist (album_name),song_name,lyrics
+				// index general field
+				String generalString = "";
+				for(String field : currentRecord){
+					generalString += field + " ";
+				}
+				Field generalField = new Field("general", generalString.strip(), TextField.TYPE_STORED);
+				// index song_id
+				Field songIdField = new Field("song_id", "not_defined", TextField.TYPE_STORED);
 				// index album_name
-				Field songNameField = new Field("song_name", record[3], TextField.TYPE_STORED);
+				Field albumNameField = new Field("album_name", currentRecord[1], TextField.TYPE_STORED);
+				// index singer_name
+				Field songHrefField = new Field("song_href", currentRecord[0], TextField.TYPE_STORED);
+				// index album_name
+				Field songNameField = new Field("song_name", currentRecord[3], TextField.TYPE_STORED);
 				// index lyrics
-				Field lyricsField = new Field("lyrics", record[4].strip(), TextField.TYPE_STORED);
-
+				Field lyricsField = new Field("lyrics", currentRecord[4], TextField.TYPE_STORED);
+				
 				// document.add(contentField);
 				document = new Document();
-				document.add(singerNameField);
+				document.add(generalField);
+				document.add(songIdField);
+				document.add(albumNameField);
+				document.add(songHrefField);
 				document.add(songNameField);
 				document.add(lyricsField);
 			}
