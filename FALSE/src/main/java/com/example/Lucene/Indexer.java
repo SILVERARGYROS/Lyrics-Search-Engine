@@ -1,6 +1,5 @@
 package com.example.Lucene;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
@@ -17,6 +16,8 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+
+import com.opencsv.CSVReader;
 
 public class Indexer {
 	private IndexWriter writer;
@@ -96,24 +97,18 @@ public class Indexer {
 		Document document = null;
 		try {
 			// index file contents
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String brLine;
-			while((brLine = br.readLine()) != null){
-				String currentLine = brLine.toString();
-	
-				// Field contentField = new Field(LuceneConstants.CONTENTS, currentLine, TextField.TYPE_STORED);
-	
-
-				String currentLineField[] = currentLine.split(",");	//,id,singer_name,name,type,year
-
+			FileReader fr = new FileReader(file);
+			CSVReader reader = new CSVReader(fr);
+			String[] record;
+			while((record = reader.readNext()) != null){
 				// index singer_name
-				Field singerNameField = new Field("singer_name", currentLineField[2], TextField.TYPE_STORED);
+				Field singerNameField = new Field("singer_name", record[2], TextField.TYPE_STORED);
 				// index album_name
-				Field albumNameField = new Field("album_name", currentLineField[3], TextField.TYPE_STORED);
+				Field albumNameField = new Field("album_name", record[3], TextField.TYPE_STORED);
 				// index album_type
-				Field albumTypeField = new Field("album_type", currentLineField[4], TextField.TYPE_STORED);
+				Field albumTypeField = new Field("album_type", record[4], TextField.TYPE_STORED);
 				// index album_year
-				Field albumYearField = new Field("album_year", currentLineField[5], TextField.TYPE_STORED);
+				Field albumYearField = new Field("album_year", record[5], TextField.TYPE_STORED);
 	
 				// document.add(contentField);
 				document = new Document();
@@ -122,7 +117,8 @@ public class Indexer {
 				document.add(albumTypeField);
 				document.add(albumYearField);
 			}
-			br.close();
+			reader.close();
+			fr.close();
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("File Corrupted. Please raise error flag/UI.");
 		} catch (IOException e){
@@ -135,18 +131,14 @@ public class Indexer {
 		Document document = null;
 		try {
 			// index file contents
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String brLine;
-			while((brLine = br.readLine()) != null){
-				String currentLine = brLine.toString();
-				// Field contentField = new Field(LuceneConstants.CONTENTS, currentLine, TextField.TYPE_STORED);
-				
-				String currentLineField[] = currentLine.split(",");	// ,song_id,singer_name,song_name,song_href
-
+			FileReader fr = new FileReader(file);
+			CSVReader reader = new CSVReader(fr);
+			String[] record;
+			while((record = reader.readNext()) != null){
 				// index singer_name
-				Field singerNameField = new Field("singer_name", currentLineField[2], TextField.TYPE_STORED);
+				Field singerNameField = new Field("singer_name", record[2], TextField.TYPE_STORED);
 				// index album_name
-				Field songNameField = new Field("song_name", currentLineField[3], TextField.TYPE_STORED);
+				Field songNameField = new Field("song_name", record[3], TextField.TYPE_STORED);
 				// index lyrics
 				Field lyricsField = new Field("lyrics", "Not Defined", TextField.TYPE_STORED);
 
@@ -156,7 +148,8 @@ public class Indexer {
 				document.add(songNameField);
 				document.add(lyricsField);
 			}
-			br.close();
+			reader.close();
+			fr.close();
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("File Corrupted. Please raise error flag/UI.");
 		} catch (IOException e){
@@ -169,32 +162,23 @@ public class Indexer {
 		Document document = null;
 		try {
 			// index file contents
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String tempLine = "";
-			String fileContent = "";
+			FileReader fr = new FileReader(file);
+			CSVReader reader = new CSVReader(fr);
+			String[] record;
 
 			// Storing whole file into a 
-			while((tempLine = br.readLine()) != null){
-				fileContent += tempLine.toString() + "\n";
-			}
-			
-			
-			String currentContent[] = fileContent.split("\"\n");
-			System.out.println("DEBUG currentContent.length  == " + currentContent.length);
-			System.out.println("DEBUG currentContent  == " + currentContent[0]);
-			
-			for(int i = 0; i < currentContent.length; i += 2){
-				// Field contentField = new Field(LuceneConstants.CONTENTS, currentLine, TextField.TYPE_STORED);
+			while((record = reader.readNext()) != null){
+				/* System.out.println("DEBUG LYRICS LINE:");
+				for(String field :record){
+					System.out.println(" " + field);
+				} */
 
-				String lyricFields[] = currentContent[i].split(",");	// ,link,artist,song_name,lyrics
-				System.out.println("DEBUG lyricFields.length  == " + lyricFields.length);
-				System.out.println("DEBUG lyricFields  == " + lyricFields[0] + "||" + lyricFields[1] + "||" + lyricFields[2]  + "||" + lyricFields[3]);
 				// index singer_name
-				Field singerNameField = new Field("singer_name", lyricFields[2], TextField.TYPE_STORED);
+				Field singerNameField = new Field("singer_name", record[2], TextField.TYPE_STORED);
 				// index album_name
-				Field songNameField = new Field("song_name", lyricFields[3], TextField.TYPE_STORED);
+				Field songNameField = new Field("song_name", record[3], TextField.TYPE_STORED);
 				// index lyrics
-				Field lyricsField = new Field("lyrics", currentContent[i+1].strip(), TextField.TYPE_STORED);
+				Field lyricsField = new Field("lyrics", record[4].strip(), TextField.TYPE_STORED);
 
 				// document.add(contentField);
 				document = new Document();
@@ -202,7 +186,8 @@ public class Indexer {
 				document.add(songNameField);
 				document.add(lyricsField);
 			}
-			br.close();
+			reader.close();
+			fr.close();
 			return document;
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("File Corrupted. Please raise error flag/UI.");

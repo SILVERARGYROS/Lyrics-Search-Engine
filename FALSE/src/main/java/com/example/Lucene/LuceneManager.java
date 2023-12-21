@@ -14,14 +14,10 @@ public class LuceneManager {
 	private static String songIndexDir = "";
 	private static String songDataDir = "";
 	private static String lyricsDataDir = "";
-	private static Indexer songIndexer;
-	private static Searcher songSearcher;
 
 	// Album variables
 	private static String albumIndexDir = "";
 	private static String albumDataDir = "";
-	private static Indexer albumIndexer;
-	private static Searcher albumSearcher;
 
 
 
@@ -44,15 +40,15 @@ public class LuceneManager {
 			lyricsDataDir = path + "\\FALSE\\Data\\lyrics";
 			albumDataDir = path + "\\FALSE\\Data\\albums";
 
-			songIndexer = createSongIndex(songIndexDir, songDataDir, lyricsDataDir);
-			albumIndexer = createAlbumIndex(albumIndexDir, albumDataDir);
+			createAlbumIndex(albumIndexDir, albumDataDir);
+			createSongIndex(songIndexDir, songDataDir, lyricsDataDir);
 			// this.search("Taylor Swift"); // Here we enter the query for Search
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private Indexer createAlbumIndex(String indexDir, String dataDir) throws IOException {
+	private void createAlbumIndex(String indexDir, String dataDir) throws IOException {
 		Indexer indexer = new Indexer(indexDir);
 
 		long startTime = System.currentTimeMillis();
@@ -60,40 +56,38 @@ public class LuceneManager {
 		indexer.close();
 		long endTime = System.currentTimeMillis();
 		System.out.println(numIndexed + " Album(s) indexed, time taken: " + (endTime-startTime) + " ms");
-
-		return indexer;
 	}
 
-	private Indexer createSongIndex(String indexDir, String songDataDir, String lyricsDataDir) throws IOException {
+	private void createSongIndex(String indexDir, String songDataDir, String lyricsDataDir) throws IOException {
 		Indexer indexer = new Indexer(indexDir);
-
 		long startTime = System.currentTimeMillis();
 		int numIndexed = indexer.createSongIndex(songDataDir, lyricsDataDir, new TextFileFilter());
 		indexer.close();
 		long endTime = System.currentTimeMillis();
 		System.out.println(numIndexed + " Songs(s) indexed, time taken: " + (endTime-startTime) + " ms");
-
-		return indexer;
 	}
 
 	public void searchSongs(String searchQuery) throws IOException, ParseException {
-		search(searchQuery, songIndexDir, songSearcher);
+		search(searchQuery, songIndexDir);
 	}
 
 	public void searchAlbums(String searchQuery) throws IOException, ParseException {
-		search(searchQuery, albumIndexDir, albumSearcher);
+		search(searchQuery, albumIndexDir);
 	}
 		
-	private void search(String searchQuery, String indexDir, Searcher searcher) throws IOException, ParseException {
-		searcher = new Searcher(indexDir);
+	private void search(String searchQuery, String indexDir) throws IOException, ParseException {
+		Searcher searcher = new Searcher(indexDir);
+
 		long startTime = System.currentTimeMillis();
 		TopDocs hits = searcher.search(searchQuery);
 		long endTime = System.currentTimeMillis();
+
 		System.out.println(hits.totalHits + " documents found. Time :" + (endTime - startTime));
 		for(ScoreDoc scoreDoc : hits.scoreDocs) {
 			Document doc = searcher.getDocument(scoreDoc);
-			System.out.println("File: " + doc.get(LuceneConstants.FILE_PATH));
+			// System.out.println("File: " + doc.get(LuceneConstants.FILE_PATH));
 		}
+
 		searcher.close();
 	}
 }
