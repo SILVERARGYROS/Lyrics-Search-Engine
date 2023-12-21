@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'Montserrat SemiBold';
+    src: url('fonts/Montserrat-SemiBold.ttf');
+}
+
+.text {
+    -fx-font-family: "Montserrat SemiBold";
+}
+
+.normaltext {
+    -fx-font-size: 12;
+}
+
+.mainmenubuttontext {
+    -fx-font-size: 18;
+}
+
+.options {
+    -fx-font-size: 14;
+}
+
+/* 
+.sidebarbutton:hover {
+    -fx-background-color:  #f0f0f0;
+} */

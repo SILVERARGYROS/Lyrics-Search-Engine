@@ -15,13 +15,13 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@stylesheets/fonts/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="480.0" prefWidth="140.0" spacing="50.0" style="-fx-background-color: #232323; -fx-background-radius: 6;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="25.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@media/logo.png" />
+                  <Image url="@../media/logo.png" />
                </image>
                <VBox.margin>
                   <Insets top="30.0" />
@@ -33,13 +33,13 @@
                      <children>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@media/homewhite.png" />
+                              <Image url="@../media/homewhite.png" />
                            </image>
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label styleClass="normaltext" stylesheets="@stylesheets/fonts/fonts.css" text="Home" textFill="WHITE">
+                        <Label styleClass="normaltext" text="Home" textFill="WHITE">
                            <font>
                               <Font name="High Tower Text" size="12.0" />
                            </font>
@@ -54,7 +54,7 @@
                      <children>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@media/settings.png" />
+                              <Image url="@../media/settings.png" />
                            </image>
                            <VBox.margin>
                               <Insets bottom="10.0" />
@@ -78,10 +78,10 @@
                <children>
                   <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@media/homewhite.png" />
+                        <Image url="@../media/homewhite.png" />
                      </image>
                   </ImageView>
-                  <Label prefHeight="18.0" prefWidth="50.0" styleClass="normaltext" stylesheets="@stylesheets/fonts/fonts.css" text="Home \" textFill="WHITE">
+                  <Label prefHeight="18.0" prefWidth="50.0" styleClass="normaltext" text="Home \" textFill="WHITE">
                      <font>
                         <Font name="High Tower Text" size="24.0" />
                      </font>
@@ -91,13 +91,13 @@
                   </Label>
                   <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="10.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@media/add.png" />
+                        <Image url="@../media/add.png" />
                      </image>
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </ImageView>
-                  <Label layoutX="38.0" layoutY="40.0" prefHeight="20.0" prefWidth="45.0" styleClass="normaltext" stylesheets="@stylesheets/fonts/fonts.css" text="Add" textFill="WHITE">
+                  <Label layoutX="38.0" layoutY="40.0" prefHeight="20.0" prefWidth="45.0" styleClass="normaltext" text="Add" textFill="WHITE">
                      <font>
                         <Font name="High Tower Text" size="24.0" />
                      </font>
@@ -116,7 +116,7 @@
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
-                              <Image url="@media/menu.png" />
+                              <Image url="@../media/menu.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -126,7 +126,7 @@
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
-                              <Image url="@media/file.png" />
+                              <Image url="@../media/file.png" />
                            </image>
                            <viewport>
                               <Rectangle2D />
@@ -155,7 +155,7 @@
                      <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
-                              <Image url="@media/url.png" />
+                              <Image url="@../media/url.png" />
                            </image>
                         </ImageView>
                      </graphic>
