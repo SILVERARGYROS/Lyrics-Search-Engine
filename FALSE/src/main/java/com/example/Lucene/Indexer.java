@@ -7,22 +7,34 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
+import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.BooleanQuery;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import com.opencsv.CSVReader;
 
 public class Indexer {
 	private IndexWriter writer;
+	private String indexDirectoryPath;
 
 	public Indexer(String indexDirectoryPath) throws IOException {
 		// this directory will contain the indexes
+		this.indexDirectoryPath = indexDirectoryPath;
 		Path indexPath = Paths.get(indexDirectoryPath);
 		if (!Files.exists(indexPath)) {
 			Files.createDirectory(indexPath);
@@ -46,10 +58,13 @@ public class Indexer {
 				indexFile(file, "albums");
 			}
 		}
+		int num = writer.numRamDocs();
+		writer.commit();
 
-		return writer.numRamDocs();
+		return num;
+
 	}
-
+	
 	public int createSongIndex(String songDataDirPath, String lyricsDataDirPath, FileFilter filter) throws IOException {
 
 		// Index all song files
@@ -59,6 +74,38 @@ public class Indexer {
 				indexFile(file, "songs");
 			}
 		}
+		int num = writer.numRamDocs();
+		writer.commit();
+		// writer.close();
+
+
+		/* DEBUG CODE */
+
+		// try {
+		// 	Searcher searcher = new Searcher(indexDirectoryPath);
+	
+		// 	long startTime = System.currentTimeMillis();
+		// 	TopDocs hits = searcher.search("\"Taylor Swift lyrics\"");
+		// 	long endTime = System.currentTimeMillis();
+
+		// 	System.out.println("\u001B[31m" + hits.totalHits + " documents found. Time :" + (endTime - startTime) + "\u001B[0m");
+		// } catch (Exception e) {
+		// 	System.out.println(e);
+		// 	// TODO: handle exception
+		// }
+
+		// DELAYYYYYYYYYYY //
+
+		// try {
+		// 	TimeUnit.SECONDS.sleep(3);
+		// } catch (InterruptedException e) {
+		// 	// TODO Auto-generated catch block
+		// 	e.printStackTrace();
+		// }
+		// initializeWriter(Paths.get(indexDirectoryPath));
+
+		/* DEBUG CODE */
+
 
 		// Index all lyrics files
 		System.out.println(new File(lyricsDataDirPath).getCanonicalPath());
@@ -68,55 +115,61 @@ public class Indexer {
 				indexFile(file, "lyrics");
 			}
 		}
+		writer.commit();
 
 		return writer.numRamDocs();
 	}
 
 	private void indexFile(File file, String datatype) throws IOException {
 		System.out.println("Indexing " + file.getCanonicalPath());
-		Document document = null;
+		ArrayList<Document> finalDocumentList = new ArrayList<>();
 
 		if(datatype.equalsIgnoreCase("albums")){
-			document = getAlbumDocument(file);
+			finalDocumentList = getAlbumDocument(file);
 		}
 		else if (datatype.equalsIgnoreCase("songs")){
-			document = getSongDocument(file);
+			finalDocumentList = getSongDocument(file);
 		}
 		else if (datatype.equalsIgnoreCase("lyrics")){
-			document = getLyricsDocument(file);
+			finalDocumentList = getLyricsDocument(file);
 		}
 		else{
 			System.out.println("File type not recognized. Please code more carefully.");
 		}
 		System.out.println("DEBUG DATATYPE = " + datatype);
-		writer.addDocument(document);
+
+		for(Document document: finalDocumentList){
+			writer.addDocument(document);
+		}
+		writer.commit();
 	}
 
-	private Document getAlbumDocument(File file) {
-		Document document = null;
+	private ArrayList<Document> getAlbumDocument(File file) {
+		ArrayList<Document> docList = new ArrayList<>();
 		try {
 			// index file contents
 			FileReader fr = new FileReader(file);
 			CSVReader reader = new CSVReader(fr);
 			String[] currentRecord;
 			while((currentRecord = reader.readNext()) != null){ // id,singer_name,name,type,year
+				Document document = null;
 				// index general field
 				String generalString = "";
 				for(String field : currentRecord){
 					generalString += field + " ";
 				}
-				Field generalField = new Field("general", generalString.strip(), TextField.TYPE_STORED);
+				TextField generalField = new TextField("general", generalString.strip().toLowerCase(), Store.YES);
 				// index album_id
-				Field albumIdField = new Field("album_id", currentRecord[0], TextField.TYPE_STORED);
+				TextField albumIdField = new TextField("album_id", currentRecord[0].toLowerCase(), Store.YES);
 				// index singer_name
-				Field singerNameField = new Field("singer_name", currentRecord[1], TextField.TYPE_STORED);
+				TextField singerNameField = new TextField("singer_name", currentRecord[1].toLowerCase(), Store.YES);
 				// index album_name
-				Field albumNameField = new Field("album_name", currentRecord[2], TextField.TYPE_STORED);
+				TextField albumNameField = new TextField("album_name", currentRecord[2].toLowerCase(), Store.YES);
 				// index album_type
-				Field albumTypeField = new Field("album_type", currentRecord[3], TextField.TYPE_STORED);
+				TextField albumTypeField = new TextField("album_type", currentRecord[3].toLowerCase(), Store.YES);
 				// index album_year
-				Field albumYearField = new Field("album_year", currentRecord[4], TextField.TYPE_STORED);
-	
+				TextField albumYearField = new TextField("album_year", currentRecord[4].toLowerCase(), Store.YES);
+
 				// document.add(contentField);
 				document = new Document();
 				document.add(generalField);
@@ -125,6 +178,8 @@ public class Indexer {
 				document.add(albumNameField);
 				document.add(albumTypeField);
 				document.add(albumYearField);
+
+				docList.add(document);
 			}
 			reader.close();
 			fr.close();
@@ -133,12 +188,13 @@ public class Indexer {
 		} catch (IOException e){
 			System.out.println("File not found. Please raise error flag/UI.");
 		}
-		return document;
+		return docList;
 	}
 
-	private Document getSongDocument(File file) {
-		Document document = null;
+	private ArrayList<Document> getSongDocument(File file) {
+		ArrayList<Document> docList = new ArrayList<>();
 		try {
+			Document document = null;
 			// index file contents
 			FileReader fr = new FileReader(file);
 			CSVReader reader = new CSVReader(fr);
@@ -149,17 +205,17 @@ public class Indexer {
 				for(String field : currentRecord){
 					generalString += field + " ";
 				}
-				Field generalField = new Field("general", generalString.strip(), TextField.TYPE_STORED);
+				TextField generalField = new TextField("general", generalString.strip().toLowerCase(), Store.YES);
 				// index song_id
-				Field songIdField = new Field("song_id", currentRecord[0], TextField.TYPE_STORED);
+				TextField songIdField = new TextField("song_id", currentRecord[1].toLowerCase(), Store.YES);
 				// index album_name
-				Field albumNameField = new Field("album_name", currentRecord[1], TextField.TYPE_STORED);
+				TextField albumNameField = new TextField("album_name", currentRecord[2].toLowerCase(), Store.YES);
 				// index singer_name
-				Field songHrefField = new Field("song_href", currentRecord[2], TextField.TYPE_STORED);
+				TextField songHrefField = new TextField("song_href", currentRecord[4].toLowerCase(), Store.YES);
 				// index album_name
-				Field songNameField = new Field("song_name", currentRecord[3], TextField.TYPE_STORED);
+				TextField songNameField = new TextField("song_name", currentRecord[3].toLowerCase(), Store.YES);
 				// index lyrics
-				Field lyricsField = new Field("lyrics", "not_defined", TextField.TYPE_STORED);
+				TextField lyricsField = new TextField("lyrics", "not_defined", Store.YES);
 				
 				// document.add(contentField);
 				document = new Document();
@@ -169,6 +225,12 @@ public class Indexer {
 				document.add(songHrefField);
 				document.add(songNameField);
 				document.add(lyricsField);
+
+				System.out.println("LOOP DEBUGU documentfield song_name == " + document.get("song_name"));
+				System.out.println("LOOP DEBUGU documentfield album_name == " + document.get("album_name"));
+				System.out.println("LOOP DEBUGU documentfield song_href == " + document.get("song_href"));
+
+				docList.add(document);
 			}
 			reader.close();
 			fr.close();
@@ -177,12 +239,13 @@ public class Indexer {
 		} catch (IOException e){
 			System.out.println("File not found. Please raise error flag/UI.");
 		}
-		return document;
+		return docList;
 	}
 
-	private Document getLyricsDocument(File file) {
-		Document document = null;
+	private ArrayList<Document> getLyricsDocument(File file) {
+		ArrayList<Document> docList = new ArrayList<>();
 		try {
+			Document document = null;
 			// index file contents
 			FileReader fr = new FileReader(file);
 			CSVReader reader = new CSVReader(fr);
@@ -194,19 +257,18 @@ public class Indexer {
 				for(String field : currentRecord){
 					generalString += field + " ";
 				}
-				Field generalField = new Field("general", generalString.strip(), TextField.TYPE_STORED);
+				TextField generalField = new TextField("general", generalString.strip().toLowerCase(), Store.YES);
 				// index song_id
-				Field songIdField = new Field("song_id", "not_defined", TextField.TYPE_STORED);
+				TextField songIdField = new TextField("song_id", "not_defined", Store.YES);
 				// index album_name
-				Field albumNameField = new Field("album_name", currentRecord[1], TextField.TYPE_STORED);
+				TextField albumNameField = new TextField("album_name", currentRecord[2].toLowerCase(), Store.YES);
 				// index singer_name
-				Field songHrefField = new Field("song_href", currentRecord[0], TextField.TYPE_STORED);
+				TextField songHrefField = new TextField("song_href", currentRecord[1].toLowerCase(), Store.YES);
 				// index album_name
-				Field songNameField = new Field("song_name", currentRecord[3], TextField.TYPE_STORED);
+				TextField songNameField = new TextField("song_name", currentRecord[3].toLowerCase(), Store.YES);
 				// index lyrics
-				Field lyricsField = new Field("lyrics", currentRecord[4], TextField.TYPE_STORED);
-				
-				// document.add(contentField);
+				TextField lyricsField = new TextField("lyrics", currentRecord[4].toLowerCase(), Store.YES);
+
 				document = new Document();
 				document.add(generalField);
 				document.add(songIdField);
@@ -214,16 +276,23 @@ public class Indexer {
 				document.add(songHrefField);
 				document.add(songNameField);
 				document.add(lyricsField);
+
+				System.out.println("LOOP DEBUGU documentfield song_name == " + document.get("song_name"));
+				System.out.println("LOOP DEBUGU documentfield album_name == " + document.get("album_name"));
+				System.out.println("LOOP DEBUGU documentfield song_href == " + document.get("song_href"));
+
+				docList.add(document);
 			}
 			reader.close();
 			fr.close();
-			return document;
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("File Corrupted. Please raise error flag/UI.");
 		} catch (IOException e){
 			System.out.println("File not found. Please raise error flag/UI.");
-		}
-		return document;
+		} /* catch (ParseException e) {
+			System.out.println("Broken Index Search Query. Please raise error flag/UI.");
+		} */
+		return docList;
 	}
 
 }

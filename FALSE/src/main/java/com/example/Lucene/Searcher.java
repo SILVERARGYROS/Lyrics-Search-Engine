@@ -3,6 +3,7 @@ package com.example.Lucene;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -29,11 +30,17 @@ public class Searcher {
 		indexDirectory = FSDirectory.open(indexPath);
 		indexReader = DirectoryReader.open(indexDirectory);	
 		indexSearcher = new IndexSearcher(indexReader);
-		queryParser = new QueryParser(LuceneConstants.CONTENTS, new StandardAnalyzer());
+		queryParser = new QueryParser("album_name", new StandardAnalyzer());
 	}
 
 	public TopDocs search(String searchQuery) throws IOException, ParseException {
 		query = queryParser.parse(searchQuery);
+		System.out.println("query: " + query.toString());
+		return indexSearcher.search(query, LuceneConstants.MAX_SEARCH);
+	}
+
+	public TopDocs search(Query searchQuery) throws IOException, ParseException {
+		query = searchQuery;
 		System.out.println("query: " + query.toString());
 		return indexSearcher.search(query, LuceneConstants.MAX_SEARCH);
 	}

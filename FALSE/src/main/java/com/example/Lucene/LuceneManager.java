@@ -42,8 +42,11 @@ public class LuceneManager {
 
 			createAlbumIndex(albumIndexDir, albumDataDir);
 			createSongIndex(songIndexDir, songDataDir, lyricsDataDir);
-			// this.search("Taylor Swift"); // Here we enter the query for Search
+			this.searchSongs("\"Taylor Swift lyrics\""); // Here we enter the query for Search
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
