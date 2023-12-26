@@ -2,7 +2,10 @@ package com.example.Lucene;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
@@ -19,55 +22,97 @@ public class LuceneManager {
 	private static String albumIndexDir = "";
 	private static String albumDataDir = "";
 
+	// Indexers
+	Indexer songIndexer;
+	Indexer albumIndexer;
 
+	public LuceneManager() throws IOException{
+		path = new File(".").getCanonicalPath();
+		System.out.println("PROJECT RUNNING PATH: " + path);
 
+		// Initializing song file input path
+		songIndexDir = path + "\\FALSE\\Index\\songs";
+		albumIndexDir = path + "\\FALSE\\Index\\albums";
+		
+		// Initializing album file input path
+		songDataDir = path + "\\FALSE\\Data\\songs";
+		lyricsDataDir = path + "\\FALSE\\Data\\lyrics";
+		albumDataDir = path + "\\FALSE\\Data\\albums";
 
-	public void run(String[] args) throws IOException{
+		songIndexer = new Indexer(songIndexDir);
+		albumIndexer = new Indexer(albumIndexDir);
+	}
+
+	public void run(String[] args) throws IOException, ParseException{
 		initializeTester();
+		this.searchSongs("\"taylor swift\""); // Here we enter the query for Search
 	}
 
-	public void initializeTester() {
-		try {
-			path = new File(".").getCanonicalPath();
-			System.out.println("PROJECT RUNNING PATH: " + path);
-
-			// Initializing song file input path
-			songIndexDir = path + "\\FALSE\\Index\\songs";
-			albumIndexDir = path + "\\FALSE\\Index\\albums";
-			
-			// Initializing album file input path
-			songDataDir = path + "\\FALSE\\Data\\songs";
-			lyricsDataDir = path + "\\FALSE\\Data\\lyrics";
-			albumDataDir = path + "\\FALSE\\Data\\albums";
-
-			createAlbumIndex(albumIndexDir, albumDataDir);
-			createSongIndex(songIndexDir, songDataDir, lyricsDataDir);
-			this.searchSongs("\"Taylor Swift lyrics\""); // Here we enter the query for Search
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void initializeTester() throws IOException {
+		createAlbumIndex(albumDataDir);
+		createSongIndex(songDataDir, lyricsDataDir);
 	}
 
-	private void createAlbumIndex(String indexDir, String dataDir) throws IOException {
-		Indexer indexer = new Indexer(indexDir);
-
+	private void createAlbumIndex(String dataDir) throws IOException {
 		long startTime = System.currentTimeMillis();
-		int numIndexed = indexer.createAlbumIndex(dataDir, new TextFileFilter());
-		indexer.close();
+		int numIndexed = albumIndexer.createAlbumIndex(dataDir, new TextFileFilter());
 		long endTime = System.currentTimeMillis();
 		System.out.println(numIndexed + " Album(s) indexed, time taken: " + (endTime-startTime) + " ms");
 	}
 
-	private void createSongIndex(String indexDir, String songDataDir, String lyricsDataDir) throws IOException {
-		Indexer indexer = new Indexer(indexDir);
+	private void createSongIndex(String songDataDir, String lyricsDataDir) throws IOException {
 		long startTime = System.currentTimeMillis();
-		int numIndexed[] = indexer.createSongIndex(songDataDir, lyricsDataDir, new TextFileFilter());
-		indexer.close();
+		int numIndexed[] = songIndexer.createSongIndex(songDataDir, lyricsDataDir, new TextFileFilter());
 		long endTime = System.currentTimeMillis();
 		System.out.println(numIndexed[0] + " Songs(s) indexed, time taken: "  + numIndexed[1] + " Lyrics(s) indexed, time taken: " + (endTime-startTime) + " ms");
+	}
+	
+	public void addAlbumToIndex(ArrayList<String> fields) throws IOException{
+		albumIndexer.addAlbum(fields);
+		albumIndexer.commit();
+	}
+
+	public void addSongToIndex(ArrayList<String> fields) throws IOException{
+		songIndexer.addSong(fields);
+		songIndexer.commit();
+	}
+	
+	public void removeAlbumFromIndex(ScoreDoc scoreDoc) throws IOException{
+		albumIndexer.removeDocument(scoreDoc);
+		albumIndexer.commit();
+	}
+
+	public void removeSongFromIndex(ScoreDoc scoreDoc) throws IOException{
+		songIndexer.removeDocument(scoreDoc);
+		songIndexer.commit();
+		
+	}
+
+	public void editAlbumFromIndex(ScoreDoc scoreDoc, ArrayList<String> fields) throws CorruptIndexException, IOException{
+		albumIndexer.removeDocument(scoreDoc);
+		albumIndexer.addSong(fields);
+		albumIndexer.commit();
+	}
+
+	public void editSongFromIndex(ScoreDoc scoreDoc, ArrayList<String> fields) throws CorruptIndexException, IOException{
+		songIndexer.removeDocument(scoreDoc);
+		songIndexer.addSong(fields);
+		songIndexer.commit();
+	}
+
+	public void addAlbumFileToIndex(File file) throws IOException{
+		albumIndexer.indexFile(file, "albums");
+		albumIndexer.commit();
+	}
+
+	public void addSongFileToIndex(File file) throws IOException{
+		songIndexer.indexFile(file, "songs");
+		songIndexer.commit();
+	}
+
+	public void addLyricsFileToIndex(File file) throws IOException{
+		songIndexer.indexFile(file, "lyrics");
+		songIndexer.commit();
 	}
 
 	public void searchSongs(String searchQuery) throws IOException, ParseException {
@@ -92,5 +137,9 @@ public class LuceneManager {
 		}
 
 		searcher.close();
+	}
+
+	public void close(){
+
 	}
 }

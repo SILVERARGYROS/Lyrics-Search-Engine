@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
 
+import org.apache.lucene.queryparser.classic.ParseException;
+
 import com.example.Lucene.LuceneManager;
 
 /**
@@ -22,7 +24,13 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         luceneManager = new LuceneManager();
-        luceneManager.run(null);
+
+        try {
+            luceneManager.run(null);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         return;
     }

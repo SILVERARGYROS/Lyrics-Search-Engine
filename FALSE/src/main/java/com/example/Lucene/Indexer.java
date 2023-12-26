@@ -8,6 +8,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -20,6 +22,7 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.store.Directory;
@@ -48,6 +51,10 @@ public class Indexer {
 
 	public void close() throws CorruptIndexException, IOException {
 		writer.close();
+	}
+
+	public void commit() throws CorruptIndexException, IOException {
+		writer.commit();
 	}
 
 	public int createAlbumIndex(String dataDirPath, FileFilter filter) throws IOException {
@@ -131,7 +138,7 @@ public class Indexer {
 		return numDocs;
 	}
 
-	private int indexFile(File file, String datatype) throws IOException {
+	public int indexFile(File file, String datatype) throws IOException {
 		System.out.println("Indexing " + file.getCanonicalPath());
 
 		int numDocs = 0;
@@ -319,7 +326,7 @@ public class Indexer {
 		return numDocs;
 	}
 
-	private ArrayList<Document> getAlbumDocument(File file) {
+	public ArrayList<Document> getAlbumDocument(File file) {
 		ArrayList<Document> docList = new ArrayList<>();
 		try {
 			// index file contents
@@ -329,11 +336,7 @@ public class Indexer {
 			while((currentRecord = reader.readNext()) != null){ // id,singer_name,name,type,year
 				Document document = null;
 				// index general field
-				String generalString = "";
-				for(String field : currentRecord){
-					generalString += field + " ";
-				}
-				TextField generalField = new TextField("General", generalString.strip().toLowerCase(), Store.YES);
+				TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(currentRecord)).strip().toLowerCase(), Store.YES);
 				// index album_id
 				TextField albumIdField = new TextField("Album_ID", currentRecord[1].toLowerCase(), Store.YES);
 				// index singer_name
@@ -366,7 +369,7 @@ public class Indexer {
 		return docList;
 	}
 
-	private ArrayList<Document> getSongDocument(File file) {
+	public ArrayList<Document> getSongDocument(File file) {
 		ArrayList<Document> docList = new ArrayList<>();
 		try {
 			Document document = null;
@@ -376,11 +379,7 @@ public class Indexer {
 			String[] currentRecord;
 			while((currentRecord = reader.readNext()) != null){ // Song_ID,singer_name (Artist),song_name,song_href
 				// index general field
-				String generalString = "";
-				for(String field : currentRecord){
-					generalString += field + " ";
-				}
-				TextField generalField = new TextField("General", generalString.strip().toLowerCase(), Store.YES);
+				TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(currentRecord)).strip().toLowerCase(), Store.YES);
 				// index Song_ID
 				TextField songIdField = new TextField("Song_ID", currentRecord[1].toLowerCase(), Store.YES);
 				// index Artist
@@ -417,7 +416,7 @@ public class Indexer {
 		return docList;
 	}
 
-	private ArrayList<Document> getLyricsDocument(File file) {
+	public ArrayList<Document> getLyricsDocument(File file) {
 		ArrayList<Document> docList = new ArrayList<>();
 		try {
 			Document document = null;
@@ -428,11 +427,7 @@ public class Indexer {
 
 			while((currentRecord = reader.readNext()) != null){ // link (href),artist (Artist),song_name,lyrics
 				// index general field
-				String generalString = "";
-				for(String field : currentRecord){
-					generalString += field + " ";
-				}
-				TextField generalField = new TextField("General", generalString.strip().toLowerCase(), Store.YES);
+				TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(currentRecord)).strip().toLowerCase(), Store.YES);
 				// index Song_ID
 				TextField songIdField = new TextField("Song_ID", "not_defined", Store.YES);
 				// index Artist
@@ -470,4 +465,91 @@ public class Indexer {
 		return docList;
 	}
 
+	public void addAlbum(ArrayList<String> fieldList){
+		try{
+			// index General
+			TextField generalField = new TextField("General", constructGeneralFieldString(fieldList).strip().toLowerCase(), Store.YES);
+			// index album_id
+			TextField albumIdField = new TextField("Album_ID", fieldList.get(0).toLowerCase(), Store.YES);
+			// index singer_name
+			TextField artistNameField = new TextField("Artist", fieldList.get(1).toLowerCase(), Store.YES);
+			// index Artist
+			TextField albumNameField = new TextField("Album", fieldList.get(2).toLowerCase(), Store.YES);
+			// index album_type
+			TextField albumTypeField = new TextField("Album_Type", fieldList.get(3).toLowerCase(), Store.YES);
+			// index album_year
+			TextField albumYearField = new TextField("Year", fieldList.get(4).toLowerCase(), Store.YES);
+
+			// document.add(contentField);
+			Document document = new Document();
+			document.add(generalField);
+			document.add(albumIdField);
+			document.add(artistNameField);
+			document.add(albumNameField);
+			document.add(albumTypeField);
+			document.add(albumYearField);
+
+			writer.addDocument(document);
+		}
+		catch(IOException e){
+			System.out.println("Document could not be added. Exception: " + e);
+		}
+	}
+
+	public void addSong(ArrayList<String> fieldList){
+		try{
+			// index General
+			TextField generalField = new TextField("General",constructGeneralFieldString(fieldList).strip().toLowerCase(), Store.YES);
+			// index Song_ID
+			TextField songIdField = new TextField("Song_ID", fieldList.get(0), Store.YES);
+			// index Artist
+			TextField albumNameField = new TextField("Artist", fieldList.get(1).toLowerCase().replace(" lyrics", ""), Store.YES);
+			// index singer_name
+			TextField songHrefField = new TextField("Song_Link", fieldList.get(2).toLowerCase(), Store.YES);
+			// index Artist
+			TextField songNameField = new TextField("Song", fieldList.get(3).toLowerCase(), Store.YES);
+			// index lyrics
+			TextField lyricsField = new TextField("Lyrics", fieldList.get(4).toLowerCase(), Store.YES);
+	
+			Document document = new Document();
+			document.add(generalField);
+			document.add(songIdField);
+			document.add(albumNameField);
+			document.add(songHrefField);
+			document.add(songNameField);
+			document.add(lyricsField);
+	
+			writer.addDocument(document);
+		}
+		catch(IOException e){
+			System.out.println("Document could not be added. Exception: " + e);
+		}
+	}
+
+	public void removeDocument(ScoreDoc scoreDoc){
+		Searcher searcher;
+		try {
+			searcher = new Searcher(this.indexDirectoryPath);
+			Document document = searcher.getDocument(scoreDoc);
+
+			Query query = new QueryParser("General", new StandardAnalyzer()).parse("\"" + document.get("General") + "\"");
+			BooleanQuery booleanQuery = new BooleanQuery.Builder()
+			.add(query, Occur.MUST)
+			.build();
+
+			writer.deleteDocuments(booleanQuery);
+		} catch (IOException e) {
+			System.out.println("Error getting requested document. Error: " + e);
+		} catch (ParseException e) {
+			System.out.println("Error finding requested document. Error: " + e);
+		}
+	}
+
+	public String constructGeneralFieldString(Collection<String> collection){
+		String generalString = "";
+		for(String field: collection){
+			generalString += field + "_";
+		}
+		return generalString;
+	}
 }
