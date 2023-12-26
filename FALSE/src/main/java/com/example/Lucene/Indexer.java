@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -17,7 +16,6 @@ import org.apache.lucene.document.Field.Store;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanQuery;
@@ -39,8 +37,10 @@ public class Indexer {
 		if (!Files.exists(indexPath)) {
 			Files.createDirectory(indexPath);
 		}
+
 		// Path indexPath = Files.createTempDirectory(indexDirectoryPath);
 		Directory indexDirectory = FSDirectory.open(indexPath);
+
 		// create the indexer
 		IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
 		writer = new IndexWriter(indexDirectory, config);
@@ -51,6 +51,11 @@ public class Indexer {
 	}
 
 	public int createAlbumIndex(String dataDirPath, FileFilter filter) throws IOException {
+
+		// Committing an empty document to initialize the index 
+		writer.addDocument(new Document());
+		writer.commit();
+
 		// get all files in the data directory
 		File[] files = new File(dataDirPath).listFiles();
 		for (File file : files) {
@@ -58,25 +63,30 @@ public class Indexer {
 				indexFile(file, "albums");
 			}
 		}
-		int num = writer.numRamDocs();
+		int albumNumDocs = writer.numRamDocs();
 		writer.commit();
 
-		return num;
+		return albumNumDocs;
 
 	}
 	
-	public int createSongIndex(String songDataDirPath, String lyricsDataDirPath, FileFilter filter) throws IOException {
+	public int[] createSongIndex(String songDataDirPath, String lyricsDataDirPath, FileFilter filter) throws IOException {
+
+		int songNumDocs = 0;
+		int lyricsNumDocs = 0;
+
+		// Committing an empty document to initialize the index 
+		writer.addDocument(new Document());
+		writer.commit();
 
 		// Index all song files
 		File[] songFiles = new File(songDataDirPath).listFiles();
 		for (File file : songFiles) {
 			if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
-				indexFile(file, "songs");
+				songNumDocs = indexFile(file, "songs");
 			}
 		}
-		int num = writer.numRamDocs();
 		writer.commit();
-		// writer.close();
 
 
 		/* DEBUG CODE */
@@ -112,36 +122,201 @@ public class Indexer {
 		File[] lyricFiles = new File(lyricsDataDirPath).listFiles();
 		for (File file : lyricFiles) {
 			if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
-				indexFile(file, "lyrics");
+				lyricsNumDocs = indexFile(file, "lyrics");
 			}
 		}
 		writer.commit();
 
-		return writer.numRamDocs();
+		int numDocs[] = {songNumDocs, lyricsNumDocs};
+		return numDocs;
 	}
 
-	private void indexFile(File file, String datatype) throws IOException {
+	private int indexFile(File file, String datatype) throws IOException {
 		System.out.println("Indexing " + file.getCanonicalPath());
-		ArrayList<Document> finalDocumentList = new ArrayList<>();
+
+		int numDocs = 0;
 
 		if(datatype.equalsIgnoreCase("albums")){
-			finalDocumentList = getAlbumDocument(file);
+			ArrayList<Document> receivedList = getAlbumDocument(file);
+			
+			// Checking if album already exists
+
+			// 1. Create a Searcher
+			// System.out.println("DEBUUUUUG Index directory == " + indexDirectoryPath);
+			Searcher searcher = new Searcher(this.indexDirectoryPath);
+
+			for(Document currentDocument: receivedList){
+
+				try{
+					// 2. Create TermQueries for every common field
+					Query artistNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
+					Query albumNameQuery = new QueryParser("Album", new StandardAnalyzer()).parse("\"" + currentDocument.get("Album") + "\"");
+					Query albumTypeQuery = new QueryParser("Album_Type", new StandardAnalyzer()).parse("\"" + currentDocument.get("Album_Type") + "\"");
+					Query albumYearQuery = new QueryParser("Year", new StandardAnalyzer()).parse("\"" + currentDocument.get("Year") + "\"");
+					
+					// 3. Build booleanQuery
+					BooleanQuery booleanQuery = new BooleanQuery.Builder()
+					.add(artistNameQuery, Occur.MUST)
+					.add(albumNameQuery, Occur.MUST)
+					.add(albumTypeQuery, Occur.MUST)
+					.add(albumYearQuery, Occur.MUST)
+					.build();
+						
+					// 4. Check if document already exists and act accordingly 
+					TopDocs results = searcher.search(booleanQuery);					
+					System.out.println("TotalHits == " + results.totalHits.value);
+					if (results.scoreDocs.length == 0){	// no match found
+						writer.addDocument(currentDocument);
+						// writer.commit(); // commit method too expensive to be run in each iteration
+						numDocs++;
+					}
+					else{ // found matching document(s)
+						// If there is a perfect match then  
+						// there is no need to add the document again.
+						continue;
+					}
+				}catch(ParseException e){
+					System.out.println("Parse incorrect. Please raise error flag/UI. EXCEPTION: " + e);
+				}
+			}
 		}
 		else if (datatype.equalsIgnoreCase("songs")){
-			finalDocumentList = getSongDocument(file);
+			ArrayList<Document> receivedList = getSongDocument(file);
+			
+			// Checking if song already exists
+
+			// 1. Create a Searcher
+			// System.out.println("DEBUUUUUG Index directory == " + indexDirectoryPath);
+			Searcher searcher = new Searcher(this.indexDirectoryPath);
+
+			for(Document currentDocument: receivedList){
+
+				// DEBUG
+				// System.out.println("DEBUG currentDocument song_name == " + currentDocument.get("Song"));
+				// System.out.println("DEBUG currentDocument Artist == " + currentDocument.get("Artist"));
+				// System.out.println("DEBUG currentDocument song_href == " + currentDocument.get("Song_Link"));
+
+				try{
+					// 2. Create TermQueries for every common field
+					Query songNameQuery = new QueryParser("Song", new StandardAnalyzer()).parse("\"" + currentDocument.get("Song") + "\"");
+					Query albumNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
+		
+					// DEBUG
+					// System.out.println("DEBUG songNameQuery song_name == " + songNameQuery);
+					// System.out.println("DEBUG albumNameQuery Artist == " + albumNameQuery);
+
+
+					// 3. Build booleanQuery
+					BooleanQuery booleanQuery = new BooleanQuery.Builder()
+					.add(songNameQuery, Occur.MUST)
+					.add(albumNameQuery, Occur.MUST)
+					.build();
+						
+					// 4. Check if document already exists and act accordingly 
+					TopDocs results = searcher.search(booleanQuery);					
+					System.out.println("TotalHits == " + results.totalHits.value);
+					if (results.scoreDocs.length == 0){	// no match found
+						writer.addDocument(currentDocument);
+					}
+					else{ // found matching document(s)
+						System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
+		
+						// Get first matching document
+						Document matchingDocument = searcher.getDocument(results.scoreDocs[0]);
+		
+						// Delete old document(s)
+						writer.deleteDocuments(booleanQuery);
+						
+						// Construct and add new (/corrected) document 
+						Document correctedDocument = new Document();
+						correctedDocument.add(matchingDocument.getField("General"));
+						correctedDocument.add(currentDocument.getField("Song_ID"));
+						correctedDocument.add(currentDocument.getField("Artist"));
+						correctedDocument.add(currentDocument.getField("Song_Link"));
+						correctedDocument.add(matchingDocument.getField("Song"));
+						correctedDocument.add(matchingDocument.getField("Lyrics"));
+
+						writer.addDocument(correctedDocument);
+					}
+					// writer.commit(); // commit method too expensive to be run in each iteration
+					numDocs++;
+				}catch(ParseException e){
+					System.out.println("Parse incorrect. Please raise error flag/UI. EXCEPTION: " + e);
+				}
+			}
 		}
 		else if (datatype.equalsIgnoreCase("lyrics")){
-			finalDocumentList = getLyricsDocument(file);
+			ArrayList<Document> receivedList = getLyricsDocument(file);
+			
+			// Checking if song already exists
+
+			// 1. Create a Searcher
+			// System.out.println("DEBUUUUUG Index directory == " + indexDirectoryPath);
+			Searcher searcher = new Searcher(this.indexDirectoryPath);
+
+
+			for(Document currentDocument: receivedList){
+
+				// DEBUG
+				// System.out.println("DEBUG currentDocument song_name == " + currentDocument.get("Song"));
+				// System.out.println("DEBUG currentDocument Artist == " + currentDocument.get("Artist"));
+				// System.out.println("DEBUG currentDocument song_href == " + currentDocument.get("Song_Link"));
+
+				try{
+
+					// 2. Create TermQueries for every common field
+					Query songNameQuery = new QueryParser("Song", new StandardAnalyzer()).parse("\"" + currentDocument.get("Song") + "\"");
+					Query albumNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
+		
+					// DEBUG
+					// System.out.println("DEBUG songNameQuery song_name == " + songNameQuery);
+					// System.out.println("DEBUG albumNameQuery Artist == " + albumNameQuery);
+
+
+					// 3. Build booleanQuery
+					BooleanQuery booleanQuery = new BooleanQuery.Builder()
+					.add(songNameQuery, Occur.MUST)
+					.add(albumNameQuery, Occur.MUST)
+					.build();
+						
+					// 4. Check if document already exists and act accordingly 
+					TopDocs results = searcher.search(booleanQuery);					
+					System.out.println("TotalHits == " + results.totalHits.value);
+					if (results.scoreDocs.length == 0){	// no match found
+						writer.addDocument(currentDocument);
+					}
+					else{ // found matching document(s)
+						System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
+		
+						// Get first matching document
+						Document matchingDocument = searcher.getDocument(results.scoreDocs[0]);
+		
+						// Delete old document(s)
+						writer.deleteDocuments(booleanQuery);
+						
+						// Construct and add new (/corrected) document 
+						Document correctedDocument = new Document();
+						correctedDocument.add(currentDocument.getField("General"));
+						correctedDocument.add(matchingDocument.getField("Song_ID"));
+						correctedDocument.add(matchingDocument.getField("Artist"));
+						correctedDocument.add(matchingDocument.getField("Song_Link"));
+						correctedDocument.add(currentDocument.getField("Song"));
+						correctedDocument.add(currentDocument.getField("Lyrics"));
+
+						writer.addDocument(correctedDocument);
+					}
+					// writer.commit(); // commit method too expensive to be run in each iteration
+					numDocs++;
+				}catch(ParseException e){
+					System.out.println("Parse incorrect. Please raise error flag/UI. EXCEPTION: " + e);
+				}
+			}
 		}
 		else{
 			System.out.println("File type not recognized. Please code more carefully.");
 		}
 		System.out.println("DEBUG DATATYPE = " + datatype);
-
-		for(Document document: finalDocumentList){
-			writer.addDocument(document);
-		}
-		writer.commit();
+		return numDocs;
 	}
 
 	private ArrayList<Document> getAlbumDocument(File file) {
@@ -158,23 +333,23 @@ public class Indexer {
 				for(String field : currentRecord){
 					generalString += field + " ";
 				}
-				TextField generalField = new TextField("general", generalString.strip().toLowerCase(), Store.YES);
+				TextField generalField = new TextField("General", generalString.strip().toLowerCase(), Store.YES);
 				// index album_id
-				TextField albumIdField = new TextField("album_id", currentRecord[0].toLowerCase(), Store.YES);
+				TextField albumIdField = new TextField("Album_ID", currentRecord[1].toLowerCase(), Store.YES);
 				// index singer_name
-				TextField singerNameField = new TextField("singer_name", currentRecord[1].toLowerCase(), Store.YES);
-				// index album_name
-				TextField albumNameField = new TextField("album_name", currentRecord[2].toLowerCase(), Store.YES);
+				TextField artistNameField = new TextField("Artist", currentRecord[2].toLowerCase().replace(" lyrics", ""), Store.YES);
+				// index Artist
+				TextField albumNameField = new TextField("Album", currentRecord[3].toLowerCase(), Store.YES);
 				// index album_type
-				TextField albumTypeField = new TextField("album_type", currentRecord[3].toLowerCase(), Store.YES);
+				TextField albumTypeField = new TextField("Album_Type", currentRecord[4].toLowerCase(), Store.YES);
 				// index album_year
-				TextField albumYearField = new TextField("album_year", currentRecord[4].toLowerCase(), Store.YES);
+				TextField albumYearField = new TextField("Year", currentRecord[5].toLowerCase(), Store.YES);
 
 				// document.add(contentField);
 				document = new Document();
 				document.add(generalField);
 				document.add(albumIdField);
-				document.add(singerNameField);
+				document.add(artistNameField);
 				document.add(albumNameField);
 				document.add(albumTypeField);
 				document.add(albumYearField);
@@ -199,36 +374,36 @@ public class Indexer {
 			FileReader fr = new FileReader(file);
 			CSVReader reader = new CSVReader(fr);
 			String[] currentRecord;
-			while((currentRecord = reader.readNext()) != null){ // song_id,singer_name (album_name),song_name,song_href
+			while((currentRecord = reader.readNext()) != null){ // Song_ID,singer_name (Artist),song_name,song_href
 				// index general field
 				String generalString = "";
 				for(String field : currentRecord){
 					generalString += field + " ";
 				}
-				TextField generalField = new TextField("general", generalString.strip().toLowerCase(), Store.YES);
-				// index song_id
-				TextField songIdField = new TextField("song_id", currentRecord[1].toLowerCase(), Store.YES);
-				// index album_name
-				TextField albumNameField = new TextField("album_name", currentRecord[2].toLowerCase(), Store.YES);
+				TextField generalField = new TextField("General", generalString.strip().toLowerCase(), Store.YES);
+				// index Song_ID
+				TextField songIdField = new TextField("Song_ID", currentRecord[1].toLowerCase(), Store.YES);
+				// index Artist
+				TextField artistNameField = new TextField("Artist", currentRecord[2].toLowerCase().replace(" lyrics", ""), Store.YES);
 				// index singer_name
-				TextField songHrefField = new TextField("song_href", currentRecord[4].toLowerCase(), Store.YES);
-				// index album_name
-				TextField songNameField = new TextField("song_name", currentRecord[3].toLowerCase(), Store.YES);
+				TextField songHrefField = new TextField("Song_Link", currentRecord[4].toLowerCase(), Store.YES);
+				// index Artist
+				TextField songNameField = new TextField("Song", currentRecord[3].toLowerCase(), Store.YES);
 				// index lyrics
-				TextField lyricsField = new TextField("lyrics", "not_defined", Store.YES);
+				TextField lyricsField = new TextField("Lyrics", "not_defined", Store.YES);
 				
 				// document.add(contentField);
 				document = new Document();
 				document.add(generalField);
 				document.add(songIdField);
-				document.add(albumNameField);
+				document.add(artistNameField);
 				document.add(songHrefField);
 				document.add(songNameField);
 				document.add(lyricsField);
 
-				System.out.println("LOOP DEBUGU documentfield song_name == " + document.get("song_name"));
-				System.out.println("LOOP DEBUGU documentfield album_name == " + document.get("album_name"));
-				System.out.println("LOOP DEBUGU documentfield song_href == " + document.get("song_href"));
+				System.out.println("LOOP DEBUGU documentfield Song == " + document.get("Song"));
+				System.out.println("LOOP DEBUGU documentfield Artist == " + document.get("Artist"));
+				System.out.println("LOOP DEBUGU documentfield Song_Link == " + document.get("Song_Link"));
 
 				docList.add(document);
 			}
@@ -251,23 +426,23 @@ public class Indexer {
 			CSVReader reader = new CSVReader(fr);
 			String[] currentRecord;
 
-			while((currentRecord = reader.readNext()) != null){ // link (href),artist (album_name),song_name,lyrics
+			while((currentRecord = reader.readNext()) != null){ // link (href),artist (Artist),song_name,lyrics
 				// index general field
 				String generalString = "";
 				for(String field : currentRecord){
 					generalString += field + " ";
 				}
-				TextField generalField = new TextField("general", generalString.strip().toLowerCase(), Store.YES);
-				// index song_id
-				TextField songIdField = new TextField("song_id", "not_defined", Store.YES);
-				// index album_name
-				TextField albumNameField = new TextField("album_name", currentRecord[2].toLowerCase(), Store.YES);
+				TextField generalField = new TextField("General", generalString.strip().toLowerCase(), Store.YES);
+				// index Song_ID
+				TextField songIdField = new TextField("Song_ID", "not_defined", Store.YES);
+				// index Artist
+				TextField albumNameField = new TextField("Artist", currentRecord[2].toLowerCase().replace(" lyrics", ""), Store.YES);
 				// index singer_name
-				TextField songHrefField = new TextField("song_href", currentRecord[1].toLowerCase(), Store.YES);
-				// index album_name
-				TextField songNameField = new TextField("song_name", currentRecord[3].toLowerCase(), Store.YES);
+				TextField songHrefField = new TextField("Song_Link", currentRecord[1].toLowerCase(), Store.YES);
+				// index Artist
+				TextField songNameField = new TextField("Song", currentRecord[3].toLowerCase(), Store.YES);
 				// index lyrics
-				TextField lyricsField = new TextField("lyrics", currentRecord[4].toLowerCase(), Store.YES);
+				TextField lyricsField = new TextField("Lyrics", currentRecord[4].toLowerCase(), Store.YES);
 
 				document = new Document();
 				document.add(generalField);
@@ -277,9 +452,9 @@ public class Indexer {
 				document.add(songNameField);
 				document.add(lyricsField);
 
-				System.out.println("LOOP DEBUGU documentfield song_name == " + document.get("song_name"));
-				System.out.println("LOOP DEBUGU documentfield album_name == " + document.get("album_name"));
-				System.out.println("LOOP DEBUGU documentfield song_href == " + document.get("song_href"));
+				System.out.println("LOOP DEBUGU documentfield song_name == " + document.get("Song"));
+				System.out.println("LOOP DEBUGU documentfield Artist == " + document.get("Artist"));
+				System.out.println("LOOP DEBUGU documentfield song_href == " + document.get("Song_Link"));
 
 				docList.add(document);
 			}

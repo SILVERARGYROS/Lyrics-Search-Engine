@@ -109,10 +109,11 @@
       <artifactId>lucene-queryparser</artifactId>
       <version>8.9.0</version>
     </dependency>
+
     
     <!-- https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/ -->
     <dependency> 
-      <groupId>com.opencsv</groupId> 
+      <groupId>com.opencsv</groupId>
       <artifactId>opencsv</artifactId> 
       <version>4.1</version> 
     </dependency> 

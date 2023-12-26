@@ -64,10 +64,10 @@ public class LuceneManager {
 	private void createSongIndex(String indexDir, String songDataDir, String lyricsDataDir) throws IOException {
 		Indexer indexer = new Indexer(indexDir);
 		long startTime = System.currentTimeMillis();
-		int numIndexed = indexer.createSongIndex(songDataDir, lyricsDataDir, new TextFileFilter());
+		int numIndexed[] = indexer.createSongIndex(songDataDir, lyricsDataDir, new TextFileFilter());
 		indexer.close();
 		long endTime = System.currentTimeMillis();
-		System.out.println(numIndexed + " Songs(s) indexed, time taken: " + (endTime-startTime) + " ms");
+		System.out.println(numIndexed[0] + " Songs(s) indexed, time taken: "  + numIndexed[1] + " Lyrics(s) indexed, time taken: " + (endTime-startTime) + " ms");
 	}
 
 	public void searchSongs(String searchQuery) throws IOException, ParseException {
