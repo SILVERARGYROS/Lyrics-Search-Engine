@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import org.apache.lucene.queryparser.classic.ParseException;
 
@@ -28,6 +29,12 @@ public class App extends Application {
         try {
             luceneManager.run(null);
         } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ExecutionException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

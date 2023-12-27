@@ -144,7 +144,7 @@ public class Indexer {
 		int numDocs = 0;
 
 		if(datatype.equalsIgnoreCase("albums")){
-			ArrayList<Document> receivedList = getAlbumDocument(file);
+			ArrayList<Document> receivedList = getAlbumDocuments(file);
 			
 			// Checking if album already exists
 
@@ -188,7 +188,7 @@ public class Indexer {
 			}
 		}
 		else if (datatype.equalsIgnoreCase("songs")){
-			ArrayList<Document> receivedList = getSongDocument(file);
+			ArrayList<Document> receivedList = getSongDocuments(file);
 			
 			// Checking if song already exists
 
@@ -237,7 +237,6 @@ public class Indexer {
 						// Construct and add new (/corrected) document 
 						Document correctedDocument = new Document();
 						correctedDocument.add(matchingDocument.getField("General"));
-						correctedDocument.add(currentDocument.getField("Song_ID"));
 						correctedDocument.add(currentDocument.getField("Artist"));
 						correctedDocument.add(currentDocument.getField("Song_Link"));
 						correctedDocument.add(matchingDocument.getField("Song"));
@@ -253,7 +252,7 @@ public class Indexer {
 			}
 		}
 		else if (datatype.equalsIgnoreCase("lyrics")){
-			ArrayList<Document> receivedList = getLyricsDocument(file);
+			ArrayList<Document> receivedList = getLyricsDocuments(file);
 			
 			// Checking if song already exists
 
@@ -304,7 +303,6 @@ public class Indexer {
 						// Construct and add new (/corrected) document 
 						Document correctedDocument = new Document();
 						correctedDocument.add(currentDocument.getField("General"));
-						correctedDocument.add(matchingDocument.getField("Song_ID"));
 						correctedDocument.add(matchingDocument.getField("Artist"));
 						correctedDocument.add(matchingDocument.getField("Song_Link"));
 						correctedDocument.add(currentDocument.getField("Song"));
@@ -326,7 +324,7 @@ public class Indexer {
 		return numDocs;
 	}
 
-	public ArrayList<Document> getAlbumDocument(File file) {
+	public ArrayList<Document> getAlbumDocuments(File file) {
 		ArrayList<Document> docList = new ArrayList<>();
 		try {
 			// index file contents
@@ -334,28 +332,8 @@ public class Indexer {
 			CSVReader reader = new CSVReader(fr);
 			String[] currentRecord;
 			while((currentRecord = reader.readNext()) != null){ // id,singer_name,name,type,year
-				Document document = null;
-				// index general field
-				TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(currentRecord)).strip().toLowerCase(), Store.YES);
-				// index album_id
-				TextField albumIdField = new TextField("Album_ID", currentRecord[1].toLowerCase(), Store.YES);
-				// index singer_name
-				TextField artistNameField = new TextField("Artist", currentRecord[2].toLowerCase().replace(" lyrics", ""), Store.YES);
-				// index Artist
-				TextField albumNameField = new TextField("Album", currentRecord[3].toLowerCase(), Store.YES);
-				// index album_type
-				TextField albumTypeField = new TextField("Album_Type", currentRecord[4].toLowerCase(), Store.YES);
-				// index album_year
-				TextField albumYearField = new TextField("Year", currentRecord[5].toLowerCase(), Store.YES);
-
-				// document.add(contentField);
-				document = new Document();
-				document.add(generalField);
-				document.add(albumIdField);
-				document.add(artistNameField);
-				document.add(albumNameField);
-				document.add(albumTypeField);
-				document.add(albumYearField);
+				String[] currentRecordFields = {currentRecord[2], currentRecord[3], currentRecord[4], currentRecord[5]};
+				Document document = createSongDocument(currentRecordFields);
 
 				docList.add(document);
 			}
@@ -369,7 +347,7 @@ public class Indexer {
 		return docList;
 	}
 
-	public ArrayList<Document> getSongDocument(File file) {
+	public ArrayList<Document> getSongDocuments(File file) {
 		ArrayList<Document> docList = new ArrayList<>();
 		try {
 			Document document = null;
@@ -378,27 +356,10 @@ public class Indexer {
 			CSVReader reader = new CSVReader(fr);
 			String[] currentRecord;
 			while((currentRecord = reader.readNext()) != null){ // Song_ID,singer_name (Artist),song_name,song_href
-				// index general field
-				TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(currentRecord)).strip().toLowerCase(), Store.YES);
-				// index Song_ID
-				TextField songIdField = new TextField("Song_ID", currentRecord[1].toLowerCase(), Store.YES);
-				// index Artist
-				TextField artistNameField = new TextField("Artist", currentRecord[2].toLowerCase().replace(" lyrics", ""), Store.YES);
-				// index singer_name
-				TextField songHrefField = new TextField("Song_Link", currentRecord[4].toLowerCase(), Store.YES);
-				// index Artist
-				TextField songNameField = new TextField("Song", currentRecord[3].toLowerCase(), Store.YES);
-				// index lyrics
-				TextField lyricsField = new TextField("Lyrics", "not_defined", Store.YES);
 				
-				// document.add(contentField);
-				document = new Document();
-				document.add(generalField);
-				document.add(songIdField);
-				document.add(artistNameField);
-				document.add(songHrefField);
-				document.add(songNameField);
-				document.add(lyricsField);
+				// Mapping the fields to create document
+				String[] currentRecordFields = {currentRecord[2], currentRecord[4], currentRecord[3], "not_defined"};
+				document = createSongDocument(currentRecordFields);
 
 				System.out.println("LOOP DEBUGU documentfield Song == " + document.get("Song"));
 				System.out.println("LOOP DEBUGU documentfield Artist == " + document.get("Artist"));
@@ -416,7 +377,7 @@ public class Indexer {
 		return docList;
 	}
 
-	public ArrayList<Document> getLyricsDocument(File file) {
+	public ArrayList<Document> getLyricsDocuments(File file) {
 		ArrayList<Document> docList = new ArrayList<>();
 		try {
 			Document document = null;
@@ -426,26 +387,10 @@ public class Indexer {
 			String[] currentRecord;
 
 			while((currentRecord = reader.readNext()) != null){ // link (href),artist (Artist),song_name,lyrics
-				// index general field
-				TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(currentRecord)).strip().toLowerCase(), Store.YES);
-				// index Song_ID
-				TextField songIdField = new TextField("Song_ID", "not_defined", Store.YES);
-				// index Artist
-				TextField albumNameField = new TextField("Artist", currentRecord[2].toLowerCase().replace(" lyrics", ""), Store.YES);
-				// index singer_name
-				TextField songHrefField = new TextField("Song_Link", currentRecord[1].toLowerCase(), Store.YES);
-				// index Artist
-				TextField songNameField = new TextField("Song", currentRecord[3].toLowerCase(), Store.YES);
-				// index lyrics
-				TextField lyricsField = new TextField("Lyrics", currentRecord[4].toLowerCase(), Store.YES);
 
-				document = new Document();
-				document.add(generalField);
-				document.add(songIdField);
-				document.add(albumNameField);
-				document.add(songHrefField);
-				document.add(songNameField);
-				document.add(lyricsField);
+				// Mapping the fields to create document
+				String[] currentRecordFields = {currentRecord[2], currentRecord[1], currentRecord[3], currentRecord[4]};
+				document = createSongDocument(currentRecordFields);
 
 				System.out.println("LOOP DEBUGU documentfield song_name == " + document.get("Song"));
 				System.out.println("LOOP DEBUGU documentfield Artist == " + document.get("Artist"));
@@ -465,30 +410,55 @@ public class Indexer {
 		return docList;
 	}
 
+	public Document createAlbumDocument(String[] fields){
+		Document document = null;
+		// index general field
+		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Store.YES);
+		// index singer_name
+		TextField artistNameField = new TextField("Artist", fields[0].toLowerCase().replace(" lyrics", ""), Store.YES);
+		// index Artist
+		TextField albumNameField = new TextField("Album", fields[1].toLowerCase(), Store.YES);
+		// index album_type
+		TextField albumTypeField = new TextField("Album_Type", fields[2].toLowerCase(), Store.YES);
+		// index album_year
+		TextField albumYearField = new TextField("Year", fields[3].toLowerCase(), Store.YES);
+
+		// document.add(contentField);
+		document = new Document();
+		document.add(generalField);
+		document.add(artistNameField);
+		document.add(albumNameField);
+		document.add(albumTypeField);
+		document.add(albumYearField);
+
+		return document;
+	}
+
+	public Document createSongDocument(String[] fields){
+		// index general field
+		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Store.YES);
+		// index Artist
+		TextField albumNameField = new TextField("Artist", fields[0].toLowerCase().replace(" lyrics", ""), Store.YES);
+		// index singer_name
+		TextField songHrefField = new TextField("Song_Link", fields[1].toLowerCase(), Store.YES);
+		// index Artist
+		TextField songNameField = new TextField("Song", fields[2].toLowerCase(), Store.YES);
+		// index lyrics
+		TextField lyricsField = new TextField("Lyrics", fields[3].toLowerCase(), Store.YES);
+
+		Document document = new Document();
+		document.add(generalField);
+		document.add(albumNameField);
+		document.add(songHrefField);
+		document.add(songNameField);
+		document.add(lyricsField);
+
+		return document;
+	}
+
 	public void addAlbum(ArrayList<String> fieldList){
 		try{
-			// index General
-			TextField generalField = new TextField("General", constructGeneralFieldString(fieldList).strip().toLowerCase(), Store.YES);
-			// index album_id
-			TextField albumIdField = new TextField("Album_ID", fieldList.get(0).toLowerCase(), Store.YES);
-			// index singer_name
-			TextField artistNameField = new TextField("Artist", fieldList.get(1).toLowerCase(), Store.YES);
-			// index Artist
-			TextField albumNameField = new TextField("Album", fieldList.get(2).toLowerCase(), Store.YES);
-			// index album_type
-			TextField albumTypeField = new TextField("Album_Type", fieldList.get(3).toLowerCase(), Store.YES);
-			// index album_year
-			TextField albumYearField = new TextField("Year", fieldList.get(4).toLowerCase(), Store.YES);
-
-			// document.add(contentField);
-			Document document = new Document();
-			document.add(generalField);
-			document.add(albumIdField);
-			document.add(artistNameField);
-			document.add(albumNameField);
-			document.add(albumTypeField);
-			document.add(albumYearField);
-
+			Document document = createAlbumDocument((String[]) fieldList.toArray());
 			writer.addDocument(document);
 		}
 		catch(IOException e){
@@ -498,27 +468,7 @@ public class Indexer {
 
 	public void addSong(ArrayList<String> fieldList){
 		try{
-			// index General
-			TextField generalField = new TextField("General",constructGeneralFieldString(fieldList).strip().toLowerCase(), Store.YES);
-			// index Song_ID
-			TextField songIdField = new TextField("Song_ID", fieldList.get(0), Store.YES);
-			// index Artist
-			TextField albumNameField = new TextField("Artist", fieldList.get(1).toLowerCase().replace(" lyrics", ""), Store.YES);
-			// index singer_name
-			TextField songHrefField = new TextField("Song_Link", fieldList.get(2).toLowerCase(), Store.YES);
-			// index Artist
-			TextField songNameField = new TextField("Song", fieldList.get(3).toLowerCase(), Store.YES);
-			// index lyrics
-			TextField lyricsField = new TextField("Lyrics", fieldList.get(4).toLowerCase(), Store.YES);
-	
-			Document document = new Document();
-			document.add(generalField);
-			document.add(songIdField);
-			document.add(albumNameField);
-			document.add(songHrefField);
-			document.add(songNameField);
-			document.add(lyricsField);
-	
+			Document document = createSongDocument((String[]) fieldList.toArray());
 			writer.addDocument(document);
 		}
 		catch(IOException e){

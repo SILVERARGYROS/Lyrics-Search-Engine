@@ -3,12 +3,14 @@ package com.example.Lucene;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import java.util.concurrent.ExecutionException;
+
+
 public class LuceneManager {
 	// Project path
 	private static String path; // Initialized on start
@@ -42,15 +44,20 @@ public class LuceneManager {
 		songIndexer = new Indexer(songIndexDir);
 		albumIndexer = new Indexer(albumIndexDir);
 	}
-
-	public void run(String[] args) throws IOException, ParseException{
-		initializeTester();
+	
+	public void run(String[] args) throws IOException, ParseException, InterruptedException, ExecutionException{
+		initializeIndexes();
 		this.searchSongs("\"taylor swift\""); // Here we enter the query for Search
+		getFromSource("SLEEPWALKING", "A-Z Lyrics");
 	}
 
-	public void initializeTester() throws IOException {
+	public void initializeIndexes() throws IOException {
 		createAlbumIndex(albumDataDir);
 		createSongIndex(songDataDir, lyricsDataDir);
+	}
+
+	public void close(){
+		
 	}
 
 	private void createAlbumIndex(String dataDir) throws IOException {
@@ -138,8 +145,18 @@ public class LuceneManager {
 
 		searcher.close();
 	}
+	
+	// https://reintech.io/blog/java-web-scraping-extracting-data-from-websites
+	public Document getFromSource(String songName, String source) throws IOException, InterruptedException, ExecutionException{
+		LyricsClient client = new LyricsClient(source);
+        Lyrics lyrics = client.getLyrics(songName).get();
+		
+		String[] fields = {lyrics.getTitle(), lyrics.getAuthor(), lyrics.getContent(), lyrics.getSource()};
+		Document document = songIndexer.createSongDocument(fields);
+  
+		System.out.println("Title: " + lyrics.getTitle() + " Author: " + lyrics.getAuthor() + " \nLyrics: \n\n" + lyrics.getContent() + "\n Source: " + lyrics.getSource());
+		System.out.println("Out of url method");
 
-	public void close(){
-
+		return document;
 	}
 }
