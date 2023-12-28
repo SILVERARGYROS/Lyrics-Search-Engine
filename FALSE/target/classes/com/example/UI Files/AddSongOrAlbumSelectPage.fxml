@@ -104,7 +104,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="173.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
+                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="319.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -146,6 +146,27 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </Label>
+                        <ImageView fitHeight="18.0" fitWidth="19.0" opacity="0.2" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                           <image>
+                              <Image url="@../media/Arrow.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../media/menu.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="18.0" prefWidth="91.0" styleClass="normaltext" text="Add Manually" textFill="WHITE">
+                           <font>
+                              <Font name="High Tower Text" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
                      </children>
                   </HBox>
                </children>
@@ -155,21 +176,40 @@
             </HBox>
             <VBox alignment="CENTER" prefHeight="461.0" prefWidth="697.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="61.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 12 12 0 0;" styleClass="options" text="Add Manually" textFill="WHITE">
+                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 12 12 0 0;" styleClass="options" text="Add Song">
                      <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
-                              <Image url="@../media/menu.png" />
+                              <Image url="@../media/Song.png" />
                            </image>
                         </ImageView>
                      </graphic>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.9803921580314636" green="0.26274511218070984" blue="0.26274511218070984" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="0.8745098114013672" green="0.4901960790157318" blue="0.7921568751335144" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                   <Line endX="255.0" startX="-100.0" stroke="#2b2b2b" />
-                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 0;" styleClass="options" text="Add from File">
+                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 0 0 12 12;" styleClass="options" text="Add Album">
                      <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
-                              <Image url="@../media/file.png" />
+                              <Image url="@../media/Album.png" />
                            </image>
                            <viewport>
                               <Rectangle2D />
@@ -192,32 +232,9 @@
                            </stops>
                         </LinearGradient>
                      </textFill>
-                  </Button>
-                  <Line endX="255.0" layoutX="270.0" layoutY="206.0" startX="-100.0" stroke="#2b2b2b" />
-                  <Button layoutX="170.0" layoutY="237.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 0 0 12 12;" styleClass="options" text="Add by Guess">
-                     <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
-                           <image>
-                              <Image url="@../media/Nametag.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <textFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                           <stops>
-                              <Stop>
-                                 <color>
-                                    <Color red="0.9803921580314636" green="0.26274511218070984" blue="0.26274511218070984" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="1.0">
-                                 <color>
-                                    <Color red="0.8745098114013672" green="0.4901960790157318" blue="0.7921568751335144" />
-                                 </color>
-                              </Stop>
-                           </stops>
-                        </LinearGradient>
-                     </textFill>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
                <VBox.margin>

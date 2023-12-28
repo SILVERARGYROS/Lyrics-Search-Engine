@@ -23,6 +23,51 @@
     -fx-font-size: 15;
 }
 
+.smalltext {
+    -fx-font-size: 11;
+}
+
+.check-box:selected .mark {
+
+    -fx-background-color: white;
+    
+}
+    
+.check-box:selected .box {
+
+    -fx-background-color: linear-gradient(to bottom right, #FF2490, #FFA149);
+}
+
+.check-box .box {
+    -fx-background-color: #181818;
+    -fx-background-radius: 3;
+}
+
+.customtextfield {
+    -fx-text-inner-color: rgb(255, 255, 255);
+    -fx-prompt-text-fill: #6e6e6e;
+    -fx-font-family: "Montserrat SemiBold";
+    -fx-background-color: #232323;
+    -fx-border-radius: 6;
+    -fx-border-color: #414141;
+}    
+
+.customtextarea {
+    -fx-text-inner-color: rgb(255, 255, 255);
+    -fx-prompt-text-fill: #6e6e6e;
+    -fx-font-family: "Montserrat SemiBold";
+    -fx-background-color: #232323;
+    -fx-border-radius: 6;
+    -fx-border-color: #414141;
+}    
+.customtextarea .content{
+    -fx-text-inner-color: rgb(255, 255, 255);
+    -fx-prompt-text-fill: #6e6e6e;
+    -fx-font-family: "Montserrat SemiBold";
+    -fx-background-color: #232323;
+    -fx-background-radius: 0;
+}    
+
 /* 
 .sidebarbutton:hover {
     -fx-background-color:  #f0f0f0;
