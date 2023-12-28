@@ -19,6 +19,10 @@
     -fx-font-size: 14;
 }
 
+.titles {
+    -fx-font-size: 15;
+}
+
 /* 
 .sidebarbutton:hover {
     -fx-background-color:  #f0f0f0;
