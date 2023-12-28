@@ -9,8 +9,6 @@ import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.similarities.Similarity;
-import org.apache.lucene.search.similarities.TFIDFSimilarity;
 
 import java.util.concurrent.ExecutionException;
 
@@ -51,7 +49,7 @@ public class LuceneManager {
 	
 	public void run(String[] args) throws IOException, ParseException, InterruptedException, ExecutionException{
 		initializeIndexes();
-		this.simpleSongSearch("achipi", "Artist"); // Here we enter the query for Search
+		this.simpleSongSearch("swift AND taylor", "Artist"); // Here we enter the query for Search
 		// getFromSource("SLEEPWALKING", "A-Z Lyrics");
 	}
 
@@ -126,12 +124,12 @@ public class LuceneManager {
 		songIndexer.commit();
 	}
 
-	public void simpleSongSearch(String searchQuery, String fieldName) throws IOException, ParseException {
-		simpleSearch(searchQuery, fieldName, songIndexDir);
+	public Document[] simpleSongSearch(String searchQuery, String fieldName) throws IOException, ParseException {
+		return simpleSearch(searchQuery, fieldName, songIndexDir);
 	}
 
-	public void simpleAlbumSearch(String searchQuery, String fieldName) throws IOException, ParseException {
-		simpleSearch(searchQuery, fieldName, albumIndexDir);
+	public Document[] simpleAlbumSearch(String searchQuery, String fieldName) throws IOException, ParseException {
+		return simpleSearch(searchQuery, fieldName, albumIndexDir);
 	}
 		
 	private Document[] simpleSearch(String searchQuery, String fieldName, String indexDir) throws IOException, ParseException {
@@ -143,6 +141,47 @@ public class LuceneManager {
 
 		// Construct query
 		Query query = searcher.constructSimpleQuery(searchQuery);
+
+		// Execute query
+		TopDocs hits = searcher.search(query);
+
+		// Get result documents
+		Document[] documents = searcher.getDocuments(hits);
+
+		// Close searcher
+		searcher.close();
+		
+		// Stop timer
+		long endTime = System.currentTimeMillis();
+		System.out.println(hits.totalHits + " documents found. Time :" + (endTime - startTime));
+		
+		// Score Debug
+		for(ScoreDoc scoreDoc : hits.scoreDocs) {
+			System.out.println("SCORE DEBUG == " + scoreDoc.score);
+			// System.out.println("File: " + doc.get(LuceneConstants.FILE_PATH));
+		}
+		
+		// Return results
+		return documents;
+	}
+
+	public Document[] advancedSongSearch(String[] searchQuery, String[] queryType) throws IOException, ParseException {
+		return advancedSearch(searchQuery, queryType, songIndexDir);
+	}
+
+	public Document[] advancedAlbumSearch(String[] searchQuery, String[] queryType) throws IOException, ParseException {
+		return advancedSearch(searchQuery, queryType, albumIndexDir);
+	}
+
+	public Document[] advancedSearch(String[] searchQuery, String[] queryType, String indexDir) throws IOException, ParseException {
+		// Start timer
+		long startTime = System.currentTimeMillis();
+
+		// instantiate searcher
+		Searcher searcher = new Searcher(indexDir);
+
+		// Construct query
+		Query query = searcher.constructAdvancedQuery(searchQuery, queryType);
 
 		// Execute query
 		TopDocs hits = searcher.search(query);

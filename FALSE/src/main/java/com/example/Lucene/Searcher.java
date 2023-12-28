@@ -5,12 +5,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.QueryBuilder;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
@@ -18,6 +21,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 
 public class Searcher {
 	IndexSearcher indexSearcher;
@@ -48,6 +52,26 @@ public class Searcher {
 		return queryParser.parse(searchQuery);
 	}
 
+	public Query constructAdvancedQuery(String[] searchQuery, String[] queryType) throws ParseException{
+		ArrayList<Query> queryList = new ArrayList<>();
+		for(int i = 0; i < queryType.length; i++){
+			String currentField = "";
+			if(!(searchQuery[i].strip().equals(""))){
+				currentField = searchQuery[i];
+			}
+			Query currentQuery = new QueryParser(queryType[i], new StandardAnalyzer()).parse("\"" + searchQuery[i] + "\"");
+			queryList.add(currentQuery);
+		}
+
+		// Dynamically construct the query using builder;
+		BooleanQuery.Builder builder = new BooleanQuery.Builder();
+		for(Query query: queryList){
+			builder.add(query, Occur.MUST);
+		}
+		return builder.build();
+
+	}
+
 	public TopDocs search(String searchQuery) throws IOException, ParseException {
 		query = queryParser.parse(searchQuery);
 		System.out.println("query: " + query.toString());
@@ -61,11 +85,14 @@ public class Searcher {
 	}
 
 	public Document[] getDocuments(TopDocs topDocs) throws CorruptIndexException, IOException {
-		ArrayList<Document> documents = new ArrayList<>();
+		Document[] documents = new Document[topDocs.scoreDocs.length];
+		int i = 0;
+
 		for(ScoreDoc scoreDoc: topDocs.scoreDocs){
-			documents.add(getDocument(scoreDoc));
+			documents[i++] = getDocument(scoreDoc);
 		}
-		return (Document[])documents.toArray();
+
+		return documents;
 	}
 
 	public Document getDocument(ScoreDoc scoreDoc) throws CorruptIndexException, IOException {

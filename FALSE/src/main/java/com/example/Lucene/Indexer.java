@@ -13,9 +13,10 @@ import java.util.Collection;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.TextField;
-import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -32,6 +33,7 @@ import com.opencsv.CSVReader;
 public class Indexer {
 	private IndexWriter writer;
 	private String indexDirectoryPath;
+	FieldType fieldConf;
 
 	public Indexer(String indexDirectoryPath) throws IOException {
 		// this directory will contain the indexes
@@ -48,6 +50,14 @@ public class Indexer {
 		IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
 		config.setSimilarity(new CTFIDFSimilarity());
 		writer = new IndexWriter(indexDirectory, config);
+
+		// https://stackoverflow.com/questions/35809035/how-to-get-positions-from-a-document-term-vector-in-lucene
+		fieldConf.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+		fieldConf.setStoreTermVectors(true);
+		fieldConf.setStoreTermVectorOffsets(true);
+		fieldConf.setStoreTermVectorPayloads(true);
+		fieldConf.setStoreTermVectorPositions(true);
+		fieldConf.setTokenized(true);
 	}
 
 	public void close() throws CorruptIndexException, IOException {
@@ -413,20 +423,19 @@ public class Indexer {
 	}
 
 	public Document createAlbumDocument(String[] fields){
-		Document document = null;
 		// index general field
-		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Store.YES);
-		// index singer_name
-		TextField artistNameField = new TextField("Artist", fields[0].toLowerCase().replace(" lyrics", ""), Store.YES);
-		// index Artist
-		TextField albumNameField = new TextField("Album", fields[1].toLowerCase(), Store.YES);
+		Field generalField = new Field("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), fieldConf);
+		// index artist name
+		Field artistNameField = new Field("Artist", fields[0].toLowerCase().replace(" lyrics", ""), fieldConf);
+		// index artist name
+		Field albumNameField = new Field("Album", fields[1].toLowerCase(), fieldConf);
 		// index album_type
-		TextField albumTypeField = new TextField("Album_Type", fields[2].toLowerCase(), Store.YES);
+		Field albumTypeField = new Field("Album_Type", fields[2].toLowerCase(), fieldConf);
 		// index album_year
-		TextField albumYearField = new TextField("Year", fields[3].toLowerCase(), Store.YES);
+		Field albumYearField = new Field("Year", fields[3].toLowerCase(), fieldConf);
 
 		// document.add(contentField);
-		document = new Document();
+		Document document = new Document();
 		document.add(generalField);
 		document.add(artistNameField);
 		document.add(albumNameField);
@@ -438,19 +447,21 @@ public class Indexer {
 
 	public Document createSongDocument(String[] fields){
 		// index general field
-		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Store.YES);
-		// index Artist
-		TextField albumNameField = new TextField("Artist", fields[0].toLowerCase().replace(" lyrics", ""), Store.YES);
-		// index singer_name
-		TextField songHrefField = new TextField("Song_Link", fields[1].toLowerCase(), Store.YES);
-		// index Artist
-		TextField songNameField = new TextField("Song", fields[2].toLowerCase(), Store.YES);
+		Field generalField = new Field("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), fieldConf);
+		// index artist name
+		Field artistName = new Field("Artist", fields[0].toLowerCase(), fieldConf);
+		// index link
+		fieldConf.setTokenized(false);
+		Field songHrefField = new Field("Song_Link", fields[1].toLowerCase(), fieldConf);
+		fieldConf.setTokenized(true);
+		// index Song Name
+		Field songNameField = new Field("Song", fields[2].toLowerCase(), fieldConf);
 		// index lyrics
-		TextField lyricsField = new TextField("Lyrics", fields[3].toLowerCase(), Store.YES);
+		Field lyricsField = new Field("Lyrics", fields[3].toLowerCase(), fieldConf);
 
 		Document document = new Document();
 		document.add(generalField);
-		document.add(albumNameField);
+		document.add(artistName);
 		document.add(songHrefField);
 		document.add(songNameField);
 		document.add(lyricsField);
