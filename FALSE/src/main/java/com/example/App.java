@@ -6,8 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
-import com.example.Lucene.LuceneTester;
+import org.apache.lucene.queryparser.classic.ParseException;
+
+import com.example.Lucene.LuceneManager;
 
 /**
  * JavaFX App
@@ -15,13 +18,27 @@ import com.example.Lucene.LuceneTester;
 public class App extends Application {
 
     private static Scene scene;
-
+    private static LuceneManager luceneManager;
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("primary"), 640, 480);
         stage.setScene(scene);
         stage.show();
-        LuceneTester.run(null);
+        luceneManager = new LuceneManager();
+
+        try {
+            luceneManager.run(null);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
         return;
     }
 
@@ -37,5 +54,4 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
-
 }

@@ -1,0 +1,4 @@
+0,1,Taylor Swift Lyrics,Tim McGraw,../lyrics/taylorswift/timmcgraw.html
+1,2,Taylor Swift Lyrics,Picture To Burn,../lyrics/taylorswift/picturetoburn.html
+2,3,Taylor Swift Lyrics,Teardrops On My Guitar,../lyrics/taylorswift/teardropsonmyguitar.html
+3,4,Taylor Swift Lyrics,A Place In This World,../lyrics/taylorswift/aplaceinthisworld.html
