@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.similarities.Similarity;
+import org.apache.lucene.search.similarities.TFIDFSimilarity;
+
 import java.util.concurrent.ExecutionException;
 
 
@@ -47,7 +51,7 @@ public class LuceneManager {
 	
 	public void run(String[] args) throws IOException, ParseException, InterruptedException, ExecutionException{
 		initializeIndexes();
-		this.searchSongs("achipi"); // Here we enter the query for Search
+		this.simpleSongSearch("achipi", "Artist"); // Here we enter the query for Search
 		// getFromSource("SLEEPWALKING", "A-Z Lyrics");
 	}
 
@@ -122,29 +126,45 @@ public class LuceneManager {
 		songIndexer.commit();
 	}
 
-	public void searchSongs(String searchQuery) throws IOException, ParseException {
-		search(searchQuery, songIndexDir);
+	public void simpleSongSearch(String searchQuery, String fieldName) throws IOException, ParseException {
+		simpleSearch(searchQuery, fieldName, songIndexDir);
 	}
 
-	public void searchAlbums(String searchQuery) throws IOException, ParseException {
-		search(searchQuery, albumIndexDir);
+	public void simpleAlbumSearch(String searchQuery, String fieldName) throws IOException, ParseException {
+		simpleSearch(searchQuery, fieldName, albumIndexDir);
 	}
 		
-	private void search(String searchQuery, String indexDir) throws IOException, ParseException {
-		Searcher searcher = new Searcher(indexDir);
-
+	private Document[] simpleSearch(String searchQuery, String fieldName, String indexDir) throws IOException, ParseException {
+		// Start timer
 		long startTime = System.currentTimeMillis();
-		TopDocs hits = searcher.search(searchQuery);
-		long endTime = System.currentTimeMillis();
 
+		// instantiate searcher
+		Searcher searcher = new Searcher(indexDir, fieldName);
+
+		// Construct query
+		Query query = searcher.constructSimpleQuery(searchQuery);
+
+		// Execute query
+		TopDocs hits = searcher.search(query);
+
+		// Get result documents
+		Document[] documents = searcher.getDocuments(hits);
+
+		// Close searcher
+		searcher.close();
+		
+		// Stop timer
+		long endTime = System.currentTimeMillis();
 		System.out.println(hits.totalHits + " documents found. Time :" + (endTime - startTime));
+		
+		// Score Debug
 		for(ScoreDoc scoreDoc : hits.scoreDocs) {
-			System.out.println("SCORE DEBUG == " + hits.scoreDocs[0].score);
-			Document doc = searcher.getDocument(scoreDoc);
+			System.out.println("SCORE DEBUG == " + scoreDoc.score);
 			// System.out.println("File: " + doc.get(LuceneConstants.FILE_PATH));
 		}
-
-		searcher.close();
+		
+		// Return results
+		return documents;
 	}
 	
 	// https://reintech.io/blog/java-web-scraping-extracting-data-from-websites

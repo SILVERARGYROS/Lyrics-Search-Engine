@@ -3,6 +3,7 @@ package com.example.Lucene;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -31,7 +32,20 @@ public class Searcher {
 		indexReader = DirectoryReader.open(indexDirectory);	
 		indexSearcher = new IndexSearcher(indexReader);
 		indexSearcher.setSimilarity(new CTFIDFSimilarity());
-		queryParser = new QueryParser("Artist", new StandardAnalyzer());
+		queryParser = new QueryParser("General", new StandardAnalyzer());
+	}
+
+	public Searcher(String indexDirectoryPath, String fieldName) throws IOException {
+		Path indexPath = Paths.get(indexDirectoryPath);
+		indexDirectory = FSDirectory.open(indexPath);
+		indexReader = DirectoryReader.open(indexDirectory);	
+		indexSearcher = new IndexSearcher(indexReader);
+		indexSearcher.setSimilarity(new CTFIDFSimilarity());
+		queryParser = new QueryParser(fieldName, new StandardAnalyzer());
+	}
+
+	public Query constructSimpleQuery(String searchQuery) throws ParseException{
+		return queryParser.parse(searchQuery);
 	}
 
 	public TopDocs search(String searchQuery) throws IOException, ParseException {
@@ -44,6 +58,14 @@ public class Searcher {
 		query = searchQuery;
 		System.out.println("query: " + query.toString());
 		return indexSearcher.search(query, LuceneConstants.MAX_SEARCH);
+	}
+
+	public Document[] getDocuments(TopDocs topDocs) throws CorruptIndexException, IOException {
+		ArrayList<Document> documents = new ArrayList<>();
+		for(ScoreDoc scoreDoc: topDocs.scoreDocs){
+			documents.add(getDocument(scoreDoc));
+		}
+		return (Document[])documents.toArray();
 	}
 
 	public Document getDocument(ScoreDoc scoreDoc) throws CorruptIndexException, IOException {
