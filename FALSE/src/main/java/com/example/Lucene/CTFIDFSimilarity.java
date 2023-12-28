@@ -1,12 +1,12 @@
 /* 
- * This is just the first attempt, to see the final result plz scroll further down.
- * Or don't... No being of basic human comprehension is capable of understanding 
- * this monstrosity. God had no hand in the implementation of tf-idf cosine 
- * similarity. The fact that this Similarity method even exists on paper proves 
- * that God is either impotent to alter His universe or ignorant to the horrors 
- * taking place in His kingdom. The tf-idf cosine similarity is more than a 
- * mathematical algorithm. It is the declaration of humankind's contempt for 
- * the natural order. It is hubris manifest.
+ * This is just the first attempt, to see the final result plz scroll further 
+ * down. Or don't... No being capable of basic human comprehension is capable 
+ * of understanding this monstrosity. God had no hand in the implementation of 
+ * tf-idf cosine similarity. The fact that this Similarity method exists even 
+ * on paper proves that God is either impotent to alter His universe or ignorant 
+ * to the horrors taking place in His kingdom. The tf-idf cosine similarity is 
+ * more than a mathematical algorithm. It is the declaration of humankind's 
+ * contempt for the natural order. It is hubris manifest.
  */
 
 // package com.example.Lucene;
