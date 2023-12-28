@@ -47,8 +47,8 @@ public class LuceneManager {
 	
 	public void run(String[] args) throws IOException, ParseException, InterruptedException, ExecutionException{
 		initializeIndexes();
-		this.searchSongs("\"taylor swift\""); // Here we enter the query for Search
-		getFromSource("SLEEPWALKING", "A-Z Lyrics");
+		this.searchSongs("achipi"); // Here we enter the query for Search
+		// getFromSource("SLEEPWALKING", "A-Z Lyrics");
 	}
 
 	public void initializeIndexes() throws IOException {
@@ -139,6 +139,7 @@ public class LuceneManager {
 
 		System.out.println(hits.totalHits + " documents found. Time :" + (endTime - startTime));
 		for(ScoreDoc scoreDoc : hits.scoreDocs) {
+			System.out.println("SCORE DEBUG == " + hits.scoreDocs[0].score);
 			Document doc = searcher.getDocument(scoreDoc);
 			// System.out.println("File: " + doc.get(LuceneConstants.FILE_PATH));
 		}
@@ -147,6 +148,7 @@ public class LuceneManager {
 	}
 	
 	// https://reintech.io/blog/java-web-scraping-extracting-data-from-websites
+	// https://github.com/jagrosh/JLyrics/blob/master/README.md
 	public Document getFromSource(String songName, String source) throws IOException, InterruptedException, ExecutionException{
 		LyricsClient client = new LyricsClient(source);
         Lyrics lyrics = client.getLyrics(songName).get();

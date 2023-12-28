@@ -30,6 +30,7 @@ public class Searcher {
 		indexDirectory = FSDirectory.open(indexPath);
 		indexReader = DirectoryReader.open(indexDirectory);	
 		indexSearcher = new IndexSearcher(indexReader);
+		indexSearcher.setSimilarity(new CTFIDFSimilarity());
 		queryParser = new QueryParser("Artist", new StandardAnalyzer());
 	}
 

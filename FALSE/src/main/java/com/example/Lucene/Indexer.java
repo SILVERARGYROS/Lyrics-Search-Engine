@@ -46,6 +46,7 @@ public class Indexer {
 
 		// create the indexer
 		IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
+		config.setSimilarity(new CTFIDFSimilarity());
 		writer = new IndexWriter(indexDirectory, config);
 	}
 
@@ -229,6 +230,7 @@ public class Indexer {
 						System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
 		
 						// Get first matching document
+						System.out.println("DEBUG TFIDF SCORE == " + results.scoreDocs[0].score);
 						Document matchingDocument = searcher.getDocument(results.scoreDocs[0]);
 		
 						// Delete old document(s)
