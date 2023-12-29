@@ -73,6 +73,12 @@ public class Indexer {
 	}
 
 	public int createAlbumIndex(String dataDirPath, FileFilter filter) throws IOException, ParseException {
+		// If files already exist, index propably already created.
+		// So besides .lock files, there should be no other files.
+		File[] fileList = new File(indexDirectoryPath).listFiles();
+		if(fileList.length>1){
+			return 0;
+		}
 
 		// Committing an empty document to initialize the index 
 		writer.addDocument(new Document());
@@ -92,6 +98,13 @@ public class Indexer {
 	}
 	
 	public int[] createSongIndex(String songDataDirPath, String lyricsDataDirPath, FileFilter filter) throws IOException, ParseException {
+		// If files already exist, index propably already created.
+		// So besides .lock files, there should be no other files.
+		File[] files = new File(indexDirectoryPath).listFiles();
+		if(files.length>1){
+			int[] x = {0,0};
+			return x;
+		}
 
 		int songNumDocs = 0;
 		int lyricsNumDocs = 0;

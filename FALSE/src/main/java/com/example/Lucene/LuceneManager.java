@@ -60,6 +60,7 @@ public class LuceneManager {
 		initializeIndexes();
 		this.simpleSongSearch("swift AND taylor", "Artist"); // Here we enter the query for Search
 		getFromSource("SLEEPWALKING", "A-Z Lyrics");
+		close();
 	}
 
 	public void initializeIndexes() throws IOException, ParseException {
