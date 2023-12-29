@@ -3,6 +3,10 @@ package com.example.Lucene;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -29,13 +33,60 @@ public class Searcher {
 		indexDirectory = FSDirectory.open(indexPath);
 		indexReader = DirectoryReader.open(indexDirectory);	
 		indexSearcher = new IndexSearcher(indexReader);
-		queryParser = new QueryParser(LuceneConstants.CONTENTS, new StandardAnalyzer());
+		indexSearcher.setSimilarity(LuceneSettings.getSIMILARITY_METHOD());
+		queryParser = new QueryParser("General", new StandardAnalyzer());
+	}
+
+	public Searcher(String indexDirectoryPath, String fieldName) throws IOException {
+		Path indexPath = Paths.get(indexDirectoryPath);
+		indexDirectory = FSDirectory.open(indexPath);
+		indexReader = DirectoryReader.open(indexDirectory);	
+		indexSearcher = new IndexSearcher(indexReader);
+		indexSearcher.setSimilarity(new CTFIDFSimilarity());
+		queryParser = new QueryParser(fieldName, new StandardAnalyzer());
+	}
+
+	public Query constructSimpleQuery(String searchQuery) throws ParseException{
+		return queryParser.parse(searchQuery);
+	}
+
+	public Query constructCombinedQuery(String[] querySearches, String[] queryFields, BooleanClause.Occur occurance) throws ParseException{
+		ArrayList<Query> queryList = new ArrayList<>();
+		for(int i = 0; i < queryFields.length; i++){
+			Query currentQuery = new QueryParser(queryFields[i], new StandardAnalyzer()).parse("\"" + querySearches[i] + "\"");
+			queryList.add(currentQuery);
+		}
+
+		// Dynamically construct the query using builder;
+		BooleanQuery.Builder builder = new BooleanQuery.Builder();
+		for(Query query: queryList){
+			builder.add(query, occurance);
+		}
+		return builder.build();
+
 	}
 
 	public TopDocs search(String searchQuery) throws IOException, ParseException {
 		query = queryParser.parse(searchQuery);
 		System.out.println("query: " + query.toString());
-		return indexSearcher.search(query, LuceneConstants.MAX_SEARCH);
+		return indexSearcher.search(query, LuceneSettings.getMAX_SEARCH());
+	}
+
+	public TopDocs search(Query searchQuery) throws IOException, ParseException {
+		query = searchQuery;
+		System.out.println("query: " + query.toString());
+		return indexSearcher.search(query, LuceneSettings.getMAX_SEARCH());
+	}
+
+	public Document[] getDocuments(TopDocs topDocs) throws CorruptIndexException, IOException {
+		Document[] documents = new Document[topDocs.scoreDocs.length];
+		int i = 0;
+
+		for(ScoreDoc scoreDoc: topDocs.scoreDocs){
+			documents[i++] = getDocument(scoreDoc);
+		}
+
+		return documents;
 	}
 
 	public Document getDocument(ScoreDoc scoreDoc) throws CorruptIndexException, IOException {
