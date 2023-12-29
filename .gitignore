@@ -21,3 +21,5 @@ FALSE/Index/songs/segments_4
 FALSE/Index/albums/segments_4
 FALSE/Index/albums/segments_2
 *.class
+*.lock
+FALSE/Index/songs/segments_3
