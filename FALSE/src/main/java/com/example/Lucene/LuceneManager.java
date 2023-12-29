@@ -18,6 +18,9 @@ import java.util.concurrent.ExecutionException;
 public class LuceneManager {
 	// Project path
 	private static String path; // Initialized on start
+	
+	// Settings path
+	private String settingsDir;
 
 	// Song variables
 	private static String songIndexDir = "";
@@ -36,6 +39,10 @@ public class LuceneManager {
 		path = new File(".").getCanonicalPath();
 		System.out.println("PROJECT RUNNING PATH: " + path);
 
+		// Initializing settings
+		settingsDir = path + "\\FALSE\\Data\\settings\\LuceneSettings.conf";
+		LuceneSettings.InstantiateSettings(settingsDir); 
+
 		// Initializing song file input path
 		songIndexDir = path + "\\FALSE\\Index\\songs";
 		albumIndexDir = path + "\\FALSE\\Index\\albums";
@@ -52,10 +59,11 @@ public class LuceneManager {
 	public void run(String[] args) throws IOException, ParseException, InterruptedException, ExecutionException{
 		initializeIndexes();
 		this.simpleSongSearch("swift AND taylor", "Artist"); // Here we enter the query for Search
-		// getFromSource("SLEEPWALKING", "A-Z Lyrics");
+		getFromSource("SLEEPWALKING", "A-Z Lyrics");
+		close();
 	}
 
-	public void initializeIndexes() throws IOException {
+	public void initializeIndexes() throws IOException, ParseException {
 		createAlbumIndex(albumDataDir);
 		createSongIndex(songDataDir, lyricsDataDir);
 	}
@@ -64,14 +72,14 @@ public class LuceneManager {
 		
 	}
 
-	private void createAlbumIndex(String dataDir) throws IOException {
+	private void createAlbumIndex(String dataDir) throws IOException, ParseException {
 		long startTime = System.currentTimeMillis();
 		int numIndexed = albumIndexer.createAlbumIndex(dataDir, new TextFileFilter());
 		long endTime = System.currentTimeMillis();
 		System.out.println(numIndexed + " Album(s) indexed, time taken: " + (endTime-startTime) + " ms");
 	}
 
-	private void createSongIndex(String songDataDir, String lyricsDataDir) throws IOException {
+	private void createSongIndex(String songDataDir, String lyricsDataDir) throws IOException, ParseException {
 		long startTime = System.currentTimeMillis();
 		int numIndexed[] = songIndexer.createSongIndex(songDataDir, lyricsDataDir, new TextFileFilter());
 		long endTime = System.currentTimeMillis();
@@ -111,17 +119,17 @@ public class LuceneManager {
 		songIndexer.commit();
 	}
 
-	public void addAlbumFileToIndex(File file) throws IOException{
+	public void addAlbumFileToIndex(File file) throws IOException, ParseException{
 		albumIndexer.indexFile(file, "albums");
 		albumIndexer.commit();
 	}
 
-	public void addSongFileToIndex(File file) throws IOException{
+	public void addSongFileToIndex(File file) throws IOException, ParseException{
 		songIndexer.indexFile(file, "songs");
 		songIndexer.commit();
 	}
 
-	public void addLyricsFileToIndex(File file) throws IOException{
+	public void addLyricsFileToIndex(File file) throws IOException, ParseException{
 		songIndexer.indexFile(file, "lyrics");
 		songIndexer.commit();
 	}
@@ -224,7 +232,7 @@ public class LuceneManager {
 		// instantiate searcher
 		Searcher searcher = new Searcher(indexDir);
 
-		// Get field names and searhes
+		// Get field names and searches
 		String[] fieldNames = new String[]{};
 		String[] fieldSearches = new String[]{};
 		
@@ -275,5 +283,17 @@ public class LuceneManager {
 		System.out.println("Out of url method");
 
 		return document;
+	}
+
+	public void setMAX_SEARCH(int x){
+		LuceneSettings.setMAX_SEARCH(x);
+	}
+
+	public void setSIMILARITY_METHOD(int x){
+		LuceneSettings.setSIMILARITY_METHOD(x);
+	}
+
+	public void setSCRAPING_SOURCE(int x){
+		LuceneSettings.setSCRAPING_SOURCE(x);
 	}
 }

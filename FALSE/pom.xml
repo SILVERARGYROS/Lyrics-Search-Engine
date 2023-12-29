@@ -114,6 +114,15 @@
       <artifactId>lucene-queryparser</artifactId>
       <version>8.9.0</version>
     </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-common
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analyzers-common</artifactId>
+      <version>8.9.0</version>
+      <scope>system</scope> 
+      <systemPath>${project.basedir}/lib/lucene-analyzers-common-4.5.1.jar</systemPath>
+    </dependency> -->
     
     <!-- https://www.geeksforgeeks.org/reading-csv-file-java-using-opencsv/ -->
     <dependency> 
