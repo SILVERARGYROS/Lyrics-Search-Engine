@@ -459,24 +459,28 @@ public class Indexer {
 		return document;
 	}
 
-	public void addAlbum(ArrayList<String> fieldList){
-		try{
-			Document document = createAlbumDocument((String[]) fieldList.toArray());
-			writer.addDocument(document);
+	public void addAlbum(ArrayList<String> fieldList) throws IOException{
+		// Convert List to array
+		String[] fields = new String[fieldList.size()];
+		int i = 0;
+		for(String field: fieldList){
+			fields[i++] = field;
 		}
-		catch(IOException e){
-			System.out.println("Document could not be added. Exception: " + e);
-		}
+
+		Document document = createAlbumDocument(fields);
+		writer.addDocument(document);
 	}
 
-	public void addSong(ArrayList<String> fieldList){
-		try{
-			Document document = createSongDocument((String[]) fieldList.toArray());
-			writer.addDocument(document);
+	public void addSong(ArrayList<String> fieldList) throws IOException{
+		// Convert List to array
+		String[] fields = new String[fieldList.size()];
+		int i = 0;
+		for(String field: fieldList){
+			fields[i++] = field;
 		}
-		catch(IOException e){
-			System.out.println("Document could not be added. Exception: " + e);
-		}
+
+		Document document = createSongDocument(fields);
+		writer.addDocument(document);
 	}
 
 	public void removeDocument(ScoreDoc scoreDoc){

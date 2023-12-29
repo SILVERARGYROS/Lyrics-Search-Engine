@@ -29,10 +29,17 @@ public class App extends Application {
 
     private static Scene scene;
     private static LuceneManager luceneManager;
+    
+    public static LuceneManager getLuceneManager() {
+        return luceneManager;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("HomePage"), 840, 480);
+        scene = new Scene(loadFXML("HomePage"), 900, 500);
         stage.setScene(scene);
+        stage.setMinWidth(900);
+        stage.setMinHeight(535);
         stage.show();
         luceneManager = new LuceneManager();
 

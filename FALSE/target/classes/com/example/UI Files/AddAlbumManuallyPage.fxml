@@ -213,7 +213,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField prefHeight="41.0" prefWidth="100.0" promptText="Type here..." styleClass="customtextfield" />
+                              <TextField fx:id="albumTextField" prefHeight="41.0" prefWidth="100.0" promptText="Type here..." styleClass="customtextfield" />
                            </children>
                            <HBox.margin>
                               <Insets />
@@ -229,7 +229,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField prefHeight="41.0" prefWidth="385.0" promptText="Type here..." styleClass="customtextfield">
+                              <TextField fx:id="artistTextField" prefHeight="41.0" prefWidth="385.0" promptText="Type here..." styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -256,7 +256,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField prefHeight="41.0" prefWidth="100.0" promptText="Type here..." styleClass="customtextfield" />
+                              <TextField fx:id="typeTextField" prefHeight="41.0" prefWidth="100.0" promptText="Type here..." styleClass="customtextfield" />
                            </children>
                         </VBox>
                         <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="378.0">
@@ -269,7 +269,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField prefHeight="41.0" prefWidth="385.0" promptText="e.g 2017" styleClass="customtextfield">
+                              <TextField fx:id="yearTextField" prefHeight="41.0" prefWidth="385.0" promptText="e.g 2017" styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -288,7 +288,7 @@
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="740.0">
                <children>
-                  <Button fx:id="home_button1221" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to bottom right, #78DF7C, #37A83C); -fx-background-radius: 6;" styleClass="normaltext" text="Confirm" textFill="WHITE">
+                  <Button fx:id="confirmButton" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" onAction="#addSong" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to bottom right, #78DF7C, #37A83C); -fx-background-radius: 6;" styleClass="normaltext" text="Confirm" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
