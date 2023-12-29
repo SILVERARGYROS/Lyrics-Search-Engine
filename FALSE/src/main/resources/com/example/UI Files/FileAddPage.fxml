@@ -257,7 +257,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Button fx:id="home_button11" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #FF2490, #FFA149); -fx-background-radius: 6 0 0 6;" styleClass="normaltext" text="Song" textFill="WHITE">
+                                          <Button fx:id="home_button11" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #FF2490, #FFA149); -fx-background-radius: 6;" styleClass="normaltext" text="Song" textFill="WHITE">
                                              <effect>
                                                 <DropShadow blurType="ONE_PASS_BOX">
                                                    <color>
@@ -269,7 +269,7 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Button>
-                                          <Button fx:id="home_button12" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #2A2A2A, #181818); -fx-background-radius: 0;" styleClass="normaltext" text="Lyrics" textFill="WHITE" GridPane.columnIndex="1">
+                                          <Button fx:id="home_button12" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #2A2A2A, #181818); -fx-background-radius: 6;" styleClass="normaltext" text="Lyrics" textFill="WHITE" GridPane.columnIndex="1">
                                              <effect>
                                                 <DropShadow blurType="ONE_PASS_BOX">
                                                    <color>
@@ -278,7 +278,7 @@
                                                 </DropShadow>
                                              </effect>
                                           </Button>
-                                          <Button fx:id="home_button121" layoutX="151.0" layoutY="10.0" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #FFFFFF0D, #181818); -fx-background-radius: 0 6 6 0;" styleClass="normaltext" text="Album" textFill="WHITE" GridPane.columnIndex="2">
+                                          <Button fx:id="home_button121" layoutX="151.0" layoutY="10.0" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #FFFFFF0D, #181818); -fx-background-radius: 6;" styleClass="normaltext" text="Album" textFill="WHITE" GridPane.columnIndex="2">
                                              <effect>
                                                 <DropShadow blurType="ONE_PASS_BOX">
                                                    <color>
