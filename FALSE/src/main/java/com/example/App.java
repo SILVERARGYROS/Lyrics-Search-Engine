@@ -28,14 +28,20 @@ public class App extends Application {
     public static final String WHITE = "\u001B[37m";
 
     private static Scene scene;
+    private static Stage stage;
     private static LuceneManager luceneManager;
     
+    public static Stage getStage() {
+        return stage;
+    }
+
     public static LuceneManager getLuceneManager() {
         return luceneManager;
     }
 
     @Override
     public void start(Stage stage) throws IOException {
+        App.stage = stage;
         scene = new Scene(loadFXML("HomePage"), 900, 500);
         stage.setScene(scene);
         stage.setMinWidth(900);

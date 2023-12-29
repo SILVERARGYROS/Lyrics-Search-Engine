@@ -88,7 +88,7 @@ public class Indexer {
 		File[] files = new File(dataDirPath).listFiles();
 		for (File file : files) {
 			if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
-				indexFile(file, "albums");
+				indexFile(file, "albums", true);
 			}
 		}
 		int albumNumDocs = writer.numRamDocs();
@@ -117,7 +117,7 @@ public class Indexer {
 		File[] songFiles = new File(songDataDirPath).listFiles();
 		for (File file : songFiles) {
 			if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
-				songNumDocs = indexFile(file, "songs");
+				songNumDocs = indexFile(file, "songs", true);
 			}
 		}
 		writer.commit();
@@ -156,7 +156,7 @@ public class Indexer {
 		File[] lyricFiles = new File(lyricsDataDirPath).listFiles();
 		for (File file : lyricFiles) {
 			if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
-				lyricsNumDocs = indexFile(file, "lyrics");
+				lyricsNumDocs = indexFile(file, "lyrics", true);
 			}
 		}
 		writer.commit();
@@ -165,13 +165,13 @@ public class Indexer {
 		return numDocs;
 	}
 
-	public int indexFile(File file, String datatype) throws IOException, ParseException {
+	public int indexFile(File file, String datatype, boolean ignoreFirstLine) throws IOException, ParseException {
 		System.out.println("Indexing " + file.getCanonicalPath());
 
 		int numDocs = 0;
 
 		if(datatype.equalsIgnoreCase("albums")){
-			ArrayList<Document> receivedList = getAlbumDocuments(file);
+			ArrayList<Document> receivedList = getAlbumDocuments(file, ignoreFirstLine);
 			
 			// Checking if album already exists
 
@@ -338,13 +338,18 @@ public class Indexer {
 		return numDocs;
 	}
 
-	public ArrayList<Document> getAlbumDocuments(File file) throws FileNotFoundException, IOException {
+	public ArrayList<Document> getAlbumDocuments(File file, boolean ignoreFirstLine) throws FileNotFoundException, IOException {
 		ArrayList<Document> docList = new ArrayList<>();
 		// index file contents
 		FileReader fr = new FileReader(file);
 		CSVReader reader = new CSVReader(fr);
 		String[] currentRecord;
 		while((currentRecord = reader.readNext()) != null){ // id,singer_name,name,type,year
+			if(ignoreFirstLine){
+				ignoreFirstLine = false;
+				continue;
+			}
+
 			String[] currentRecordFields = {currentRecord[2], currentRecord[3], currentRecord[4], currentRecord[5]};
 			Document document = createSongDocument(currentRecordFields);
 

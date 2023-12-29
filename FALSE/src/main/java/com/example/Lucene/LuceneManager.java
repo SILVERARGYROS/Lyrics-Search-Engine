@@ -119,18 +119,18 @@ public class LuceneManager {
 		songIndexer.commit();
 	}
 
-	public void addAlbumFileToIndex(File file) throws IOException, ParseException{
-		albumIndexer.indexFile(file, "albums");
+	public void addAlbumFileToIndex(File file, boolean ignoreFirstLine) throws IOException, ParseException{
+		albumIndexer.indexFile(file, "albums", ignoreFirstLine);
 		albumIndexer.commit();
 	}
 
-	public void addSongFileToIndex(File file) throws IOException, ParseException{
-		songIndexer.indexFile(file, "songs");
+	public void addSongFileToIndex(File file, boolean ignoreFirstLine) throws IOException, ParseException{
+		songIndexer.indexFile(file, "songs", ignoreFirstLine);
 		songIndexer.commit();
 	}
 
-	public void addLyricsFileToIndex(File file) throws IOException, ParseException{
-		songIndexer.indexFile(file, "lyrics");
+	public void addLyricsFileToIndex(File file, boolean ignoreFirstLine) throws IOException, ParseException{
+		songIndexer.indexFile(file, "lyrics", ignoreFirstLine);
 		songIndexer.commit();
 	}
 
