@@ -58,8 +58,8 @@ public class LuceneManager {
 	
 	public void run(String[] args) throws IOException, ParseException, InterruptedException, ExecutionException{
 		initializeIndexes();
-		this.simpleSongSearch("swift AND taylor", "Artist"); // Here we enter the query for Search
-		getFromSource("SLEEPWALKING", "A-Z Lyrics");
+		// this.simpleSongSearch("swift AND taylor", "Artist"); // Here we enter the query for Search
+		// getFromSource("SLEEPWALKING", "A-Z Lyrics");
 		close();
 	}
 

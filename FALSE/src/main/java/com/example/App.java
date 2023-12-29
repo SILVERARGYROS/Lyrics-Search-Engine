@@ -31,7 +31,7 @@ public class App extends Application {
     private static LuceneManager luceneManager;
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("HomePage"), 640, 480);
+        scene = new Scene(loadFXML("AddSongOrAlbumSelectPage"), 840, 480);
         stage.setScene(scene);
         stage.show();
         luceneManager = new LuceneManager();
@@ -93,6 +93,27 @@ public class App extends Application {
     public static void switchToAddByGuessConfirmationPage() throws IOException{
         setRoot("AddByGuessConfirmationPage");
     }
+
+    public static void switchToSearchSimpleOrAdvancedSelectPage() throws IOException{
+        // setRoot("SearchSimpleOrAdvancedSelectPage");
+        System.out.println("DEBUG: SimpleOrAdvanced page button pressed.");
+    }
+
+    public static void switchToSearchSongOrAlbumSelectPage() throws IOException{
+        // setRoot("SearchSongOrAlbumSelectPage");
+        System.out.println("DEBUG: SongOrAlbum page button pressed.");
+    }
+
+    public static void switchToSettingsPage() throws IOException{
+        // setRoot("SettingsPage");
+        System.out.println("DEBUG: Settings page button pressed.");
+    }
+
+    public static void terminate() throws IOException{
+        // setRoot("SettingsPage");
+        System.out.println("DEBUG: Terminate button pressed.");
+    }
+
 
     public static void main(String[] args) {
         launch();

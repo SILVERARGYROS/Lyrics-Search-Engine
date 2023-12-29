@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FXControllers.FileAddPageController">
    <left>
       <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="480.0" prefWidth="140.0" spacing="50.0" style="-fx-background-color: #232323; -fx-background-radius: 6;" BorderPane.alignment="CENTER">
          <children>
@@ -278,7 +278,7 @@
                                                 </DropShadow>
                                              </effect>
                                           </Button>
-                                          <Button fx:id="home_button121" layoutX="151.0" layoutY="10.0" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #FFFFFF0D, #181818); -fx-background-radius: 0 6 6 0;" styleClass="normaltext" text="Album" textFill="WHITE" GridPane.columnIndex="2">
+                                          <Button fx:id="home_button121" layoutX="151.0" layoutY="10.0" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #FFFFFF0D, #181818); -fx-background-radius: 0,6,6,0;" styleClass="normaltext" text="Album" textFill="WHITE" GridPane.columnIndex="2">
                                              <effect>
                                                 <DropShadow blurType="ONE_PASS_BOX">
                                                    <color>
