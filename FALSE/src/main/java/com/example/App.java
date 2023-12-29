@@ -16,6 +16,7 @@ import com.example.Lucene.LuceneManager;
  * JavaFX App
  */
 public class App extends Application {
+    // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
     public static final String RESET = "\u001B[0m";
     public static final String BLACK = "\u001B[30m";
     public static final String RED = "\u001B[31m";

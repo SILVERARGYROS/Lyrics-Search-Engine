@@ -16,6 +16,8 @@ import java.util.concurrent.ExecutionException;
 
 
 public class LuceneManager {
+	// Settings 
+	LuceneSettings settings;
 	// Project path
 	private static String path; // Initialized on start
 
@@ -33,6 +35,9 @@ public class LuceneManager {
 	Indexer albumIndexer;
 
 	public LuceneManager() throws IOException{
+		// Settings
+		LuceneSettings settings = new LuceneSettings();
+
 		path = new File(".").getCanonicalPath();
 		System.out.println("PROJECT RUNNING PATH: " + path);
 

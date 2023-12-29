@@ -56,7 +56,7 @@ public class Indexer {
 
 		// https://stackoverflow.com/questions/35809035/how-to-get-positions-from-a-document-term-vector-in-lucene
 		fieldConf = new FieldType();
-		fieldConf.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+		fieldConf.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
 		fieldConf.setStoreTermVectors(true);
 		fieldConf.setStoreTermVectorOffsets(true);
 		fieldConf.setStoreTermVectorPayloads(true);
@@ -511,7 +511,7 @@ public class Indexer {
 		// find text block
 		String block;
 		try{
-			block = lyrics.split("\\[" + pattern + ":\\]")[1].split("\n\n")[0] + "\n\n";
+			block = lyrics.split("\\[" + pattern)[1].replace(":", "").replace("\\]", "").split("\n\n")[0].strip() + "\n\n";
 		}
 		catch(IndexOutOfBoundsException e){
 			System.out.println("tag not found, skipping...");
@@ -524,13 +524,13 @@ public class Indexer {
 		for(String occurance: occurances){
 			String tag = occurance.split("\\]")[0];
 			System.out.println(App.YELLOW + "DEBUG tag == " + tag + App.RESET);
-
-			if (tag.equalsIgnoreCase(pattern) || tag.equalsIgnoreCase(pattern + ":")){
+			
+			if (tag.contains(pattern) || tag.equalsIgnoreCase(pattern + ":") || tag.equalsIgnoreCase("repeat " + pattern) || tag.equalsIgnoreCase("repeat-" + pattern)){
 				lyrics = lyrics.replace("[" + tag + "]", block);
 			}	
-			else if(tag.contains(pattern) && (tag.contains("x") || tag.contains("X")))
+			else if(tag.contains(pattern) && (tag.contains("x")))
 			{
-				int iterations = Integer.parseInt(tag.replace(pattern, "").replace("x", "").replace("X", "").replace("(", "").replace(")", "").replace(" ", ""));
+				int iterations = Integer.parseInt(tag.replace(pattern, "").replace("x", "").replace("(", "").replace(")", "").replace(" ", ""));
 				String megaBlock = "";
 				for(int i = 0; i < iterations; i++){
 					megaBlock += block;
