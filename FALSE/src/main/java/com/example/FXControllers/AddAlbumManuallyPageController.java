@@ -6,8 +6,13 @@ import java.io.IOException;
 
 public class AddAlbumManuallyPageController {
 
-    // @FXML
-    // private void switchToSecondary() throws IOException {
-    //     App.setRoot("secondary");
-    // }
+    @FXML
+    private void switchToHomePage() throws IOException {
+        App.switchToHomePage();
+    }
+
+    @FXML
+    private void switchToSettingsPage() throws IOException {
+        App.switchToSettingsPage();
+    }
 }
