@@ -16,10 +16,11 @@ import java.util.concurrent.ExecutionException;
 
 
 public class LuceneManager {
-	// Settings 
-	LuceneSettings settings;
 	// Project path
 	private static String path; // Initialized on start
+	
+	// Settings path
+	private String settingsDir;
 
 	// Song variables
 	private static String songIndexDir = "";
@@ -35,11 +36,12 @@ public class LuceneManager {
 	Indexer albumIndexer;
 
 	public LuceneManager() throws IOException{
-		// Settings
-		LuceneSettings settings = new LuceneSettings();
-
 		path = new File(".").getCanonicalPath();
 		System.out.println("PROJECT RUNNING PATH: " + path);
+
+		// Initializing settings
+		settingsDir = path + "\\FALSE\\Data\\settings\\LuceneSettings.conf";
+		LuceneSettings.InstantiateSettings(settingsDir); 
 
 		// Initializing song file input path
 		songIndexDir = path + "\\FALSE\\Index\\songs";
@@ -57,7 +59,7 @@ public class LuceneManager {
 	public void run(String[] args) throws IOException, ParseException, InterruptedException, ExecutionException{
 		initializeIndexes();
 		this.simpleSongSearch("swift AND taylor", "Artist"); // Here we enter the query for Search
-		// getFromSource("SLEEPWALKING", "A-Z Lyrics");
+		getFromSource("SLEEPWALKING", "A-Z Lyrics");
 	}
 
 	public void initializeIndexes() throws IOException, ParseException {
@@ -280,5 +282,17 @@ public class LuceneManager {
 		System.out.println("Out of url method");
 
 		return document;
+	}
+
+	public void setMAX_SEARCH(int x){
+		LuceneSettings.setMAX_SEARCH(x);
+	}
+
+	public void setSIMILARITY_METHOD(int x){
+		LuceneSettings.setSIMILARITY_METHOD(x);
+	}
+
+	public void setSCRAPING_SOURCE(int x){
+		LuceneSettings.setSCRAPING_SOURCE(x);
 	}
 }

@@ -51,7 +51,7 @@ public class Indexer {
 
 		// create the indexer
 		IndexWriterConfig config = new IndexWriterConfig(new StandardAnalyzer());
-		config.setSimilarity(new CTFIDFSimilarity());
+		config.setSimilarity(LuceneSettings.getSIMILARITY_METHOD());
 		writer = new IndexWriter(indexDirectory, config);
 
 		// https://stackoverflow.com/questions/35809035/how-to-get-positions-from-a-document-term-vector-in-lucene
@@ -89,7 +89,6 @@ public class Indexer {
 		writer.commit();
 
 		return albumNumDocs;
-
 	}
 	
 	public int[] createSongIndex(String songDataDirPath, String lyricsDataDirPath, FileFilter filter) throws IOException, ParseException {
