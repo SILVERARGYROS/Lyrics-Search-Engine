@@ -14,4 +14,9 @@ public class AddSongManuallyPageController {
     private void switchToSettingsPage() throws IOException {
         App.switchToSettingsPage();
     }
+
+    @FXML
+    private void switchToAddSongOrAlbumSelectPage() throws IOException {
+        App.switchToAddSongOrAlbumSelectPage();
+    }
 }

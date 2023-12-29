@@ -15,19 +15,9 @@ public class FileAddPageController {
     private void switchToSettingsPage() throws IOException {
         App.switchToSettingsPage();
     }
-    
-    @FXML
-    private void switchToAddSongOrAlbumSelectPage() throws IOException {
-        App.switchToAddSongOrAlbumSelectPage();
-    }
 
     @FXML
-    private void switchToFileAddPage() throws IOException {
-        App.switchToFileAddPage();
-    }
-
-    @FXML
-    private void switchToAddByGuessPage() throws IOException {
-        App.switchToAddByGuessPage();
+    private void switchToAddPage() throws IOException {
+        App.switchToAddPage();
     }
 }

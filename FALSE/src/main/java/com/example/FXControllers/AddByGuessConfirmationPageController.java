@@ -15,4 +15,9 @@ public class AddByGuessConfirmationPageController {
     private void switchToSettingsPage() throws IOException {
         App.switchToSettingsPage();
     }
+
+    @FXML
+    private void switchToAddByGuessPage() throws IOException {
+        App.switchToAddByGuessPage();
+    }
 }

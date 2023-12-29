@@ -31,7 +31,7 @@ public class App extends Application {
     private static LuceneManager luceneManager;
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("AddSongOrAlbumSelectPage"), 840, 480);
+        scene = new Scene(loadFXML("HomePage"), 840, 480);
         stage.setScene(scene);
         stage.show();
         luceneManager = new LuceneManager();
@@ -71,7 +71,7 @@ public class App extends Application {
     }
 
     public static void switchToAddSongOrAlbumSelectPage() throws IOException{
-        setRoot("AddPage");
+        setRoot("AddSongOrAlbumSelectPage");
     }
 
     public static void switchToAddSongManuallyPage() throws IOException{
