@@ -29,7 +29,7 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <Label prefHeight="46.0" prefWidth="259.0" styleClass="songoralbumtitletext" text="Lorem ipsum dolor sit amet" textFill="#ff2490">
+                  <Label prefHeight="46.0" prefWidth="259.0" styleClass="songoralbumtitletext" textFill="#ff2490">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -37,12 +37,12 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <Label layoutX="39.0" layoutY="10.0" prefHeight="46.0" prefWidth="224.0" styleClass="songoralbumtitletext" text="Duis sollicitudin odio mauris" textFill="#989898">
+                  <Label layoutX="39.0" layoutY="10.0" prefHeight="46.0" prefWidth="224.0" styleClass="songoralbumtitletext" textFill="#989898">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </Label>
-                  <Label layoutX="359.0" layoutY="10.0" prefHeight="46.0" prefWidth="93.0" styleClass="songoralbumtitletext" text="0.934752" textFill="#989898">
+                  <Label layoutX="359.0" layoutY="10.0" prefHeight="46.0" prefWidth="93.0" styleClass="songoralbumtitletext" textFill="#989898">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -54,7 +54,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label prefHeight="36.0" prefWidth="673.0" style="-fx-background-color: #292929; -fx-background-radius: 0 0 6 6;" styleClass="smallesttext" text="Lyrics: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed bibendum dolor eleifend mauris mollis, non facilisis dolor viverra. Donec accumsan condimentum risus at faucibus. Phasellus ut molestie massa," textFill="#989898">
+      <Label prefHeight="36.0" prefWidth="673.0" style="-fx-background-color: #292929; -fx-background-radius: 0 0 6 6;" styleClass="smallesttext" textFill="#989898">
          <padding>
             <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
          </padding>

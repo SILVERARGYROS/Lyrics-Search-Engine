@@ -103,10 +103,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="426.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
+                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="567.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
                      <children>
                         <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -137,7 +134,7 @@
                               <Image url="@../media/Search%20Simple%20white.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="18.0" prefWidth="51.0" styleClass="normaltext" text="Search" textFill="WHITE">
+                        <Label prefHeight="20.0" prefWidth="50.0" styleClass="normaltext" text="Search" textFill="WHITE">
                            <font>
                               <Font name="High Tower Text" size="24.0" />
                            </font>
@@ -154,11 +151,32 @@
                            </HBox.margin>
                         </ImageView>
                         <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../media/Song%20white.png" />
+                           </image>
+                        </ImageView>
+                        <Label prefHeight="18.0" prefWidth="93.0" styleClass="normaltext" text="Search Songs" textFill="WHITE">
+                           <font>
+                              <Font name="High Tower Text" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="174.0" layoutY="20.0" opacity="0.2" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                           <image>
+                              <Image url="@../media/Arrow.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="197.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../media/Search%20Simple%20white.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="18.0" prefWidth="93.0" styleClass="normaltext" text="Simple Search" textFill="WHITE">
+                        <Label layoutX="225.0" layoutY="20.0" prefHeight="18.0" prefWidth="93.0" styleClass="normaltext" text="Simple Search" textFill="WHITE">
                            <font>
                               <Font name="High Tower Text" size="24.0" />
                            </font>
@@ -166,7 +184,7 @@
                               <Insets left="10.0" />
                            </HBox.margin>
                         </Label>
-                        <ImageView fitHeight="18.0" fitWidth="19.0" opacity="0.2" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="277.0" layoutY="20.0" opacity="0.2" pickOnBounds="true" preserveRatio="true" rotate="180.0">
                            <image>
                               <Image url="@../media/Arrow.png" />
                            </image>
@@ -174,12 +192,12 @@
                               <Insets right="5.0" />
                            </HBox.margin>
                         </ImageView>
-                        <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="300.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../media/Song%20file%20white.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="18.0" prefWidth="35.0" styleClass="normaltext" text="Song" textFill="WHITE">
+                        <Label layoutX="328.0" layoutY="20.0" prefHeight="18.0" prefWidth="35.0" styleClass="normaltext" text="Song" textFill="WHITE">
                            <font>
                               <Font name="High Tower Text" size="24.0" />
                            </font>
@@ -219,7 +237,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField editable="false" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" text="Shire Rhyme Revelry" />
+                              <TextField editable="false" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" />
                            </children>
                         </VBox>
                         <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="378.0">
@@ -232,7 +250,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField editable="false" prefHeight="41.0" prefWidth="385.0" styleClass="customtextfield" text="Yapper the Rapper">
+                              <TextField editable="false" prefHeight="41.0" prefWidth="385.0" styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -256,7 +274,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField editable="false" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" text="??">
+                              <TextField editable="false" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -280,7 +298,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextArea editable="false" prefHeight="200.0" prefWidth="690.0" promptText="Lyrics go here..." styleClass="customtextarea" text="&#10;(Verse 1)&#10;Yo, it's Yapper the Rapper, in the Shire so sweet,&#10;Hobbit feet tapping to this rhythmic beat.&#10;In Bag End, where the party's at,&#10;Yapper on the mic, and that's a fact.&#10;&#10;From the Green Dragon to the Misty Mountains tall,&#10;I'm the hobbit rapper, standing proud and small.&#10;With my rhymes so precious, like the One Ring,&#10;Yapper in the Shire, making hobbits swing.&#10;&#10;(Chorus)&#10;Yapper the Rapper, in the hobbit scene,&#10;Rhymes so clean, like a hobbit dream.&#10;From the hills to the valleys green,&#10;Yapper on the mic, living the hobbit dream.&#10;&#10;(Verse 2)&#10;In the Shire pubs, where the ale flows free,&#10;Yapper on the mic, raising a toast, you see.&#10;Bilbo and Frodo, join the hobbit crew,&#10;In this Middle-earth rap, I'm bringing it through.&#10;&#10;From second breakfast to elevenses, I rhyme,&#10;In the hobbit rhythm, where the sun does shine.&#10;With my verses like fireworks in the sky,&#10;Yapper in the Shire, let the hobbits fly.&#10;&#10;(Chorus)&#10;Yapper the Rapper, in the hobbit scene,&#10;Rhymes so clean, like a hobbit dream.&#10;From the hills to the valleys green,&#10;Yapper on the mic, living the hobbit dream.&#10;&#10;(Bridge)&#10;From Bag End to Rivendell's gleam,&#10;Yapper on the mic, in the hobbit theme.&#10;In the Shire's rhythm, hear the hobbit scream,&#10;This rap's a journey, like a hobbit's dream.&#10;&#10;(Verse 3)&#10;In the Misty Mountains, where the echoes roam,&#10;Yapper on the mic, finding a hobbit home.&#10;Through Mirkwood's shadow, and the Elven glow,&#10;In this hobbit rap, watch the stories grow.&#10;&#10;So, if you're a hobbit with a love for the rhyme,&#10;Join Yapper's fellowship, we're on a quest so prime.&#10;From the Shire to the Grey Havens gleam,&#10;Yapper the Rapper, in the hobbit dream.&#10;&#10;(Chorus)&#10;Yapper the Rapper, in the hobbit scene,&#10;Rhymes so clean, like a hobbit dream.&#10;From the hills to the valleys green,&#10;Yapper on the mic, living the hobbit dream.">
+                              <TextArea editable="false" prefHeight="200.0" prefWidth="690.0" styleClass="customtextarea">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>

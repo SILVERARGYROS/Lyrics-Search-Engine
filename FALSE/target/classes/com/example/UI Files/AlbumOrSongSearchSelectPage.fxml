@@ -104,7 +104,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="197.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
+                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="186.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -155,24 +155,40 @@
             </HBox>
             <VBox alignment="CENTER" prefHeight="461.0" prefWidth="697.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 12 12 0 0;" styleClass="options" text="Simple Search" textFill="WHITE">
+                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 12 12 0 0;" styleClass="options" text="Search Songs">
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
-                              <Image url="@../media/Search%20Simple%20white.png" />
+                              <Image url="@../media/Song.png" />
                            </image>
                         </ImageView>
                      </graphic>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <textFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop>
+                                 <color>
+                                    <Color red="0.9803921580314636" green="0.26274511218070984" blue="0.26274511218070984" />
+                                 </color>
+                              </Stop>
+                              <Stop offset="1.0">
+                                 <color>
+                                    <Color red="0.8745098114013672" green="0.4901960790157318" blue="0.7921568751335144" />
+                                 </color>
+                              </Stop>
+                           </stops>
+                        </LinearGradient>
+                     </textFill>
                   </Button>
                   <Line endX="255.0" startX="-100.0" stroke="#2b2b2b" />
-                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 0 0 12 12;" styleClass="options" text="Advanced Search">
+                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 0 0 12 12;" styleClass="options" text="Search Albums">
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
-                              <Image url="@../media/Search%20Advanced.png" />
+                              <Image url="@../media/Album.png" />
                            </image>
                            <viewport>
                               <Rectangle2D />
@@ -184,12 +200,12 @@
                            <stops>
                               <Stop>
                                  <color>
-                                    <Color red="0.3450980484485626" green="0.9215686321258545" blue="0.3333333432674408" />
+                                    <Color red="0.26274511218070984" green="0.7647058963775635" blue="0.9803921580314636" />
                                  </color>
                               </Stop>
                               <Stop offset="1.0">
                                  <color>
-                                    <Color green="0.43529412150382996" blue="0.4627451002597809" />
+                                    <Color red="0.4901960790157318" green="0.8745098114013672" blue="0.5058823823928833" />
                                  </color>
                               </Stop>
                            </stops>
