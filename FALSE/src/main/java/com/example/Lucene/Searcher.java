@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -21,7 +22,6 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.queryparser.xml.builders.BooleanQueryBuilder;
 
 public class Searcher {
 	IndexSearcher indexSearcher;
@@ -52,21 +52,17 @@ public class Searcher {
 		return queryParser.parse(searchQuery);
 	}
 
-	public Query constructAdvancedQuery(String[] searchQuery, String[] queryType) throws ParseException{
+	public Query constructCombinedQuery(String[] querySearches, String[] queryFields, BooleanClause.Occur occurance) throws ParseException{
 		ArrayList<Query> queryList = new ArrayList<>();
-		for(int i = 0; i < queryType.length; i++){
-			String currentField = "";
-			if(!(searchQuery[i].strip().equals(""))){
-				currentField = searchQuery[i];
-			}
-			Query currentQuery = new QueryParser(queryType[i], new StandardAnalyzer()).parse("\"" + searchQuery[i] + "\"");
+		for(int i = 0; i < queryFields.length; i++){
+			Query currentQuery = new QueryParser(queryFields[i], new StandardAnalyzer()).parse("\"" + querySearches[i] + "\"");
 			queryList.add(currentQuery);
 		}
 
 		// Dynamically construct the query using builder;
 		BooleanQuery.Builder builder = new BooleanQuery.Builder();
 		for(Query query: queryList){
-			builder.add(query, Occur.MUST);
+			builder.add(query, occurance);
 		}
 		return builder.build();
 

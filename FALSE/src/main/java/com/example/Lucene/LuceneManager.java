@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.BooleanClause.Occur;
 
 import java.util.concurrent.ExecutionException;
 
@@ -181,7 +183,7 @@ public class LuceneManager {
 		Searcher searcher = new Searcher(indexDir);
 
 		// Construct query
-		Query query = searcher.constructAdvancedQuery(searchQuery, queryType);
+		Query query = searcher.constructCombinedQuery(searchQuery, queryType, Occur.MUST);
 
 		// Execute query
 		TopDocs hits = searcher.search(query);
@@ -205,6 +207,60 @@ public class LuceneManager {
 		// Return results
 		return documents;
 	}
+
+	public Document[] relatedSongSearch(Document document) throws IOException, ParseException{
+		return relatedSearch(document, songIndexDir);
+	}
+
+	public Document[] relatedAlbumSearch(Document document) throws IOException, ParseException{
+		return relatedSearch(document, albumIndexDir);
+	}
+
+	public Document[] relatedSearch(Document document, String indexDir) throws IOException, ParseException{
+
+		// Start timer
+		long startTime = System.currentTimeMillis();
+
+		// instantiate searcher
+		Searcher searcher = new Searcher(indexDir);
+
+		// Get field names and searhes
+		String[] fieldNames = new String[]{};
+		String[] fieldSearches = new String[]{};
+		
+		int i = 0;
+		for(IndexableField field: document.getFields(indexDir)){
+			fieldNames[i] = (field.name());
+			fieldSearches[i] = (field.stringValue());
+			i++;
+		}
+
+		// Construct query
+		Query query = searcher.constructCombinedQuery(fieldNames, fieldSearches, Occur.MUST);
+
+		// Execute query
+		TopDocs hits = searcher.search(query);
+
+		// Get result documents
+		Document[] documents = searcher.getDocuments(hits);
+
+		// Close searcher
+		searcher.close();
+		
+		// Stop timer
+		long endTime = System.currentTimeMillis();
+		System.out.println(hits.totalHits + " documents found. Time :" + (endTime - startTime));
+		
+		// Score Debug
+		for(ScoreDoc scoreDoc : hits.scoreDocs) {
+			System.out.println("SCORE DEBUG == " + scoreDoc.score);
+			// System.out.println("File: " + doc.get(LuceneConstants.FILE_PATH));
+		}
+
+		return documents;
+	}
+
+
 	
 	// https://reintech.io/blog/java-web-scraping-extracting-data-from-websites
 	// https://github.com/jagrosh/JLyrics/blob/master/README.md
