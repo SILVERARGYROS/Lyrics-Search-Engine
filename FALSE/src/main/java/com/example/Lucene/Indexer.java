@@ -29,6 +29,8 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+
+import com.example.App;
 import com.opencsv.CSVReader;
 
 public class Indexer {
@@ -53,6 +55,7 @@ public class Indexer {
 		writer = new IndexWriter(indexDirectory, config);
 
 		// https://stackoverflow.com/questions/35809035/how-to-get-positions-from-a-document-term-vector-in-lucene
+		fieldConf = new FieldType();
 		fieldConf.setIndexOptions( IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
 		fieldConf.setStoreTermVectors(true);
 		fieldConf.setStoreTermVectorOffsets(true);
@@ -432,7 +435,7 @@ public class Indexer {
 		// index Song Name
 		Field songNameField = new Field("Song", fields[2].toLowerCase(), fieldConf);
 		// index lyrics
-		Field lyricsField = new Field("Lyrics", fields[3].toLowerCase(), fieldConf);
+		Field lyricsField = new Field("Lyrics", constructLyricsFieldString(fields[3].toLowerCase()), fieldConf);
 
 		Document document = new Document();
 		document.add(generalField);
@@ -489,5 +492,55 @@ public class Indexer {
 			generalString += field + "_";
 		}
 		return generalString;
+	}
+
+	public String constructLyricsFieldString(String lyrics){
+		lyrics = lyricsFilter(lyrics, "pre chorus");
+		lyrics = lyricsFilter(lyrics, "pre-chorus");
+		lyrics = lyricsFilter(lyrics, "chorus");
+		lyrics = lyricsFilter(lyrics, "post chorus");
+		lyrics = lyricsFilter(lyrics, "post-chorus");
+		return lyrics;
+	}
+
+	public String lyricsFilter(String lyrics, String pattern){
+		// Debug 
+		System.out.println(App.BLUE + "Lyrics: \n" + lyrics + App.RESET);
+		System.out.println(App.BLUE + "pattern == " + pattern + App.RESET);
+		
+		// find text block
+		String block;
+		try{
+			block = lyrics.split("\\[" + pattern + ":\\]")[1].split("\n\n")[0] + "\n\n";
+		}
+		catch(IndexOutOfBoundsException e){
+			System.out.println("tag not found, skipping...");
+			return lyrics;
+		}
+		lyrics = lyrics.replace(block, "");
+
+		// find occurances
+		String[] occurances = lyrics.split("\\[");
+		for(String occurance: occurances){
+			String tag = occurance.split("\\]")[0];
+			System.out.println(App.YELLOW + "DEBUG tag == " + tag + App.RESET);
+
+			if (tag.equalsIgnoreCase(pattern) || tag.equalsIgnoreCase(pattern + ":")){
+				lyrics = lyrics.replace("[" + tag + "]", block);
+			}	
+			else if(tag.contains(pattern) && (tag.contains("x") || tag.contains("X")))
+			{
+				int iterations = Integer.parseInt(tag.replace(pattern, "").replace("x", "").replace("X", "").replace("(", "").replace(")", "").replace(" ", ""));
+				String megaBlock = "";
+				for(int i = 0; i < iterations; i++){
+					megaBlock += block;
+				}
+				lyrics = lyrics.replace("[" + tag + "]", megaBlock);
+			}
+		}
+
+		// Debug 
+		System.out.println(App.RED + "Lyrics: \n" + lyrics + App.RESET);
+		return lyrics;
 	}
 }
