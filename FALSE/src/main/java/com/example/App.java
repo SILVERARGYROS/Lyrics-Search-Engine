@@ -31,7 +31,7 @@ public class App extends Application {
     private static LuceneManager luceneManager;
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("HomePage"), 640, 480);
         stage.setScene(scene);
         stage.show();
         luceneManager = new LuceneManager();
@@ -57,8 +57,41 @@ public class App extends Application {
     }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        System.out.println("DEBUG " + App.class.getCanonicalName());
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("UI files/" + fxml + ".fxml"));
         return fxmlLoader.load();
+    }
+
+    public static void switchToHomePage() throws IOException{
+        setRoot("HomePage");
+    }
+
+    public static void switchToAddPage() throws IOException{
+        setRoot("AddPage");
+    }
+
+    public static void switchToAddSongOrAlbumSelectPage() throws IOException{
+        setRoot("AddPage");
+    }
+
+    public static void switchToAddSongManuallyPage() throws IOException{
+        setRoot("AddSongManuallyPage");
+    }
+
+    public static void switchToAddAlbumManuallyPage() throws IOException{
+        setRoot("AddAlbumManuallyPage");
+    }
+
+    public static void switchToFileAddPage() throws IOException{
+        setRoot("FileAddPage");
+    }
+
+    public static void switchToAddByGuessPage() throws IOException{
+        setRoot("AddByGuessPage");
+    }
+
+    public static void switchToAddByGuessConfirmationPage() throws IOException{
+        setRoot("AddByGuessConfirmationPage");
     }
 
     public static void main(String[] args) {
