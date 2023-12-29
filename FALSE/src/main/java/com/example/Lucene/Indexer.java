@@ -2,6 +2,7 @@ package com.example.Lucene;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -68,7 +69,7 @@ public class Indexer {
 		writer.commit();
 	}
 
-	public int createAlbumIndex(String dataDirPath, FileFilter filter) throws IOException {
+	public int createAlbumIndex(String dataDirPath, FileFilter filter) throws IOException, ParseException {
 
 		// Committing an empty document to initialize the index 
 		writer.addDocument(new Document());
@@ -88,7 +89,7 @@ public class Indexer {
 
 	}
 	
-	public int[] createSongIndex(String songDataDirPath, String lyricsDataDirPath, FileFilter filter) throws IOException {
+	public int[] createSongIndex(String songDataDirPath, String lyricsDataDirPath, FileFilter filter) throws IOException, ParseException {
 
 		int songNumDocs = 0;
 		int lyricsNumDocs = 0;
@@ -149,7 +150,7 @@ public class Indexer {
 		return numDocs;
 	}
 
-	public int indexFile(File file, String datatype) throws IOException {
+	public int indexFile(File file, String datatype) throws IOException, ParseException {
 		System.out.println("Indexing " + file.getCanonicalPath());
 
 		int numDocs = 0;
@@ -164,37 +165,32 @@ public class Indexer {
 			Searcher searcher = new Searcher(this.indexDirectoryPath);
 
 			for(Document currentDocument: receivedList){
-
-				try{
-					// 2. Create TermQueries for every common field
-					Query artistNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
-					Query albumNameQuery = new QueryParser("Album", new StandardAnalyzer()).parse("\"" + currentDocument.get("Album") + "\"");
-					Query albumTypeQuery = new QueryParser("Album_Type", new StandardAnalyzer()).parse("\"" + currentDocument.get("Album_Type") + "\"");
-					Query albumYearQuery = new QueryParser("Year", new StandardAnalyzer()).parse("\"" + currentDocument.get("Year") + "\"");
+				// 2. Create TermQueries for every common field
+				Query artistNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
+				Query albumNameQuery = new QueryParser("Album", new StandardAnalyzer()).parse("\"" + currentDocument.get("Album") + "\"");
+				Query albumTypeQuery = new QueryParser("Album_Type", new StandardAnalyzer()).parse("\"" + currentDocument.get("Album_Type") + "\"");
+				Query albumYearQuery = new QueryParser("Year", new StandardAnalyzer()).parse("\"" + currentDocument.get("Year") + "\"");
+				
+				// 3. Build booleanQuery
+				BooleanQuery booleanQuery = new BooleanQuery.Builder()
+				.add(artistNameQuery, Occur.MUST)
+				.add(albumNameQuery, Occur.MUST)
+				.add(albumTypeQuery, Occur.MUST)
+				.add(albumYearQuery, Occur.MUST)
+				.build();
 					
-					// 3. Build booleanQuery
-					BooleanQuery booleanQuery = new BooleanQuery.Builder()
-					.add(artistNameQuery, Occur.MUST)
-					.add(albumNameQuery, Occur.MUST)
-					.add(albumTypeQuery, Occur.MUST)
-					.add(albumYearQuery, Occur.MUST)
-					.build();
-						
-					// 4. Check if document already exists and act accordingly 
-					TopDocs results = searcher.search(booleanQuery);					
-					System.out.println("TotalHits == " + results.totalHits.value);
-					if (results.scoreDocs.length == 0){	// no match found
-						writer.addDocument(currentDocument);
-						// writer.commit(); // commit method too expensive to be run in each iteration
-						numDocs++;
-					}
-					else{ // found matching document(s)
-						// If there is a perfect match then  
-						// there is no need to add the document again.
-						continue;
-					}
-				}catch(ParseException e){
-					System.out.println("Parse incorrect. Please raise error flag/UI. EXCEPTION: " + e);
+				// 4. Check if document already exists and act accordingly 
+				TopDocs results = searcher.search(booleanQuery);					
+				System.out.println("TotalHits == " + results.totalHits.value);
+				if (results.scoreDocs.length == 0){	// no match found
+					writer.addDocument(currentDocument);
+					// writer.commit(); // commit method too expensive to be run in each iteration
+					numDocs++;
+				}
+				else{ // found matching document(s)
+					// If there is a perfect match then  
+					// there is no need to add the document again.
+					continue;
 				}
 			}
 		}
@@ -214,53 +210,49 @@ public class Indexer {
 				// System.out.println("DEBUG currentDocument Artist == " + currentDocument.get("Artist"));
 				// System.out.println("DEBUG currentDocument song_href == " + currentDocument.get("Song_Link"));
 
-				try{
-					// 2. Create TermQueries for every common field
-					Query songNameQuery = new QueryParser("Song", new StandardAnalyzer()).parse("\"" + currentDocument.get("Song") + "\"");
-					Query albumNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
-		
-					// DEBUG
-					// System.out.println("DEBUG songNameQuery song_name == " + songNameQuery);
-					// System.out.println("DEBUG albumNameQuery Artist == " + albumNameQuery);
+				// 2. Create TermQueries for every common field
+				Query songNameQuery = new QueryParser("Song", new StandardAnalyzer()).parse("\"" + currentDocument.get("Song") + "\"");
+				Query albumNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
+	
+				// DEBUG
+				// System.out.println("DEBUG songNameQuery song_name == " + songNameQuery);
+				// System.out.println("DEBUG albumNameQuery Artist == " + albumNameQuery);
 
 
-					// 3. Build booleanQuery
-					BooleanQuery booleanQuery = new BooleanQuery.Builder()
-					.add(songNameQuery, Occur.MUST)
-					.add(albumNameQuery, Occur.MUST)
-					.build();
-						
-					// 4. Check if document already exists and act accordingly 
-					TopDocs results = searcher.search(booleanQuery);					
-					System.out.println("TotalHits == " + results.totalHits.value);
-					if (results.scoreDocs.length == 0){	// no match found
-						writer.addDocument(currentDocument);
-					}
-					else{ // found matching document(s)
-						System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
-		
-						// Get first matching document
-						System.out.println("DEBUG TFIDF SCORE == " + results.scoreDocs[0].score);
-						Document matchingDocument = searcher.getDocument(results.scoreDocs[0]);
-		
-						// Delete old document(s)
-						writer.deleteDocuments(booleanQuery);
-						
-						// Construct and add new (/corrected) document 
-						Document correctedDocument = new Document();
-						correctedDocument.add(matchingDocument.getField("General"));
-						correctedDocument.add(currentDocument.getField("Artist"));
-						correctedDocument.add(currentDocument.getField("Song_Link"));
-						correctedDocument.add(matchingDocument.getField("Song"));
-						correctedDocument.add(matchingDocument.getField("Lyrics"));
-
-						writer.addDocument(correctedDocument);
-					}
-					// writer.commit(); // commit method too expensive to be run in each iteration
-					numDocs++;
-				}catch(ParseException e){
-					System.out.println("Parse incorrect. Please raise error flag/UI. EXCEPTION: " + e);
+				// 3. Build booleanQuery
+				BooleanQuery booleanQuery = new BooleanQuery.Builder()
+				.add(songNameQuery, Occur.MUST)
+				.add(albumNameQuery, Occur.MUST)
+				.build();
+					
+				// 4. Check if document already exists and act accordingly 
+				TopDocs results = searcher.search(booleanQuery);					
+				System.out.println("TotalHits == " + results.totalHits.value);
+				if (results.scoreDocs.length == 0){	// no match found
+					writer.addDocument(currentDocument);
 				}
+				else{ // found matching document(s)
+					System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
+	
+					// Get first matching document
+					System.out.println("DEBUG TFIDF SCORE == " + results.scoreDocs[0].score);
+					Document matchingDocument = searcher.getDocument(results.scoreDocs[0]);
+	
+					// Delete old document(s)
+					writer.deleteDocuments(booleanQuery);
+					
+					// Construct and add new (/corrected) document 
+					Document correctedDocument = new Document();
+					correctedDocument.add(matchingDocument.getField("General"));
+					correctedDocument.add(currentDocument.getField("Artist"));
+					correctedDocument.add(currentDocument.getField("Song_Link"));
+					correctedDocument.add(matchingDocument.getField("Song"));
+					correctedDocument.add(matchingDocument.getField("Lyrics"));
+
+					writer.addDocument(correctedDocument);
+				}
+				// writer.commit(); // commit method too expensive to be run in each iteration
+				numDocs++;
 			}
 		}
 		else if (datatype.equalsIgnoreCase("lyrics")){
@@ -280,53 +272,48 @@ public class Indexer {
 				// System.out.println("DEBUG currentDocument Artist == " + currentDocument.get("Artist"));
 				// System.out.println("DEBUG currentDocument song_href == " + currentDocument.get("Song_Link"));
 
-				try{
-
-					// 2. Create TermQueries for every common field
-					Query songNameQuery = new QueryParser("Song", new StandardAnalyzer()).parse("\"" + currentDocument.get("Song") + "\"");
-					Query albumNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
-		
-					// DEBUG
-					// System.out.println("DEBUG songNameQuery song_name == " + songNameQuery);
-					// System.out.println("DEBUG albumNameQuery Artist == " + albumNameQuery);
+				// 2. Create TermQueries for every common field
+				Query songNameQuery = new QueryParser("Song", new StandardAnalyzer()).parse("\"" + currentDocument.get("Song") + "\"");
+				Query albumNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
+	
+				// DEBUG
+				// System.out.println("DEBUG songNameQuery song_name == " + songNameQuery);
+				// System.out.println("DEBUG albumNameQuery Artist == " + albumNameQuery);
 
 
-					// 3. Build booleanQuery
-					BooleanQuery booleanQuery = new BooleanQuery.Builder()
-					.add(songNameQuery, Occur.MUST)
-					.add(albumNameQuery, Occur.MUST)
-					.build();
-						
-					// 4. Check if document already exists and act accordingly 
-					TopDocs results = searcher.search(booleanQuery);					
-					System.out.println("TotalHits == " + results.totalHits.value);
-					if (results.scoreDocs.length == 0){	// no match found
-						writer.addDocument(currentDocument);
-					}
-					else{ // found matching document(s)
-						System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
-		
-						// Get first matching document
-						Document matchingDocument = searcher.getDocument(results.scoreDocs[0]);
-		
-						// Delete old document(s)
-						writer.deleteDocuments(booleanQuery);
-						
-						// Construct and add new (/corrected) document 
-						Document correctedDocument = new Document();
-						correctedDocument.add(currentDocument.getField("General"));
-						correctedDocument.add(matchingDocument.getField("Artist"));
-						correctedDocument.add(matchingDocument.getField("Song_Link"));
-						correctedDocument.add(currentDocument.getField("Song"));
-						correctedDocument.add(currentDocument.getField("Lyrics"));
-
-						writer.addDocument(correctedDocument);
-					}
-					// writer.commit(); // commit method too expensive to be run in each iteration
-					numDocs++;
-				}catch(ParseException e){
-					System.out.println("Parse incorrect. Please raise error flag/UI. EXCEPTION: " + e);
+				// 3. Build booleanQuery
+				BooleanQuery booleanQuery = new BooleanQuery.Builder()
+				.add(songNameQuery, Occur.MUST)
+				.add(albumNameQuery, Occur.MUST)
+				.build();
+					
+				// 4. Check if document already exists and act accordingly 
+				TopDocs results = searcher.search(booleanQuery);					
+				System.out.println("TotalHits == " + results.totalHits.value);
+				if (results.scoreDocs.length == 0){	// no match found
+					writer.addDocument(currentDocument);
 				}
+				else{ // found matching document(s)
+					System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
+	
+					// Get first matching document
+					Document matchingDocument = searcher.getDocument(results.scoreDocs[0]);
+	
+					// Delete old document(s)
+					writer.deleteDocuments(booleanQuery);
+					
+					// Construct and add new (/corrected) document 
+					Document correctedDocument = new Document();
+					correctedDocument.add(currentDocument.getField("General"));
+					correctedDocument.add(matchingDocument.getField("Artist"));
+					correctedDocument.add(matchingDocument.getField("Song_Link"));
+					correctedDocument.add(currentDocument.getField("Song"));
+					correctedDocument.add(currentDocument.getField("Lyrics"));
+
+					writer.addDocument(correctedDocument);
+				}
+				// writer.commit(); // commit method too expensive to be run in each iteration
+				numDocs++;
 			}
 		}
 		else{
@@ -336,56 +323,44 @@ public class Indexer {
 		return numDocs;
 	}
 
-	public ArrayList<Document> getAlbumDocuments(File file) {
+	public ArrayList<Document> getAlbumDocuments(File file) throws FileNotFoundException, IOException {
 		ArrayList<Document> docList = new ArrayList<>();
-		try {
-			// index file contents
-			FileReader fr = new FileReader(file);
-			CSVReader reader = new CSVReader(fr);
-			String[] currentRecord;
-			while((currentRecord = reader.readNext()) != null){ // id,singer_name,name,type,year
-				String[] currentRecordFields = {currentRecord[2], currentRecord[3], currentRecord[4], currentRecord[5]};
-				Document document = createSongDocument(currentRecordFields);
+		// index file contents
+		FileReader fr = new FileReader(file);
+		CSVReader reader = new CSVReader(fr);
+		String[] currentRecord;
+		while((currentRecord = reader.readNext()) != null){ // id,singer_name,name,type,year
+			String[] currentRecordFields = {currentRecord[2], currentRecord[3], currentRecord[4], currentRecord[5]};
+			Document document = createSongDocument(currentRecordFields);
 
-				docList.add(document);
-			}
-			reader.close();
-			fr.close();
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("File Corrupted. Please raise error flag/UI.");
-		} catch (IOException e){
-			System.out.println("File not found. Please raise error flag/UI.");
+			docList.add(document);
 		}
+		reader.close();
+		fr.close();
 		return docList;
 	}
 
-	public ArrayList<Document> getSongDocuments(File file) {
+	public ArrayList<Document> getSongDocuments(File file) throws FileNotFoundException, IOException {
 		ArrayList<Document> docList = new ArrayList<>();
-		try {
-			Document document = null;
-			// index file contents
-			FileReader fr = new FileReader(file);
-			CSVReader reader = new CSVReader(fr);
-			String[] currentRecord;
-			while((currentRecord = reader.readNext()) != null){ // Song_ID,singer_name (Artist),song_name,song_href
-				
-				// Mapping the fields to create document
-				String[] currentRecordFields = {currentRecord[2], currentRecord[4], currentRecord[3], "not_defined"};
-				document = createSongDocument(currentRecordFields);
+		Document document = null;
+		// index file contents
+		FileReader fr = new FileReader(file);
+		CSVReader reader = new CSVReader(fr);
+		String[] currentRecord;
+		while((currentRecord = reader.readNext()) != null){ // Song_ID,singer_name (Artist),song_name,song_href
+			
+			// Mapping the fields to create document
+			String[] currentRecordFields = {currentRecord[2], currentRecord[4], currentRecord[3], "not_defined"};
+			document = createSongDocument(currentRecordFields);
 
-				System.out.println("LOOP DEBUGU documentfield Song == " + document.get("Song"));
-				System.out.println("LOOP DEBUGU documentfield Artist == " + document.get("Artist"));
-				System.out.println("LOOP DEBUGU documentfield Song_Link == " + document.get("Song_Link"));
+			System.out.println("LOOP DEBUGU documentfield Song == " + document.get("Song"));
+			System.out.println("LOOP DEBUGU documentfield Artist == " + document.get("Artist"));
+			System.out.println("LOOP DEBUGU documentfield Song_Link == " + document.get("Song_Link"));
 
-				docList.add(document);
-			}
-			reader.close();
-			fr.close();
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("File Corrupted. Please raise error flag/UI.");
-		} catch (IOException e){
-			System.out.println("File not found. Please raise error flag/UI.");
+			docList.add(document);
 		}
+		reader.close();
+		fr.close();
 		return docList;
 	}
 

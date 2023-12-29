@@ -71,13 +71,13 @@ public class Searcher {
 	public TopDocs search(String searchQuery) throws IOException, ParseException {
 		query = queryParser.parse(searchQuery);
 		System.out.println("query: " + query.toString());
-		return indexSearcher.search(query, LuceneConstants.MAX_SEARCH);
+		return indexSearcher.search(query, LuceneSettings.MAX_SEARCH);
 	}
 
 	public TopDocs search(Query searchQuery) throws IOException, ParseException {
 		query = searchQuery;
 		System.out.println("query: " + query.toString());
-		return indexSearcher.search(query, LuceneConstants.MAX_SEARCH);
+		return indexSearcher.search(query, LuceneSettings.MAX_SEARCH);
 	}
 
 	public Document[] getDocuments(TopDocs topDocs) throws CorruptIndexException, IOException {

@@ -55,7 +55,7 @@ public class LuceneManager {
 		// getFromSource("SLEEPWALKING", "A-Z Lyrics");
 	}
 
-	public void initializeIndexes() throws IOException {
+	public void initializeIndexes() throws IOException, ParseException {
 		createAlbumIndex(albumDataDir);
 		createSongIndex(songDataDir, lyricsDataDir);
 	}
@@ -64,14 +64,14 @@ public class LuceneManager {
 		
 	}
 
-	private void createAlbumIndex(String dataDir) throws IOException {
+	private void createAlbumIndex(String dataDir) throws IOException, ParseException {
 		long startTime = System.currentTimeMillis();
 		int numIndexed = albumIndexer.createAlbumIndex(dataDir, new TextFileFilter());
 		long endTime = System.currentTimeMillis();
 		System.out.println(numIndexed + " Album(s) indexed, time taken: " + (endTime-startTime) + " ms");
 	}
 
-	private void createSongIndex(String songDataDir, String lyricsDataDir) throws IOException {
+	private void createSongIndex(String songDataDir, String lyricsDataDir) throws IOException, ParseException {
 		long startTime = System.currentTimeMillis();
 		int numIndexed[] = songIndexer.createSongIndex(songDataDir, lyricsDataDir, new TextFileFilter());
 		long endTime = System.currentTimeMillis();
@@ -111,17 +111,17 @@ public class LuceneManager {
 		songIndexer.commit();
 	}
 
-	public void addAlbumFileToIndex(File file) throws IOException{
+	public void addAlbumFileToIndex(File file) throws IOException, ParseException{
 		albumIndexer.indexFile(file, "albums");
 		albumIndexer.commit();
 	}
 
-	public void addSongFileToIndex(File file) throws IOException{
+	public void addSongFileToIndex(File file) throws IOException, ParseException{
 		songIndexer.indexFile(file, "songs");
 		songIndexer.commit();
 	}
 
-	public void addLyricsFileToIndex(File file) throws IOException{
+	public void addLyricsFileToIndex(File file) throws IOException, ParseException{
 		songIndexer.indexFile(file, "lyrics");
 		songIndexer.commit();
 	}
@@ -224,7 +224,7 @@ public class LuceneManager {
 		// instantiate searcher
 		Searcher searcher = new Searcher(indexDir);
 
-		// Get field names and searhes
+		// Get field names and searches
 		String[] fieldNames = new String[]{};
 		String[] fieldSearches = new String[]{};
 		
