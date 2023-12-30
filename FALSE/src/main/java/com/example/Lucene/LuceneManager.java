@@ -70,7 +70,7 @@ public class LuceneManager {
 
 	public void initializeIndexes() throws IOException, ParseException {
 		createAlbumIndex(albumDataDir);
-		createSongIndex(songDataDir, lyricsDataDir);
+		// createSongIndex(songDataDir, lyricsDataDir);
 	}
 
 	public void close(){

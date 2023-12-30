@@ -355,7 +355,7 @@ public class Indexer {
 			}
 
 			String[] currentRecordFields = {currentRecord[2], currentRecord[3], currentRecord[4], currentRecord[5]};
-			Document document = createSongDocument(currentRecordFields);
+			Document document = createAlbumDocument(currentRecordFields);
 
 			docList.add(document);
 		}

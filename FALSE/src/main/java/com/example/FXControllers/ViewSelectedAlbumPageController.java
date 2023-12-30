@@ -29,6 +29,9 @@ public class ViewSelectedAlbumPageController {
     private TextField yearTextField;
     
     @FXML
+    private Button editButton;
+
+    @FXML
     private Button similarityButton;
     
 
@@ -39,6 +42,36 @@ public class ViewSelectedAlbumPageController {
         artistTextField.setText(document.get("Artist"));
         typeTextField.setText(document.get("Album_Type"));
         yearTextField.setText(document.get("Year"));
+        
+        albumTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue != newValue) {
+                editButton.setDisable(false);
+            }
+        });
+
+        artistTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue != newValue) {
+                editButton.setDisable(false);
+            }
+        });
+
+        typeTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue != newValue) {
+                editButton.setDisable(false);
+            }
+        });
+
+        yearTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue != newValue) {
+                editButton.setDisable(false);
+            }
+        });
+        
+        editButton.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue != newValue) {
+                editButton.setDisable(false);
+            }
+        });
     }
 
 
