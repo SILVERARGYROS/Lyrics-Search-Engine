@@ -28,7 +28,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </ImageView>
-            <Button fx:id="home_button" mnemonicParsing="false" onAction="#switchToHomePage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
+            <Button fx:id="home_button" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -52,7 +52,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" onAction="#switchToSettingsPage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
+            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -83,7 +83,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="735.0" VBox.vgrow="NEVER">
                <children>
-                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#switchToAddByGuessPage" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -98,7 +98,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button contentDisplay="GRAPHIC_ONLY" disable="true" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: #232323; -fx-background-radius: 30;" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" disable="true" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
                            <image>
@@ -110,10 +110,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <HBox alignment="CENTER_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="426.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
+                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="497.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
                      <children>
                         <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -141,34 +138,10 @@
                         </ImageView>
                         <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../media/add.png" />
+                              <Image url="@../media/Search%20Simple%20white.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="20.0" prefWidth="33.0" styleClass="normaltext" text="Add" textFill="WHITE">
-                           <font>
-                              <Font name="High Tower Text" size="24.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="89.0" layoutY="20.0" opacity="0.2" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-                           <image>
-                              <Image url="@../media/Arrow.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../media/Badge%20white.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </ImageView>
-                        <Label prefHeight="18.0" prefWidth="91.0" styleClass="normaltext" text="Add by Guess" textFill="WHITE">
+                        <Label prefHeight="20.0" prefWidth="50.0" styleClass="normaltext" text="Search" textFill="WHITE">
                            <font>
                               <Font name="High Tower Text" size="24.0" />
                            </font>
@@ -186,10 +159,31 @@
                         </ImageView>
                         <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../media/Checkmark.png" />
+                              <Image url="@../media/Song%20white.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="18.0" prefWidth="59.0" styleClass="normaltext" text="Confirm" textFill="WHITE">
+                        <Label prefHeight="18.0" prefWidth="93.0" styleClass="normaltext" text="Search Songs" textFill="WHITE">
+                           <font>
+                              <Font name="High Tower Text" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="174.0" layoutY="20.0" opacity="0.2" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                           <image>
+                              <Image url="@../media/Arrow.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="197.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../media/Search%20Simple%20white.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="225.0" layoutY="20.0" prefHeight="18.0" prefWidth="113.0" styleClass="normaltext" text="Advanced Search" textFill="WHITE">
                            <font>
                               <Font name="High Tower Text" size="24.0" />
                            </font>
@@ -209,7 +203,7 @@
             </HBox>
             <VBox alignment="CENTER_LEFT" prefHeight="346.0" prefWidth="740.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Label prefHeight="23.0" prefWidth="202.0" styleClass="mainmenubuttontext" text="Review your results" textFill="WHITE">
+                  <Label prefHeight="23.0" prefWidth="202.0" styleClass="mainmenubuttontext" text="Advanced Search" textFill="WHITE">
                      <font>
                         <Font name="High Tower Text" size="24.0" />
                      </font>
@@ -229,7 +223,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="songTextField" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" />
+                              <TextField prefHeight="41.0" prefWidth="100.0" promptText="Type here..." styleClass="customtextfield" />
                            </children>
                         </VBox>
                         <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="378.0">
@@ -242,7 +236,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="artistTextField" prefHeight="41.0" prefWidth="385.0" styleClass="customtextfield">
+                              <TextField prefHeight="41.0" prefWidth="385.0" promptText="Type here..." styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -253,36 +247,15 @@
                      <padding>
                         <Insets left="10.0" />
                      </padding>
-                  </HBox>
-                  <HBox layoutX="10.0" layoutY="146.0" prefHeight="77.0" prefWidth="700.0" spacing="30.0">
-                     <children>
-                        <VBox prefHeight="200.0" prefWidth="690.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label prefHeight="19.0" prefWidth="121.0" styleClass="titles" text="Song Link" textFill="WHITE">
-                                 <font>
-                                    <Font name="High Tower Text" size="24.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets bottom="5.0" />
-                                 </VBox.margin>
-                              </Label>
-                              <TextField fx:id="linkTextField" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </TextField>
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="15.0" />
+                     </VBox.margin>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="196.0" prefHeight="155.0" prefWidth="700.0" spacing="30.0">
                      <children>
                         <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                            <children>
-                              <Label prefHeight="19.0" prefWidth="121.0" styleClass="titles" text="Lyrics" textFill="WHITE">
+                              <Label prefHeight="19.0" prefWidth="121.0" styleClass="titles" text="Keywords" textFill="WHITE">
                                  <font>
                                     <Font name="High Tower Text" size="24.0" />
                                  </font>
@@ -290,7 +263,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextArea fx:id="lyricsTextArea" prefHeight="200.0" prefWidth="690.0" promptText="Lyrics go here..." styleClass="customtextarea">
+                              <TextArea prefHeight="200.0" prefWidth="690.0" promptText="Lyrics go here..." styleClass="customtextarea">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -309,7 +282,7 @@
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="740.0">
                <children>
-                  <Button fx:id="confirmButton" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" onAction="#addSong" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Confirm" textFill="WHITE">
+                  <Button disable="true" layoutX="479.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="129.0" style="-fx-background-radius: 6;" text="Search" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -317,18 +290,40 @@
                            </color>
                         </DropShadow>
                      </effect>
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../media/Search%20Simple%20white.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
                      <styleClass>
                         <String fx:value="normaltext" />
-                        <String fx:value="confirmbutton" />
+                        <String fx:value="mainmenusearchbutton" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="home_button122" mnemonicParsing="false" onAction="#switchToAddByGuessPage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
+                  <Button disable="true" layoutX="479.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="134.0" style="-fx-background-radius: 6;" styleClass="addpagebutton" text="Reset Fields" textFill="WHITE">
+                     <effect>
+                        <DropShadow blurType="ONE_PASS_BOX">
+                           <color>
+                              <Color opacity="0.2538071274757385" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="home_button122" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" styleClass="addpagebutton" text="Back" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -342,10 +337,6 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
-                     <styleClass>
-                        <String fx:value="normaltext" />
-                        <String fx:value="addpagebutton" />
-                     </styleClass>
                   </Button>
                </children>
             </HBox>

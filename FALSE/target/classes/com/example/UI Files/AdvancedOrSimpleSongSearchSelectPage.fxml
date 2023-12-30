@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FXControllers.AddPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="480.0" prefWidth="140.0" spacing="50.0" style="-fx-background-color: #232323; -fx-background-radius: 6;" BorderPane.alignment="CENTER">
          <children>
@@ -29,7 +29,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </ImageView>
-            <Button fx:id="home_button" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: ##232323; -fx-background-radius: 12;">
+            <Button fx:id="home_button" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -111,7 +111,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <HBox alignment="CENTER_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="173.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
+                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="335.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -142,10 +142,31 @@
                         </ImageView>
                         <ImageView fitHeight="18.0" fitWidth="19.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../media/add.png" />
+                              <Image url="@../media/Search%20Simple%20white.png" />
                            </image>
                         </ImageView>
-                        <Label prefHeight="20.0" prefWidth="33.0" styleClass="normaltext" text="Add" textFill="WHITE">
+                        <Label prefHeight="18.0" prefWidth="55.0" styleClass="normaltext" text="Search" textFill="WHITE">
+                           <font>
+                              <Font name="High Tower Text" size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="89.0" layoutY="20.0" opacity="0.2" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                           <image>
+                              <Image url="@../media/Arrow.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="113.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../media/Search%20Simple%20white.png" />
+                           </image>
+                        </ImageView>
+                        <Label layoutX="141.0" layoutY="20.0" prefHeight="18.0" prefWidth="89.0" styleClass="normaltext" text="Search Songs" textFill="WHITE">
                            <font>
                               <Font name="High Tower Text" size="24.0" />
                            </font>
@@ -162,11 +183,11 @@
             </HBox>
             <VBox alignment="CENTER" prefHeight="461.0" prefWidth="697.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="61.0" prefWidth="355.0" style="-fx-background-radius: 12 12 0 0;" text="Add Manually" textFill="WHITE">
+                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 12 12 0 0;" text="Simple Song Search" textFill="WHITE">
                      <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
-                              <Image url="@../media/menu.png" />
+                              <Image url="@../media/Search%20Simple%20white.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -174,16 +195,16 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <styleClass>
-                        <String fx:value="addpagebutton" />
                         <String fx:value="options" />
+                        <String fx:value="addpagebutton" />
                      </styleClass>
                   </Button>
                   <Line endX="255.0" startX="-100.0" stroke="#2b2b2b" />
-                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="355.0" style="-fx-background-radius: 0;" text="Add from File">
+                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 0 0 12 12;" text="Advanced Song Search">
                      <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+                        <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
-                              <Image url="@../media/file.png" />
+                              <Image url="@../media/Search%20Advanced.png" />
                            </image>
                            <viewport>
                               <Rectangle2D />
@@ -195,45 +216,12 @@
                            <stops>
                               <Stop>
                                  <color>
-                                    <Color red="0.26274511218070984" green="0.7647058963775635" blue="0.9803921580314636" />
+                                    <Color red="0.3450980484485626" green="0.9215686321258545" blue="0.3333333432674408" />
                                  </color>
                               </Stop>
                               <Stop offset="1.0">
                                  <color>
-                                    <Color red="0.4901960790157318" green="0.8745098114013672" blue="0.5058823823928833" />
-                                 </color>
-                              </Stop>
-                           </stops>
-                        </LinearGradient>
-                     </textFill>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <styleClass>
-                        <String fx:value="options" />
-                        <String fx:value="addpagebutton" />
-                     </styleClass>
-                  </Button>
-                  <Line endX="255.0" layoutX="270.0" layoutY="206.0" startX="-100.0" stroke="#2b2b2b" />
-                  <Button layoutX="170.0" layoutY="237.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="355.0" style="-fx-background-radius: 0 0 12 12;" text="Add by Guess">
-                     <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
-                           <image>
-                              <Image url="@../media/Nametag.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <textFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                           <stops>
-                              <Stop>
-                                 <color>
-                                    <Color red="0.9803921580314636" green="0.26274511218070984" blue="0.26274511218070984" />
-                                 </color>
-                              </Stop>
-                              <Stop offset="1.0">
-                                 <color>
-                                    <Color red="0.8745098114013672" green="0.4901960790157318" blue="0.7921568751335144" />
+                                    <Color green="0.43529412150382996" blue="0.4627451002597809" />
                                  </color>
                               </Stop>
                            </stops>

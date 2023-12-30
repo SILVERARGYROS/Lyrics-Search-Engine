@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -26,7 +27,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </ImageView>
-            <Button fx:id="home_button" mnemonicParsing="false" onAction="#switchToHomePage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
+            <Button fx:id="home_button" mnemonicParsing="false" onAction="#switchToHomePage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: ##232323; -fx-background-radius: 12;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -46,6 +47,9 @@
                      </children>
                   </VBox>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" onAction="#switchToSettingsPage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
                <graphic>
@@ -63,6 +67,9 @@
                      </children>
                   </VBox>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
          <BorderPane.margin>
@@ -75,7 +82,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="735.0" VBox.vgrow="NEVER">
                <children>
-                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#switchToAddSongOrAlbumSelectPage" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: #232323; -fx-background-radius: 30;" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#switchToAddSongOrAlbumSelectPage" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -87,9 +94,9 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button contentDisplay="GRAPHIC_ONLY" layoutX="10.0" layoutY="30.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: #232323; -fx-background-radius: 30;" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" disable="true" layoutX="10.0" layoutY="30.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="17.0" opacity="0.2" pickOnBounds="true" preserveRatio="true" rotate="180.0">
+                        <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
                            <image>
                               <Image url="@../media/Arrow.png" />
                            </image>
@@ -102,7 +109,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="440.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
+                  <HBox alignment="CENTER_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="440.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -288,7 +295,7 @@
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="740.0">
                <children>
-                  <Button fx:id="confirmButton" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" onAction="#addAlbum" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to bottom right, #78DF7C, #37A83C); -fx-background-radius: 6;" styleClass="normaltext" text="Confirm" textFill="WHITE">
+                  <Button fx:id="confirmButton" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" onAction="#addAlbum" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Confirm" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -302,8 +309,12 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <styleClass>
+                        <String fx:value="normaltext" />
+                        <String fx:value="confirmbutton" />
+                     </styleClass>
                   </Button>
-                  <Button fx:id="home_button122" mnemonicParsing="false" onAction="#switchToAddSongOrAlbumSelectPage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: #232323; -fx-background-radius: 6;" styleClass="normaltext" text="Back" textFill="WHITE">
+                  <Button fx:id="home_button122" mnemonicParsing="false" onAction="#switchToAddSongOrAlbumSelectPage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -317,6 +328,10 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <styleClass>
+                        <String fx:value="normaltext" />
+                        <String fx:value="addpagebutton" />
+                     </styleClass>
                   </Button>
                </children>
             </HBox>
