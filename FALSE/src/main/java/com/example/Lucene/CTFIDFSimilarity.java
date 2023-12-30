@@ -199,4 +199,8 @@ public class CTFIDFSimilarity extends Similarity {
                 subs);
         }
     }
+
+    public String toString(){
+        return "CTFIDFSimilarity - (Beta)";
+    }
 }

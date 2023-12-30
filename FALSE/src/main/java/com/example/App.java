@@ -1,20 +1,14 @@
 package com.example;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -80,7 +74,6 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException, ParseException, URISyntaxException {
-        luceneManager = new LuceneManager();
         App.stage = stage;
         scene = new Scene(loadFXML("HomePage"), 900, 500);
         stage.setScene(scene);
@@ -90,25 +83,14 @@ public class App extends Application {
 
         stage.getIcons().add(new Image(App.class.getResource("media/Icon.png").toURI().toString()));
 
-        stage.show();
-        
+
+        luceneManager = new LuceneManager();
+
         stage.setOnCloseRequest(event -> {
             luceneManager.close();
         });
-        
-        try {
-            luceneManager.run(null);
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
+
+        stage.show();
         return;
     }
 
@@ -128,7 +110,6 @@ public class App extends Application {
 
     public static void switchToAddPage() throws IOException{
         setRoot("AddPage");
-        System.out.println("Switching to add page");
     }
 
     public static void switchToAddSongOrAlbumSelectPage() throws IOException{
@@ -156,8 +137,7 @@ public class App extends Application {
     }
 
     public static void switchToSettingsPage() throws IOException{
-        // setRoot("SettingsPage");
-        System.out.println("DEBUG: Settings page button pressed.");
+        setRoot("SettingsPage");
     }
 
     public static void switchToAddFailurePage() throws IOException{
@@ -170,17 +150,14 @@ public class App extends Application {
 
     public static void switchToSearchSongOrAlbumSelectPage() throws IOException{
         setRoot("SearchSongOrAlbumSelectPage");
-        // System.out.println("DEBUG: SongOrAlbum page button pressed.");
     }
 
     public static void switchToSearchAdvancedOrSimpleSongSelectPage() throws IOException{
         setRoot("SearchAdvancedOrSimpleSongSelectPage");
-        // System.out.println("DEBUG: SimpleOrAdvanced page button pressed.");
     }
 
     public static void switchToSearchAdvancedOrSimpleAlbumSelectPage() throws IOException{
         setRoot("SearchAdvancedOrSimpleAlbumSelectPage");
-        // System.out.println("DEBUG: SimpleOrAdvanced page button pressed.");
     }
 
     public static void switchToSimpleSongSearchPage() throws IOException{

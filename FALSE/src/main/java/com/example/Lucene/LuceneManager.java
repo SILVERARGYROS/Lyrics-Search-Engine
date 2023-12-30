@@ -6,12 +6,15 @@ import java.util.ArrayList;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.BooleanClause.Occur;
+import org.apache.lucene.search.MatchAllDocsQuery;
 
 import java.util.concurrent.ExecutionException;
 
@@ -327,6 +330,29 @@ public class LuceneManager {
 		fields[4] = document.get("Album_Type");
 
 		return fields;
+	}
+
+	public void clearCollection() throws IOException, ParseException{
+		Query query = new MatchAllDocsQuery();
+
+		// Instantiate Searchers
+		Searcher songSearcher = new Searcher(songIndexDir);
+		Searcher albumSearcher = new Searcher(albumIndexDir);
+
+		// Get ScoreDocs
+		ScoreDoc[] songScoredocs = songSearcher.search(query).scoreDocs;
+		ScoreDoc[] albumScoredocs = albumSearcher.search(query).scoreDocs;
+
+		// Remove Documents
+		for(ScoreDoc scoredoc: songScoredocs){
+			songIndexer.removeDocument(scoredoc);
+		}
+		for(ScoreDoc scoredoc: albumScoredocs){
+			songIndexer.removeDocument(scoredoc);
+		}
+
+		songSearcher.close();
+		albumSearcher.close();
 	}
 
 	public void setMAX_SEARCH(int x){
