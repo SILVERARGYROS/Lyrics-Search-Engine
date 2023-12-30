@@ -31,7 +31,7 @@
                         </ImageView>
                      </children>
                   </HBox>
-                  <Label prefHeight="46.0" prefWidth="259.0" styleClass="songoralbumtitletext">
+                  <Label fx:id="albumLabel" prefHeight="46.0" prefWidth="259.0" styleClass="songoralbumtitletext">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -55,12 +55,12 @@
                         </LinearGradient>
                      </textFill>
                   </Label>
-                  <Label layoutX="39.0" layoutY="10.0" prefHeight="46.0" prefWidth="224.0" styleClass="songoralbumtitletext" textFill="#989898">
+                  <Label fx:id="yearLabel" layoutX="39.0" layoutY="10.0" prefHeight="46.0" prefWidth="224.0" styleClass="songoralbumtitletext" textFill="#989898">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </Label>
-                  <Label layoutX="359.0" layoutY="10.0" prefHeight="46.0" prefWidth="93.0" styleClass="songoralbumtitletext" textFill="#989898">
+                  <Label fx:id="scoreLabel" layoutX="359.0" layoutY="10.0" prefHeight="46.0" prefWidth="93.0" styleClass="songoralbumtitletext" textFill="#989898">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
@@ -72,7 +72,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Label prefHeight="36.0" prefWidth="673.0" style="-fx-background-color: #292929; -fx-background-radius: 0 0 6 6;" styleClass="smallesttext" textFill="#989898">
+      <Label fx:id="matchLabel" prefHeight="36.0" prefWidth="673.0" style="-fx-background-color: #292929; -fx-background-radius: 0 0 6 6;" styleClass="smallesttext" textFill="#989898">
          <padding>
             <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
          </padding>

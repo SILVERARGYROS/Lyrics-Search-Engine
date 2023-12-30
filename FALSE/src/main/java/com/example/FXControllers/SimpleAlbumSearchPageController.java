@@ -135,6 +135,8 @@ public class SimpleAlbumSearchPageController {
 
     @FXML
     private void loadResults() throws IOException, ParseException{
+        searchTextField.setText("");
+        placeHolder.getChildren().clear();
         for(ScoreDoc scoreDoc: App.getSearchResults()){
 
             // Get document
@@ -152,15 +154,17 @@ public class SimpleAlbumSearchPageController {
             resultController.setAlbumLabel(document.get("Album"));
             resultController.setYearLabel(document.get("Year"));
             resultController.setScoreLabel(score + "");
+            resultController.setScoreDoc(scoreDoc);
+            resultController.setDocument(document);
 
-            // (Will need to find Matches before setting this one)
+            // (Will need to find matches before setting this one)
             resultController.setMatchLabel("");
 
             //add fxml
             placeHolder.getChildren().add(resultNode);
 
             System.out.println("DEBUG: LOADED RESULTS");
-            System.out.println("Album: " + document.get("Album") + " Year: " + document.get("Year"));
+            System.out.println("Album: " + document.get("Album") + " Artist: " + document.get("Artist"));
         }
     }
 }

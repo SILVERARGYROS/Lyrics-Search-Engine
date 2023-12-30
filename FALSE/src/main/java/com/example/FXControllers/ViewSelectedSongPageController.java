@@ -60,9 +60,7 @@ public class ViewSelectedSongPageController {
                 editButton.setDisable(false);
             }
         });
-
     }
-
 
     @FXML
     private void switchToHomePage() throws IOException {
