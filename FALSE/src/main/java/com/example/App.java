@@ -40,6 +40,8 @@ public class App extends Application {
 
     private static LuceneManager luceneManager;
     private static Document viewingDocument = null;
+    private static ScoreDoc viewingScoredoc = null;
+
     private static ScoreDoc[] searchResults = null;
     private static String searchString = "";
 
@@ -61,6 +63,14 @@ public class App extends Application {
 
     public static void setViewingDocument(Document viewingDocument) {
         App.viewingDocument = viewingDocument;
+    }
+
+    public static ScoreDoc getViewingScoredoc() {
+        return viewingScoredoc;
+    }
+
+    public static void setViewingScoredoc(ScoreDoc viewingDocumentScoredoc) {
+        App.viewingScoredoc = viewingDocumentScoredoc;
     }
 
     public static ScoreDoc[] getSearchResults() {
@@ -185,9 +195,18 @@ public class App extends Application {
         setRoot("SimpleAlbumSearchPage");
     }
 
+    public static void switchToViewSelectedSongPage() throws IOException{
+        setRoot("ViewSelectedSongPage");
+    }
+
+    public static void switchToViewSelectedAlbumPage() throws IOException{
+        setRoot("ViewSelectedAlbumPage");
+    }
+
     public static void terminate() throws IOException{
-        // setRoot("SettingsPage");
         System.out.println("DEBUG: Terminate button pressed.");
+        luceneManager.close();
+        System.exit(0);
     }
 
     public static void main(String[] args) {

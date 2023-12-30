@@ -53,7 +53,7 @@ public class Searcher {
 	public Query constructCombinedQuery(String[] querySearches, String[] queryFields, BooleanClause.Occur occurance) throws ParseException{
 		ArrayList<Query> queryList = new ArrayList<>();
 		for(int i = 0; i < queryFields.length; i++){
-			Query currentQuery = new QueryParser(queryFields[i], new StandardAnalyzer()).parse("\"" + querySearches[i] + "\"");
+			Query currentQuery = new QueryParser(queryFields[i], new StandardAnalyzer()).parse(querySearches[i]);
 			queryList.add(currentQuery);
 		}
 

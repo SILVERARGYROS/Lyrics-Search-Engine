@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FXControllers.AddByGuessConfirmationPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FXControllers.ViewSelectedSongPageController">
    <left>
       <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="480.0" prefWidth="140.0" spacing="50.0" style="-fx-background-color: #232323; -fx-background-radius: 6;" BorderPane.alignment="CENTER">
          <children>
@@ -223,7 +223,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField editable="false" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" />
+                              <TextField fx:id="songTextField" editable="false" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" />
                            </children>
                         </VBox>
                         <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="378.0">
@@ -236,7 +236,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField editable="false" prefHeight="41.0" prefWidth="385.0" styleClass="customtextfield">
+                              <TextField fx:id="artistTextField" editable="false" prefHeight="41.0" prefWidth="385.0" styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -260,7 +260,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField editable="false" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield">
+                              <TextField fx:id="linkTextField" editable="false" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -284,7 +284,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextArea editable="false" prefHeight="200.0" prefWidth="690.0" styleClass="customtextarea">
+                              <TextArea fx:id="lyricsTextArea" editable="false" prefHeight="200.0" prefWidth="690.0" styleClass="customtextarea">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -303,7 +303,7 @@
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="740.0">
                <children>
-                  <Button layoutX="479.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="102.0" style="-fx-background-radius: 6;" text="Edit" textFill="WHITE">
+                  <Button fx:id="editButton" disable="true" layoutX="479.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="102.0" style="-fx-background-radius: 6;" text="Edit" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -329,7 +329,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button layoutX="479.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="175.0" style="-fx-background-radius: 6;" text="View Similar Songs" textFill="WHITE">
+                  <Button fx:id="similarityButton" layoutX="479.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="175.0" style="-fx-background-radius: 6;" text="View Similar Songs" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -348,7 +348,7 @@
                         <String fx:value="addpagebutton" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="home_button122" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
+                  <Button fx:id="backButton" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>

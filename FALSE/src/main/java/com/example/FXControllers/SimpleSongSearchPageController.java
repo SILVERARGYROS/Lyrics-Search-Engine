@@ -120,7 +120,8 @@ public class SimpleSongSearchPageController {
 
     @FXML
     private void loadResults() throws IOException, ParseException{
-        searchTextField.setText(App.getSearchString());
+        searchTextField.setText("");
+        placeHolder.getChildren().clear();
         for(ScoreDoc scoreDoc: App.getSearchResults()){
 
             // Get document
@@ -138,8 +139,10 @@ public class SimpleSongSearchPageController {
             resultController.setSongLabel(document.get("Song"));
             resultController.setArtistLabel(document.get("Artist"));
             resultController.setScoreLabel(score + "");
+            resultController.setScoreDoc(scoreDoc);
+            resultController.setDocument(document);
 
-            // (Will need to find Matches before setting this one)
+            // (Will need to find matches before setting this one)
             resultController.setMatchLabel("");
 
             //add fxml

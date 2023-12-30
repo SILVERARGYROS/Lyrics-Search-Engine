@@ -15,7 +15,7 @@
 
 <VBox prefHeight="87.0" prefWidth="661.0" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FXControllers.AlbumInformationButtonController">
    <children>
-      <Button contentDisplay="CENTER" mnemonicParsing="false" prefHeight="95.0" prefWidth="676.0" style="-fx-background-color: #242424; -fx-background-radius: 6 6 0 0;">
+      <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#view" prefHeight="95.0" prefWidth="676.0" style="-fx-background-color: #242424; -fx-background-radius: 6 6 0 0;">
          <graphic>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>

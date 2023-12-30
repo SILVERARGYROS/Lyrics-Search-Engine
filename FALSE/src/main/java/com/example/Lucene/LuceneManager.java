@@ -274,6 +274,14 @@ public class LuceneManager {
 		searcher.close();
 		return document;
 	}
+
+	public Document createSongDocument(String[] fields) throws CorruptIndexException, IOException{
+		return songIndexer.createSongDocument(fields);
+	}
+
+	public Document createAlbumDocument(String[] fields) throws CorruptIndexException, IOException{
+		return songIndexer.createAlbumDocument(fields);
+	}
 	
 	
 	// https://reintech.io/blog/java-web-scraping-extracting-data-from-websites

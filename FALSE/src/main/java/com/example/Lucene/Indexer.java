@@ -448,7 +448,7 @@ public class Indexer {
 		// index general field
 		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Field.Store.YES);
 		// index artist name
-		TextField artistName = new TextField("Artist", fields[0].toLowerCase(), Field.Store.YES);
+		TextField artistName = new TextField("Artist", fields[0].toLowerCase().replace(" lyrics", ""), Field.Store.YES);
 		// index link
 		fieldConf.setTokenized(false);
 		TextField songHrefField = new TextField("Song_Link", fields[1].toLowerCase(), Field.Store.YES);

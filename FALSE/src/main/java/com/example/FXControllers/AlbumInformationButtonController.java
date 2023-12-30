@@ -1,5 +1,9 @@
 package com.example.FXControllers;
 
+import java.io.IOException;
+
+import com.example.App;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
@@ -26,7 +30,6 @@ public class AlbumInformationButtonController {
         this.albumLabel.setText(albumLabel);
     }
 
-
     public Label getYearLabel() {
         return yearLabel;
     }
@@ -34,7 +37,6 @@ public class AlbumInformationButtonController {
     public void setYearLabel(String yearLabel) {
         this.yearLabel.setText(yearLabel);
     }
-
 
     public Label getScoreLabel() {
         return scoreLabel;
@@ -50,5 +52,10 @@ public class AlbumInformationButtonController {
 
     public void setMatchLabel(String matchLabel) {
         this.matchLabel.setText(matchLabel);
+    }
+
+    @FXML
+    public void view() throws IOException {
+        App.switchToViewSelectedAlbumPage();
     }
 }
