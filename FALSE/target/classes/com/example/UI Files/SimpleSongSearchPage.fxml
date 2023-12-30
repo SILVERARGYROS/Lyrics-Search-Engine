@@ -109,7 +109,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="480.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
+                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="329.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -165,27 +165,6 @@
                            </image>
                         </ImageView>
                         <Label prefHeight="18.0" prefWidth="94.0" styleClass="normaltext" text="Search Songs" textFill="WHITE">
-                           <font>
-                              <Font name="High Tower Text" size="24.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="174.0" layoutY="20.0" opacity="0.2" pickOnBounds="true" preserveRatio="true" rotate="180.0">
-                           <image>
-                              <Image url="@../media/Arrow.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                        </ImageView>
-                        <ImageView fitHeight="18.0" fitWidth="19.0" layoutX="197.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../media/Search%20Simple%20white.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="225.0" layoutY="20.0" prefHeight="18.0" prefWidth="93.0" styleClass="normaltext" text="Simple Search" textFill="WHITE">
                            <font>
                               <Font name="High Tower Text" size="24.0" />
                            </font>
