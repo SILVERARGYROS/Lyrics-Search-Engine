@@ -112,7 +112,7 @@ public class SimpleSongSearchPageController {
 
     @FXML
     private void search() throws IOException, ParseException{
-        String searchString = searchTextField.getText();
+        String searchString = searchTextField.getText().strip();
         ScoreDoc[] results = App.getLuceneManager().simpleSongSearch(searchString, searchField);
         App.setSearchResults(results);
         loadResults();

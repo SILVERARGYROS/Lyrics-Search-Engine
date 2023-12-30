@@ -24,4 +24,9 @@ public class SearchAdvancedOrSimpleAlbumSelectPageController {
     private void switchToSimpleAlbumSearchPage() throws IOException {
         App.switchToSimpleAlbumSearchPage();
     }
+
+    @FXML
+    private void switchToAdvancedAlbumSearchPage() throws IOException {
+        App.switchToAdvancedAlbumSearchPage();
+    }
 }

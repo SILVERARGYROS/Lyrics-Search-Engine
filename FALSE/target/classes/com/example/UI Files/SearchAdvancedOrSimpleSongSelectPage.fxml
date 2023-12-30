@@ -200,7 +200,7 @@
                      </styleClass>
                   </Button>
                   <Line endX="255.0" startX="-100.0" stroke="#2b2b2b" />
-                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 0 0 12 12;" text="Advanced Song Search">
+                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" onAction="#switchToAdvancedSongSearchPage" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 0 0 12 12;" text="Advanced Song Search">
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>

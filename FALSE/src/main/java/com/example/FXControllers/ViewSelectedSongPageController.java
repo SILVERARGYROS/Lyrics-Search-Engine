@@ -56,7 +56,7 @@ public class ViewSelectedSongPageController {
 
     @FXML
     private void edit() throws IOException{
-        // App.getLuceneManager().removeSongFromIndex(App.getViewingScoredoc());
+        App.getLuceneManager().removeSongFromIndex(App.getViewingScoredoc());
         ArrayList<String> fields = new ArrayList<>();
         fields.add(songTextField.getText());
         fields.add(artistTextField.getText());
