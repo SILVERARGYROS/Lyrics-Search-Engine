@@ -29,4 +29,9 @@ public class SearchAdvancedOrSimpleSongSelectPageController {
         App.setSearchResults(new ScoreDoc[0]); // Zero so that it negates future loop
         App.switchToSimpleSongSearchPage();
     }
+
+    @FXML
+    private void switchToAdvancedSongSearchPage() throws IOException {
+        App.switchToAdvancedSongSearchPage();
+    }
 }

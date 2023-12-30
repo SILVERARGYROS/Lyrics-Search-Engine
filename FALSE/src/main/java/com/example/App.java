@@ -191,6 +191,14 @@ public class App extends Application {
         setRoot("SimpleAlbumSearchPage");
     }
 
+    public static void switchToAdvancedSongSearchPage() throws IOException{
+        setRoot("AdvancedSongSearchPage");
+    }
+
+    public static void switchToAdvancedAlbumSearchPage() throws IOException{
+        setRoot("AdvancedAlbumSearchPage");
+    }
+
     public static void switchToViewSelectedSongPage() throws IOException{
         setRoot("ViewSelectedSongPage");
     }
