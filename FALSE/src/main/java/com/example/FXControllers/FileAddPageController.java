@@ -1,16 +1,21 @@
 package com.example.FXControllers;
 
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 import com.example.App;
 
+import static org.junit.Assert.assertNotEquals;
+
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class FileAddPageController {
 
@@ -35,6 +40,12 @@ public class FileAddPageController {
 
     @FXML
     private CheckBox checkbox;
+
+    @FXML 
+    private Label fileLabel;
+
+    @FXML
+    private ImageView fileImageView;
 
     @FXML
     public void initialize(){
@@ -74,7 +85,7 @@ public class FileAddPageController {
     }
 
     @FXML
-    private void chooseFile(){
+    private void chooseFile() throws URISyntaxException{
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose " + filetype + " file");
         fileChooser.getExtensionFilters().addAll(
@@ -82,7 +93,18 @@ public class FileAddPageController {
         );
         selectedFile = fileChooser.showOpenDialog(App.getStage());
 
-        confirmButton.setDisable(!(selectedFile != null));
+        // confirmButton.setDisable(!(selectedFile != null));
+
+        if(selectedFile != null){
+            fileLabel.setText(selectedFile.getName());
+            fileImageView.setImage(new Image(App.class.getResource("media/file white.png").toURI().toString()));
+            confirmButton.setDisable(false);
+        }
+        else{
+            fileLabel.setText("Click to add File");
+            fileImageView.setImage(new Image(App.class.getResource("media/File add.png").toURI().toString()));
+            confirmButton.setDisable(true);
+        }
     }
 
     @FXML
