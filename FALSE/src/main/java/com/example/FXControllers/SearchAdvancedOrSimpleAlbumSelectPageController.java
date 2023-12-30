@@ -1,18 +1,15 @@
 package com.example.FXControllers;
 
-import java.io.IOException;
-
 import com.example.App;
-
+import java.io.IOException;
 import javafx.fxml.FXML;
 
-// package com.example.FXControllers;
+public class SearchAdvancedOrSimpleAlbumSelectPageController {
+    @FXML
+    private void switchToHomePage() throws IOException {
+        App.switchToHomePage();
+    }
 
-// import javafx.fxml.FXML;
-// import com.example.App;
-// import java.io.IOException;
-
-public class PrimaryController {
     @FXML
     private void switchToSettingsPage() throws IOException {
         App.switchToSettingsPage();

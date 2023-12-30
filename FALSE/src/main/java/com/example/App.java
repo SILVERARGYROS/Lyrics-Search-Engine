@@ -120,16 +120,6 @@ public class App extends Application {
         setRoot("AddByGuessConfirmationPage");
     }
 
-    public static void switchToSearchSimpleOrAdvancedSelectPage() throws IOException{
-        // setRoot("SearchSimpleOrAdvancedSelectPage");
-        System.out.println("DEBUG: SimpleOrAdvanced page button pressed.");
-    }
-
-    public static void switchToSearchSongOrAlbumSelectPage() throws IOException{
-        // setRoot("SearchSongOrAlbumSelectPage");
-        System.out.println("DEBUG: SongOrAlbum page button pressed.");
-    }
-
     public static void switchToSettingsPage() throws IOException{
         // setRoot("SettingsPage");
         System.out.println("DEBUG: Settings page button pressed.");
@@ -141,6 +131,21 @@ public class App extends Application {
 
     public static void switchToAddSuccessPage() throws IOException{
         setRoot("AddSuccessPage");
+    }
+
+    public static void switchToSearchSongOrAlbumSelectPage() throws IOException{
+        setRoot("SearchSongOrAlbumSelectPage");
+        // System.out.println("DEBUG: SongOrAlbum page button pressed.");
+    }
+
+    public static void switchToSearchAdvancedOrSimpleSongSelectPage() throws IOException{
+        setRoot("SearchAdvancedOrSimpleSongSelectPage");
+        // System.out.println("DEBUG: SimpleOrAdvanced page button pressed.");
+    }
+
+    public static void switchToSearchAdvancedOrSimpleAlbumSelectPage() throws IOException{
+        setRoot("SearchAdvancedOrSimpleAlbumSelectPage");
+        // System.out.println("DEBUG: SimpleOrAdvanced page button pressed.");
     }
 
     public static void terminate() throws IOException{
