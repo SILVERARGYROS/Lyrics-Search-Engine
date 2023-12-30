@@ -208,6 +208,7 @@ public class Indexer {
 					continue;
 				}
 			}
+			searcher.close();
 		}
 		else if (datatype.equalsIgnoreCase("songs")){
 			ArrayList<Document> receivedList = getSongDocuments(file);
@@ -269,6 +270,7 @@ public class Indexer {
 				// writer.commit(); // commit method too expensive to be run in each iteration
 				numDocs++;
 			}
+			searcher.close();
 		}
 		else if (datatype.equalsIgnoreCase("lyrics")){
 			ArrayList<Document> receivedList = getLyricsDocuments(file);
@@ -330,6 +332,7 @@ public class Indexer {
 				// writer.commit(); // commit method too expensive to be run in each iteration
 				numDocs++;
 			}
+			searcher.close();
 		}
 		else{
 			System.out.println("File type not recognized. Please code more carefully.");
@@ -498,7 +501,7 @@ public class Indexer {
 			BooleanQuery booleanQuery = new BooleanQuery.Builder()
 			.add(query, Occur.MUST)
 			.build();
-
+			searcher.close();
 			writer.deleteDocuments(booleanQuery);
 		} catch (IOException e) {
 			System.out.println("Error getting requested document. Error: " + e);

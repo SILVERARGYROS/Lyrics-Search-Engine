@@ -136,15 +136,15 @@ public class LuceneManager {
 		songIndexer.commit();
 	}
 
-	public Document[] simpleSongSearch(String searchQuery, String fieldName) throws IOException, ParseException {
+	public ScoreDoc[] simpleSongSearch(String searchQuery, String fieldName) throws IOException, ParseException {
 		return simpleSearch(searchQuery, fieldName, songIndexDir);
 	}
 
-	public Document[] simpleAlbumSearch(String searchQuery, String fieldName) throws IOException, ParseException {
+	public ScoreDoc[] simpleAlbumSearch(String searchQuery, String fieldName) throws IOException, ParseException {
 		return simpleSearch(searchQuery, fieldName, albumIndexDir);
 	}
 		
-	private Document[] simpleSearch(String searchQuery, String fieldName, String indexDir) throws IOException, ParseException {
+	private ScoreDoc[] simpleSearch(String searchQuery, String fieldName, String indexDir) throws IOException, ParseException {
 		// Start timer
 		long startTime = System.currentTimeMillis();
 
@@ -156,10 +156,7 @@ public class LuceneManager {
 
 		// Execute query
 		TopDocs hits = searcher.search(query);
-
-		// Get result documents
-		Document[] documents = searcher.getDocuments(hits);
-
+		
 		// Close searcher
 		searcher.close();
 		
@@ -174,18 +171,18 @@ public class LuceneManager {
 		}
 		
 		// Return results
-		return documents;
+		return hits.scoreDocs;
 	}
 
-	public Document[] advancedSongSearch(String[] searchQuery, String[] queryType) throws IOException, ParseException {
+	public ScoreDoc[] advancedSongSearch(String[] searchQuery, String[] queryType) throws IOException, ParseException {
 		return advancedSearch(searchQuery, queryType, songIndexDir);
 	}
 
-	public Document[] advancedAlbumSearch(String[] searchQuery, String[] queryType) throws IOException, ParseException {
+	public ScoreDoc[] advancedAlbumSearch(String[] searchQuery, String[] queryType) throws IOException, ParseException {
 		return advancedSearch(searchQuery, queryType, albumIndexDir);
 	}
 
-	public Document[] advancedSearch(String[] searchQuery, String[] queryType, String indexDir) throws IOException, ParseException {
+	public ScoreDoc[] advancedSearch(String[] searchQuery, String[] queryType, String indexDir) throws IOException, ParseException {
 		// Start timer
 		long startTime = System.currentTimeMillis();
 
@@ -198,9 +195,6 @@ public class LuceneManager {
 		// Execute query
 		TopDocs hits = searcher.search(query);
 
-		// Get result documents
-		Document[] documents = searcher.getDocuments(hits);
-
 		// Close searcher
 		searcher.close();
 		
@@ -215,18 +209,18 @@ public class LuceneManager {
 		}
 		
 		// Return results
-		return documents;
+		return hits.scoreDocs;
 	}
 
-	public Document[] relatedSongSearch(Document document) throws IOException, ParseException{
+	public ScoreDoc[] relatedSongSearch(Document document) throws IOException, ParseException{
 		return relatedSearch(document, songIndexDir);
 	}
 
-	public Document[] relatedAlbumSearch(Document document) throws IOException, ParseException{
+	public ScoreDoc[] relatedAlbumSearch(Document document) throws IOException, ParseException{
 		return relatedSearch(document, albumIndexDir);
 	}
 
-	public Document[] relatedSearch(Document document, String indexDir) throws IOException, ParseException{
+	public ScoreDoc[] relatedSearch(Document document, String indexDir) throws IOException, ParseException{
 
 		// Start timer
 		long startTime = System.currentTimeMillis();
@@ -251,9 +245,6 @@ public class LuceneManager {
 		// Execute query
 		TopDocs hits = searcher.search(query);
 
-		// Get result documents
-		Document[] documents = searcher.getDocuments(hits);
-
 		// Close searcher
 		searcher.close();
 		
@@ -267,10 +258,23 @@ public class LuceneManager {
 			// System.out.println("File: " + doc.get(LuceneConstants.FILE_PATH));
 		}
 
-		return documents;
+		return hits.scoreDocs;
 	}
 
+	public Document getSongDocument(ScoreDoc scoredoc) throws CorruptIndexException, IOException{
+		Searcher searcher = new Searcher(songIndexDir);
+		Document document = searcher.getDocument(scoredoc); 
+		searcher.close();
+		return document;
+	}
 
+	public Document getAlbumDocument(ScoreDoc scoredoc) throws CorruptIndexException, IOException{
+		Searcher searcher = new Searcher(albumIndexDir);
+		Document document = searcher.getDocument(scoredoc); 
+		searcher.close();
+		return document;
+	}
+	
 	
 	// https://reintech.io/blog/java-web-scraping-extracting-data-from-websites
 	// https://github.com/jagrosh/JLyrics/blob/master/README.md

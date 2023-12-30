@@ -50,19 +50,19 @@ public class FileAddPageController {
         songButton.setOnAction( e-> {
             filetype = "songs";
             select(songButton);
-            unselect(lyricsButton);
-            unselect(albumButton);
+            deselect(lyricsButton);
+            deselect(albumButton);
         });
         lyricsButton.setOnAction( e-> {
             filetype = "lyrics";
-            unselect(songButton);
+            deselect(songButton);
             select(lyricsButton);
-            unselect(albumButton);
+            deselect(albumButton);
         });
         albumButton.setOnAction( e-> {
             filetype = "albums";
-            unselect(songButton);
-            unselect(lyricsButton);
+            deselect(songButton);
+            deselect(lyricsButton);
             select(albumButton);
         });
     }
@@ -111,7 +111,7 @@ public class FileAddPageController {
     }
 
     @FXML
-    private void unselect(Button button){
+    private void deselect(Button button){
         button.setStyle("-fx-background-color: linear-gradient(to bottom right, #2A2A2A, #181818); -fx-background-radius: 6");
     }
 

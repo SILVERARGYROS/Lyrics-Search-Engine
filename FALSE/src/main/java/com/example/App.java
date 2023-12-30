@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.ScoreDoc;
 
 import com.example.Lucene.LuceneManager;
 
@@ -33,6 +34,12 @@ public class App extends Application {
 
     private static LuceneManager luceneManager;
     private static Document viewingDocument = null;
+    private static ScoreDoc[] searchResults = null;
+    private static String searchString = "";
+
+    public static void setSearchString(String searchString) {
+        App.searchString = searchString;
+    }
 
     public static Stage getStage() {
         return stage;
@@ -48,6 +55,18 @@ public class App extends Application {
 
     public static void setViewingDocument(Document viewingDocument) {
         App.viewingDocument = viewingDocument;
+    }
+
+    public static ScoreDoc[] getSearchResults() {
+        return searchResults;
+    }
+
+    public static void setSearchResults(ScoreDoc[] searchResults) {
+        App.searchResults = searchResults;
+    }
+
+    public static String getSearchString() {
+        return searchString;
     }
 
     @Override
@@ -146,6 +165,14 @@ public class App extends Application {
     public static void switchToSearchAdvancedOrSimpleAlbumSelectPage() throws IOException{
         setRoot("SearchAdvancedOrSimpleAlbumSelectPage");
         // System.out.println("DEBUG: SimpleOrAdvanced page button pressed.");
+    }
+
+    public static void switchToSimpleSongSearchPage() throws IOException{
+        setRoot("SimpleSongSearchPage");
+    }
+
+    public static void switchToSimpleAlbumSearchPage() throws IOException{
+        setRoot("SimpleAlbumSearchPage");
     }
 
     public static void terminate() throws IOException{

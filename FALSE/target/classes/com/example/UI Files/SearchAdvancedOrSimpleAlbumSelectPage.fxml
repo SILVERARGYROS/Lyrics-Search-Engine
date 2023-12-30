@@ -183,7 +183,7 @@
             </HBox>
             <VBox alignment="CENTER" prefHeight="461.0" prefWidth="697.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 12 12 0 0;" text="Simple Album Search" textFill="WHITE">
+                  <Button mnemonicParsing="false" onAction="#switchToSimpleAlbumSearchPage" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 12 12 0 0;" text="Simple Album Search" textFill="WHITE">
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>

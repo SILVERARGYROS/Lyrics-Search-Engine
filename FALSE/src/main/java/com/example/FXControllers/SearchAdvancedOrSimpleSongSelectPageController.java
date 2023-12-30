@@ -19,4 +19,9 @@ public class SearchAdvancedOrSimpleSongSelectPageController {
     private void switchToSearchSongOrAlbumSelectPage() throws IOException {
         App.switchToSearchSongOrAlbumSelectPage();
     }
+
+    @FXML
+    private void switchToSimpleSongSearchPage() throws IOException {
+        App.switchToSimpleSongSearchPage();
+    }
 }

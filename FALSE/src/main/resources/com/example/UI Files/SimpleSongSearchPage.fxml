@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FXControllers.SimpleSongSearchPageController">
    <left>
       <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="480.0" prefWidth="140.0" spacing="50.0" style="-fx-background-color: #232323; -fx-background-radius: 6;" BorderPane.alignment="CENTER">
          <children>
@@ -27,7 +27,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </ImageView>
-            <Button fx:id="home_button" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
+            <Button fx:id="home_button" mnemonicParsing="false" onAction="#switchToHomePage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -51,7 +51,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
+            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" onAction="#switchToSettingsPage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -82,7 +82,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="740.0">
                <children>
-                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#switchToSearchAdvancedOrSimpleSongSelectPage" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -204,7 +204,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="73.0" prefWidth="680.0">
                      <children>
-                        <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="49.0" prefWidth="148.0" style="-fx-background-radius: 30 0 0 30;" textFill="WHITE" HBox.hgrow="NEVER">
+                        <Button fx:id="searchButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#search" prefHeight="49.0" prefWidth="148.0" style="-fx-background-radius: 30 0 0 30;" textFill="WHITE" HBox.hgrow="NEVER">
                            <graphic>
                               <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                                  <image>
@@ -223,7 +223,7 @@
                               <String fx:value="mainmenusearchbutton" />
                            </styleClass>
                         </Button>
-                        <TextField prefHeight="49.0" prefWidth="723.0" promptText="Search..." styleClass="searchbar" HBox.hgrow="NEVER">
+                        <TextField fx:id="searchTextField" onAction="#search" prefHeight="49.0" prefWidth="723.0" promptText="Search..." styleClass="searchbar" HBox.hgrow="NEVER">
                            <padding>
                               <Insets left="15.0" />
                            </padding>
@@ -235,7 +235,7 @@
                   </HBox>
                   <HBox prefHeight="38.0" prefWidth="740.0" spacing="5.0">
                      <children>
-                        <Button contentDisplay="TEXT_ONLY" mnemonicParsing="false" prefHeight="20.0" prefWidth="44.0" style="-fx-background-color: linear-gradient(to right, #55A3EB, #006F76); -fx-background-radius: 30;" text="All" textFill="WHITE">
+                        <Button fx:id="generalButton" contentDisplay="TEXT_ONLY" mnemonicParsing="false" onAction="#search" prefHeight="20.0" prefWidth="44.0" style="-fx-background-color: linear-gradient(to right, #55A3EB, #006F76); -fx-background-radius: 30;" text="All" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -244,7 +244,7 @@
                               <String fx:value="mainmenusearchbutton" />
                            </styleClass>
                         </Button>
-                        <Button contentDisplay="TEXT_ONLY" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="85.0" style="-fx-background-radius: 30;" text="Song Name" textFill="WHITE">
+                        <Button fx:id="songButton" contentDisplay="TEXT_ONLY" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="85.0" style="-fx-background-radius: 30;" text="Song Name" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -253,7 +253,7 @@
                               <String fx:value="filepagegreybutton" />
                            </styleClass>
                         </Button>
-                        <Button contentDisplay="TEXT_ONLY" layoutX="59.0" layoutY="10.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="55.0" style="-fx-background-radius: 30;" text="Artist" textFill="WHITE">
+                        <Button fx:id="artistButton" contentDisplay="TEXT_ONLY" layoutX="59.0" layoutY="10.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="55.0" style="-fx-background-radius: 30;" text="Artist" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -262,7 +262,7 @@
                               <String fx:value="filepagegreybutton" />
                            </styleClass>
                         </Button>
-                        <Button contentDisplay="TEXT_ONLY" layoutX="150.0" layoutY="10.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="59.0" style="-fx-background-radius: 30;" text="Lyrics" textFill="WHITE">
+                        <Button fx:id="lyricsButton" contentDisplay="TEXT_ONLY" layoutX="150.0" layoutY="10.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="59.0" style="-fx-background-radius: 30;" text="Lyrics" textFill="WHITE">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -310,7 +310,7 @@
                         </HBox>
                         <ScrollPane hbarPolicy="NEVER" prefHeight="261.0" prefWidth="695.0" VBox.vgrow="ALWAYS">
                            <content>
-                              <FlowPane alignment="TOP_CENTER" prefHeight="253.0" prefWidth="646.0" vgap="10.0" />
+                              <FlowPane fx:id="placeHolder" alignment="TOP_CENTER" prefHeight="253.0" prefWidth="646.0" vgap="10.0" />
                            </content>
                            <cursor>
                               <Cursor fx:constant="DEFAULT" />
