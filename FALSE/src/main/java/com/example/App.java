@@ -7,11 +7,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.lucene.document.Document;
@@ -77,7 +79,7 @@ public class App extends Application {
     }
 
     @Override
-    public void start(Stage stage) throws IOException, ParseException {
+    public void start(Stage stage) throws IOException, ParseException, URISyntaxException {
         luceneManager = new LuceneManager();
         App.stage = stage;
         scene = new Scene(loadFXML("HomePage"), 900, 500);
@@ -85,6 +87,9 @@ public class App extends Application {
         stage.setTitle("FALSE");
         stage.setMinWidth(900);
         stage.setMinHeight(535);
+
+        stage.getIcons().add(new Image(App.class.getResource("media/Icon.png").toURI().toString()));
+
         stage.show();
         
         stage.setOnCloseRequest(event -> {

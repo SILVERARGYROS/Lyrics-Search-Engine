@@ -85,6 +85,15 @@
     -fx-background-radius: 0;
 }    
 
+.customcombobox {
+    -fx-text-inner-color: rgb(255, 255, 255);
+    -fx-prompt-text-fill: #6e6e6e;
+    -fx-font-family: "Montserrat SemiBold";
+    -fx-background-color: #232323;
+    -fx-border-radius: 6;
+    -fx-border-color: #414141;
+}    
+
 .scroll-pane {
     -fx-background-color: #1d1d1d;
 }
@@ -272,4 +281,89 @@
 
 .editbutton:pressed {
     -fx-background-color:  linear-gradient(to bottom right, #cd2b7c, #c57b37);
+}
+
+
+
+/* Settings */
+
+.cancelbutton {
+    -fx-background-color: linear-gradient(to right, #B43434, #B51E1E);
+}
+
+.cancelbutton:hover {
+    -fx-background-color: linear-gradient(to right, #d55252, #B51E1E);
+}
+
+.cancelbutton:pressed {
+    -fx-background-color: linear-gradient(to right, #872222, #B51E1E);
+}
+
+
+
+
+.combo-box .list-cell 
+{
+    -fx-background: #232323;
+    -fx-background-color: #232323;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-padding: 3 0 2 7;
+    -fx-cell-size: 1.66667em; 
+}
+
+.combo-box-popup .list-view 
+{
+    -fx-background-color: #232323;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 8, 0.0 , 0 , 0 );
+}    
+
+.combo-box-popup .list-view .list-cell 
+{
+    -fx-padding: 4 0 4 5;
+
+    /* No alternate highlighting */
+    -fx-background-color: #232323;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover 
+{
+    -fx-background: -fx-accent;
+    -fx-background-color: -fx-selection-bar;
+    -fx-text-fill: -fx-selection-bar-text;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover 
+{
+    -fx-background-color: #232323;
+    -fx-text-fill: #ffffff;
+}
+
+.combo-box-base  
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ComboBoxBaseSkin";
+    -fx-background-color: #232323;
+    -fx-background-radius: 5, 5, 4, 3;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-padding: 0;
+}
+
+.combo-box-base:hover
+{
+    -fx-color: -fx-hover-base;
+}
+
+.combo-box-base:showing 
+{
+    -fx-color: -fx-pressed-base;
+}
+
+.combo-box-base:focused {
+    -fx-background-color: #232323;
+    -fx-background-radius: 6.4, 4, 5, 3;
+    -fx-background-insets: -1.4, 0, 1, 2;
+}
+
+.combo-box-base:disabled {
+    -fx-opacity: .4;
 }
