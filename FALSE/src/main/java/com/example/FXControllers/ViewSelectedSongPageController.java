@@ -36,6 +36,31 @@ public class ViewSelectedSongPageController {
         songTextField.setText(document.get("Song"));
         artistTextField.setText(document.get("Artist"));
         lyricsTextArea.setText(document.get("Lyrics"));
+
+        songTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue != newValue) {
+                editButton.setDisable(false);
+            }
+        });
+
+        artistTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue != newValue) {
+                editButton.setDisable(false);
+            }
+        });
+
+        lyricsTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue != newValue) {
+                editButton.setDisable(false);
+            }
+        });
+
+        editButton.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue != newValue) {
+                editButton.setDisable(false);
+            }
+        });
+
     }
 
 
@@ -50,18 +75,18 @@ public class ViewSelectedSongPageController {
     }
 
     @FXML
-    private void switchToAddSongOrAlbumSelectPage() throws IOException {
-        App.switchToAddSongOrAlbumSelectPage();
+    private void switchToSearchSongOrAlbumSelectPage() throws IOException {
+        App.switchToSearchSongOrAlbumSelectPage();
     }
 
     @FXML
     private void edit() throws IOException{
         App.getLuceneManager().removeSongFromIndex(App.getViewingScoredoc());
         ArrayList<String> fields = new ArrayList<>();
-        fields.add(songTextField.getText());
         fields.add(artistTextField.getText());
+        fields.add(App.getViewingDocument().get("Song_Link"));
+        fields.add(songTextField.getText());
         fields.add(lyricsTextArea.getText());
-
         try {
             App.getLuceneManager().addSongToIndex(fields);
             App.switchToAddSuccessPage();

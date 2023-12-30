@@ -83,7 +83,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="735.0" VBox.vgrow="NEVER">
                <children>
-                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#switchToAddSongOrAlbumSelectPage" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#switchToSearchSongOrAlbumSelectPage" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -223,7 +223,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="songTextField" editable="false" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" />
+                              <TextField fx:id="songTextField" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" />
                            </children>
                         </VBox>
                         <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="378.0">
@@ -236,7 +236,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="artistTextField" editable="false" prefHeight="41.0" prefWidth="385.0" styleClass="customtextfield">
+                              <TextField fx:id="artistTextField" prefHeight="41.0" prefWidth="385.0" styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -260,7 +260,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField fx:id="linkTextField" editable="false" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield">
+                              <TextField fx:id="linkTextField" prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -284,7 +284,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextArea fx:id="lyricsTextArea" editable="false" prefHeight="200.0" prefWidth="690.0" styleClass="customtextarea">
+                              <TextArea fx:id="lyricsTextArea" prefHeight="200.0" prefWidth="690.0" styleClass="customtextarea">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -348,7 +348,7 @@
                         <String fx:value="addpagebutton" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#switchToAddSongOrAlbumSelectPage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#switchToSearchSongOrAlbumSelectPage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>

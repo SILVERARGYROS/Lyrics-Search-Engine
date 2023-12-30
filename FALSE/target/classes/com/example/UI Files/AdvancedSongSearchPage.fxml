@@ -326,7 +326,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="home_button122" mnemonicParsing="false" onAction="#switchToAddSongOrAlbumSelectPage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" styleClass="addpagebutton" text="Back" textFill="WHITE">
+                  <Button fx:id="home_button122" mnemonicParsing="false" onAction="#switchToSearchSongOrAlbumSelectPage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" styleClass="addpagebutton" text="Back" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
