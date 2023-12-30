@@ -74,12 +74,10 @@ public class AddByGuessConfirmationPageController {
 
         try {
             App.getLuceneManager().addSongToIndex(fields);
-            // Load Confirmation UI
-            App.switchToAddPage();
+            App.switchToAddSuccessPage();
         } catch (Exception e) {
             System.out.println("Something when wrong, load error UI. Exception: " + e);
-            // Load error UI
-            App.switchToHomePage();
+            App.switchToAddFailurePage();
         }
     }
 }

@@ -54,7 +54,7 @@ public class AddSongManuallyPageController {
     }
 
     @FXML
-    private void addSong(){
+    private void addSong() throws IOException{
         ArrayList<String> fields = new ArrayList<>();
         fields.add(songTextField.getText());
         fields.add(artistTextField.getText());
@@ -63,11 +63,10 @@ public class AddSongManuallyPageController {
 
         try {
             App.getLuceneManager().addSongToIndex(fields);
-            // Load Confirmation UI
-            App.switchToAddSongManuallyPage();
+            App.switchToAddSuccessPage();
         } catch (Exception e) {
             System.out.println("Something when wrong, load error UI. Exception: " + e);
-            // Load error UI
+            App.switchToAddFailurePage();
         }
     }
 }

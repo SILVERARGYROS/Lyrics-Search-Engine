@@ -14,7 +14,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FXControllers.AddPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FXControllers.AddFailurePageController">
    <left>
       <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="480.0" prefWidth="140.0" spacing="50.0" style="-fx-background-color: #232323; -fx-background-radius: 6;" BorderPane.alignment="CENTER">
          <children>
@@ -26,7 +26,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </ImageView>
-            <Button fx:id="home_button" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
+            <Button fx:id="home_button" mnemonicParsing="false" onAction="#switchToHomePage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -50,7 +50,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
+            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" onAction="#switchToSettingsPage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -81,7 +81,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="740.0">
                <children>
-                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" disable="true" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -167,8 +167,8 @@
                         <Image url="@../media/Failure.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" prefHeight="54.0" prefWidth="124.0" text="Error." textFill="#ff482f" />
-                  <Button fx:id="home_button122" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
+                  <Label alignment="CENTER" prefHeight="54.0" prefWidth="210.0" text="Oops... Something went wrong." textFill="#ff482f" />
+                  <Button fx:id="home_button122" mnemonicParsing="false" onAction="#switchToAddPage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>

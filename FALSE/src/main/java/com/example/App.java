@@ -135,11 +135,18 @@ public class App extends Application {
         System.out.println("DEBUG: Settings page button pressed.");
     }
 
+    public static void switchToAddFailurePage() throws IOException{
+        setRoot("AddFailurePage");
+    }
+
+    public static void switchToAddSuccessPage() throws IOException{
+        setRoot("AddSuccessPage");
+    }
+
     public static void terminate() throws IOException{
         // setRoot("SettingsPage");
         System.out.println("DEBUG: Terminate button pressed.");
     }
-
 
     public static void main(String[] args) {
         launch();

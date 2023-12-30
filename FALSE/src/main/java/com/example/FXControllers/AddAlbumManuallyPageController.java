@@ -52,7 +52,7 @@ public class AddAlbumManuallyPageController {
     }
 
     @FXML
-    private void addAlbum(){
+    private void addAlbum() throws IOException{
         ArrayList<String> fields = new ArrayList<>();
         fields.add(albumTextField.getText());
         fields.add(artistTextField.getText());
@@ -61,11 +61,10 @@ public class AddAlbumManuallyPageController {
 
         try {
             App.getLuceneManager().addAlbumToIndex(fields);
-            // Load Confirmation UI
-            App.switchToAddAlbumManuallyPage();
+            App.switchToAddSuccessPage();
         } catch (Exception e) {
             System.out.println("Something when wrong, load error UI. Exception: " + e);
-            // Load error UI
+            App.switchToAddFailurePage();
         }
 
     }

@@ -11,8 +11,6 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 import com.example.App;
 
-import static org.junit.Assert.assertNotEquals;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -130,12 +128,10 @@ public class FileAddPageController {
                 App.getLuceneManager().addAlbumFileToIndex(selectedFile, ignoreFirstLine);
             }
 
-            // load confirmation UI here
-            App.switchToFileAddPage();
+            App.switchToAddSuccessPage();
         } catch (Exception e) {
             System.out.println("Problem adding file. Please raise error UI. Error:" + e);  
-            // load error UI here
-            App.switchToHomePage();
+            App.switchToAddFailurePage();
         }
     }
 }
