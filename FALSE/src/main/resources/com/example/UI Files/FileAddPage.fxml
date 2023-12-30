@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -50,6 +51,9 @@
                      </children>
                   </VBox>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
                <graphic>
@@ -67,6 +71,9 @@
                      </children>
                   </VBox>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
          <BorderPane.margin>
@@ -257,7 +264,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Button fx:id="home_button11" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #FF2490, #FFA149); -fx-background-radius: 6;" styleClass="normaltext" text="Song" textFill="WHITE">
+                                          <Button fx:id="home_button11" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-radius: 6;" text="Song" textFill="WHITE">
                                              <effect>
                                                 <DropShadow blurType="ONE_PASS_BOX">
                                                    <color>
@@ -268,8 +275,15 @@
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <styleClass>
+                                                <String fx:value="normaltext" />
+                                                <String fx:value="filepageorangebutton" />
+                                             </styleClass>
                                           </Button>
-                                          <Button fx:id="home_button12" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #2A2A2A, #181818); -fx-background-radius: 6;" styleClass="normaltext" text="Lyrics" textFill="WHITE" GridPane.columnIndex="1">
+                                          <Button fx:id="home_button12" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-radius: 6;" text="Lyrics" textFill="WHITE" GridPane.columnIndex="1">
                                              <effect>
                                                 <DropShadow blurType="ONE_PASS_BOX">
                                                    <color>
@@ -277,8 +291,15 @@
                                                    </color>
                                                 </DropShadow>
                                              </effect>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <styleClass>
+                                                <String fx:value="normaltext" />
+                                                <String fx:value="filepagegreybutton" />
+                                             </styleClass>
                                           </Button>
-                                          <Button fx:id="home_button121" layoutX="151.0" layoutY="10.0" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: linear-gradient(to bottom right, #FFFFFF0D, #181818); -fx-background-radius: 6;" styleClass="normaltext" text="Album" textFill="WHITE" GridPane.columnIndex="2">
+                                          <Button fx:id="home_button121" layoutX="151.0" layoutY="10.0" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-radius: 6;" text="Album" textFill="WHITE" GridPane.columnIndex="2">
                                              <effect>
                                                 <DropShadow blurType="ONE_PASS_BOX">
                                                    <color>
@@ -286,6 +307,13 @@
                                                    </color>
                                                 </DropShadow>
                                              </effect>
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                             <styleClass>
+                                                <String fx:value="normaltext" />
+                                                <String fx:value="filepagegreybutton" />
+                                             </styleClass>
                                           </Button>
                                        </children>
                                        <HBox.margin>
@@ -313,7 +341,7 @@
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="740.0">
                <children>
-                  <Button fx:id="home_button1221" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to bottom right, #78DF7C, #37A83C); -fx-background-radius: 6;" styleClass="normaltext" text="Confirm" textFill="WHITE">
+                  <Button fx:id="home_button1221" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Confirm" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -327,8 +355,12 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <styleClass>
+                        <String fx:value="normaltext" />
+                        <String fx:value="confirmbutton" />
+                     </styleClass>
                   </Button>
-                  <Button fx:id="home_button122" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: #232323; -fx-background-radius: 6;" styleClass="normaltext" text="Back" textFill="WHITE">
+                  <Button fx:id="home_button122" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -342,6 +374,10 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <styleClass>
+                        <String fx:value="normaltext" />
+                        <String fx:value="addpagebutton" />
+                     </styleClass>
                   </Button>
                </children>
             </HBox>

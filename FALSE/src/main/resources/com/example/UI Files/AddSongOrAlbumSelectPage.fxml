@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
@@ -77,7 +78,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="740.0">
                <children>
-                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: #232323; -fx-background-radius: 30;" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -92,7 +93,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button contentDisplay="GRAPHIC_ONLY" disable="true" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: #232323; -fx-background-radius: 30;" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" disable="true" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true" rotate="180.0">
                            <image>
@@ -176,7 +177,7 @@
             </HBox>
             <VBox alignment="CENTER" prefHeight="461.0" prefWidth="697.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 12 12 0 0;" styleClass="options" text="Add Song">
+                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 12 12 0 0;" text="Add Song">
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
@@ -203,9 +204,13 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <styleClass>
+                        <String fx:value="options" />
+                        <String fx:value="addpagebutton" />
+                     </styleClass>
                   </Button>
                   <Line endX="255.0" startX="-100.0" stroke="#2b2b2b" />
-                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-color: #232323; -fx-background-radius: 0 0 12 12;" styleClass="options" text="Add Album">
+                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 0 0 12 12;" text="Add Album">
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
@@ -235,6 +240,10 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <styleClass>
+                        <String fx:value="options" />
+                        <String fx:value="addpagebutton" />
+                     </styleClass>
                   </Button>
                </children>
                <VBox.margin>

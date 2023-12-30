@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -47,6 +48,9 @@
                      </children>
                   </VBox>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
                <graphic>
@@ -64,6 +68,9 @@
                      </children>
                   </VBox>
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
          <BorderPane.margin>
@@ -76,7 +83,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="735.0" VBox.vgrow="NEVER">
                <children>
-                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: #232323; -fx-background-radius: 30;" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -103,7 +110,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <HBox alignment="CENTER_LEFT" prefHeight="37.0" prefWidth="426.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
+                  <HBox alignment="CENTER_LEFT" maxHeight="37.0" prefHeight="37.0" prefWidth="426.0" style="-fx-background-color: #232323; -fx-background-radius: 30;">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -222,7 +229,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" text="Shire Rhyme Revelry" />
+                              <TextField prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" />
                            </children>
                         </VBox>
                         <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="378.0">
@@ -235,7 +242,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField prefHeight="41.0" prefWidth="385.0" styleClass="customtextfield" text="Yapper the Rapper">
+                              <TextField prefHeight="41.0" prefWidth="385.0" styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -259,7 +266,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextField prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield" text="??">
+                              <TextField prefHeight="41.0" prefWidth="100.0" styleClass="customtextfield">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -283,7 +290,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <TextArea prefHeight="200.0" prefWidth="690.0" promptText="Lyrics go here..." styleClass="customtextarea" text="&#10;(Verse 1)&#10;Yo, it's Yapper the Rapper, in the Shire so sweet,&#10;Hobbit feet tapping to this rhythmic beat.&#10;In Bag End, where the party's at,&#10;Yapper on the mic, and that's a fact.&#10;&#10;From the Green Dragon to the Misty Mountains tall,&#10;I'm the hobbit rapper, standing proud and small.&#10;With my rhymes so precious, like the One Ring,&#10;Yapper in the Shire, making hobbits swing.&#10;&#10;(Chorus)&#10;Yapper the Rapper, in the hobbit scene,&#10;Rhymes so clean, like a hobbit dream.&#10;From the hills to the valleys green,&#10;Yapper on the mic, living the hobbit dream.&#10;&#10;(Verse 2)&#10;In the Shire pubs, where the ale flows free,&#10;Yapper on the mic, raising a toast, you see.&#10;Bilbo and Frodo, join the hobbit crew,&#10;In this Middle-earth rap, I'm bringing it through.&#10;&#10;From second breakfast to elevenses, I rhyme,&#10;In the hobbit rhythm, where the sun does shine.&#10;With my verses like fireworks in the sky,&#10;Yapper in the Shire, let the hobbits fly.&#10;&#10;(Chorus)&#10;Yapper the Rapper, in the hobbit scene,&#10;Rhymes so clean, like a hobbit dream.&#10;From the hills to the valleys green,&#10;Yapper on the mic, living the hobbit dream.&#10;&#10;(Bridge)&#10;From Bag End to Rivendell's gleam,&#10;Yapper on the mic, in the hobbit theme.&#10;In the Shire's rhythm, hear the hobbit scream,&#10;This rap's a journey, like a hobbit's dream.&#10;&#10;(Verse 3)&#10;In the Misty Mountains, where the echoes roam,&#10;Yapper on the mic, finding a hobbit home.&#10;Through Mirkwood's shadow, and the Elven glow,&#10;In this hobbit rap, watch the stories grow.&#10;&#10;So, if you're a hobbit with a love for the rhyme,&#10;Join Yapper's fellowship, we're on a quest so prime.&#10;From the Shire to the Grey Havens gleam,&#10;Yapper the Rapper, in the hobbit dream.&#10;&#10;(Chorus)&#10;Yapper the Rapper, in the hobbit scene,&#10;Rhymes so clean, like a hobbit dream.&#10;From the hills to the valleys green,&#10;Yapper on the mic, living the hobbit dream.">
+                              <TextArea prefHeight="200.0" prefWidth="690.0" styleClass="customtextarea">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -302,7 +309,7 @@
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="740.0">
                <children>
-                  <Button fx:id="home_button1221" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to bottom right, #78DF7C, #37A83C); -fx-background-radius: 6;" styleClass="normaltext" text="Confirm" textFill="WHITE">
+                  <Button fx:id="home_button1221" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Confirm" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -316,8 +323,12 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <styleClass>
+                        <String fx:value="normaltext" />
+                        <String fx:value="confirmbutton" />
+                     </styleClass>
                   </Button>
-                  <Button fx:id="home_button122" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: #232323; -fx-background-radius: 6;" styleClass="normaltext" text="Back" textFill="WHITE">
+                  <Button fx:id="home_button122" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -331,6 +342,10 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <styleClass>
+                        <String fx:value="normaltext" />
+                        <String fx:value="addpagebutton" />
+                     </styleClass>
                   </Button>
                </children>
             </HBox>
