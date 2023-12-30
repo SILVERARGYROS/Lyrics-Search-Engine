@@ -37,6 +37,14 @@ public class LuceneSettings {
 	private static Map<Integer, Similarity> SIMILARITY_POOL = new HashMap<>();
 	private static Map<Integer, String> SCRAPING_POOL = new HashMap<>();
 
+	public static Map<Integer, Similarity> getSIMILARITY_POOL() {
+		return SIMILARITY_POOL;
+	}
+
+	public static Map<Integer, String> getSCRAPING_POOL() {
+		return SCRAPING_POOL;
+	}
+
 	public static int getMAX_SEARCH() {
 		return MAX_SEARCH;
 	}
@@ -60,6 +68,11 @@ public class LuceneSettings {
 	public static void setSCRAPING_SOURCE(int x) {
 		SCRAPING_SOURCE = SCRAPING_POOL.get(x);
 	}
+
+	public static void setSCRAPING_SOURCE(String source) {
+		SCRAPING_SOURCE = source;
+	}
+	
 
 	public static int getSimilarityCode(){
 		for (Entry<Integer, Similarity> entry : SIMILARITY_POOL.entrySet()) {

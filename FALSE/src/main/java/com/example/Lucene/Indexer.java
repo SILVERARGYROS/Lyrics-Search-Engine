@@ -85,14 +85,14 @@ public class Indexer {
 		writer.addDocument(new Document());
 		writer.commit();
 
+		int albumNumDocs = 0;
 		// get all files in the data directory
 		File[] files = new File(dataDirPath).listFiles();
 		for (File file : files) {
 			if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
-				indexFile(file, "albums", true);
+				albumNumDocs = indexFile(file, "albums", true);
 			}
 		}
-		int albumNumDocs = writer.numRamDocs();
 		writer.commit();
 
 		return albumNumDocs;
