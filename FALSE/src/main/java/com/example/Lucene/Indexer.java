@@ -15,6 +15,7 @@ import java.util.Collection;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.TextField;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexOptions;
@@ -422,15 +423,15 @@ public class Indexer {
 
 	public Document createAlbumDocument(String[] fields){
 		// index general field
-		Field generalField = new Field("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), fieldConf);
+		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Field.Store.YES);
 		// index artist name
-		Field artistNameField = new Field("Artist", fields[0].toLowerCase().replace(" lyrics", ""), fieldConf);
+		TextField artistNameField = new TextField("Artist", fields[0].toLowerCase().replace(" lyrics", ""), Field.Store.YES);
 		// index artist name
-		Field albumNameField = new Field("Album", fields[1].toLowerCase(), fieldConf);
+		TextField albumNameField = new TextField("Album", fields[1].toLowerCase(), Field.Store.YES);
 		// index album_type
-		Field albumTypeField = new Field("Album_Type", fields[2].toLowerCase(), fieldConf);
+		TextField albumTypeField = new TextField("Album_Type", fields[2].toLowerCase(), Field.Store.YES);
 		// index album_year
-		Field albumYearField = new Field("Year", fields[3].toLowerCase(), fieldConf);
+		TextField albumYearField = new TextField("Year", fields[3].toLowerCase(), Field.Store.YES);
 
 		// document.add(contentField);
 		Document document = new Document();
@@ -445,17 +446,17 @@ public class Indexer {
 
 	public Document createSongDocument(String[] fields){
 		// index general field
-		Field generalField = new Field("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), fieldConf);
+		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Field.Store.YES);
 		// index artist name
-		Field artistName = new Field("Artist", fields[0].toLowerCase(), fieldConf);
+		TextField artistName = new TextField("Artist", fields[0].toLowerCase(), Field.Store.YES);
 		// index link
 		fieldConf.setTokenized(false);
-		Field songHrefField = new Field("Song_Link", fields[1].toLowerCase(), fieldConf);
+		TextField songHrefField = new TextField("Song_Link", fields[1].toLowerCase(), Field.Store.YES);
 		fieldConf.setTokenized(true);
 		// index Song Name
-		Field songNameField = new Field("Song", fields[2].toLowerCase(), fieldConf);
+		TextField songNameField = new TextField("Song", fields[2].toLowerCase(), Field.Store.YES);
 		// index lyrics
-		Field lyricsField = new Field("Lyrics", constructLyricsFieldString(fields[3].toLowerCase()), fieldConf);
+		TextField lyricsField = new TextField("Lyrics", constructLyricsFieldString(fields[3].toLowerCase()), Field.Store.YES);
 
 		Document document = new Document();
 		document.add(generalField);

@@ -148,11 +148,11 @@ public class SimpleAlbumSearchPageController {
             //load fxml
             FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("UI files/AlbumInformationButton.fxml"));
             Parent resultNode =  fxmlLoader.load();
-            SongInformationButtonController resultController = fxmlLoader.getController();
+            AlbumInformationButtonController resultController = fxmlLoader.getController();
 
             //setup fxml
-            resultController.setSongLabel(document.get("Album"));
-            resultController.setArtistLabel(document.get("Year"));
+            resultController.setAlbumLabel(document.get("Album"));
+            resultController.setYearLabel(document.get("Year"));
             resultController.setScoreLabel(score + "");
 
             // (Will need to find Matches before setting this one)

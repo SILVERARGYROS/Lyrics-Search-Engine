@@ -3,7 +3,6 @@ package com.example.Lucene;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
@@ -37,7 +36,7 @@ public class LuceneManager {
 	Indexer songIndexer;
 	Indexer albumIndexer;
 
-	public LuceneManager() throws IOException{
+	public LuceneManager() throws IOException, ParseException{
 		path = new File(".").getCanonicalPath();
 		System.out.println("PROJECT RUNNING PATH: " + path);
 
@@ -56,13 +55,14 @@ public class LuceneManager {
 
 		songIndexer = new Indexer(songIndexDir);
 		albumIndexer = new Indexer(albumIndexDir);
+		initializeIndexes();
 	}
 	
 	public void run(String[] args) throws IOException, ParseException, InterruptedException, ExecutionException{
-		initializeIndexes();
+		// initializeIndexes();
 		// this.simpleSongSearch("swift AND taylor", "Artist"); // Here we enter the query for Search
 		// getFromSource("SLEEPWALKING", "A-Z Lyrics");
-		close();
+		// close();
 	}
 
 	public void initializeIndexes() throws IOException, ParseException {
