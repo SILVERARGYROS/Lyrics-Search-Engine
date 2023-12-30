@@ -42,12 +42,7 @@ public class App extends Application {
     private static Document viewingDocument = null;
     private static ScoreDoc viewingScoredoc = null;
 
-    private static ScoreDoc[] searchResults = null;
-    private static String searchString = "";
-
-    public static void setSearchString(String searchString) {
-        App.searchString = searchString;
-    }
+    private static ScoreDoc[] searchResults;
 
     public static Stage getStage() {
         return stage;
@@ -81,10 +76,6 @@ public class App extends Application {
         App.searchResults = searchResults;
     }
 
-    public static String getSearchString() {
-        return searchString;
-    }
-    
     @Override
     public void start(Stage stage) throws IOException, ParseException {
         luceneManager = new LuceneManager();

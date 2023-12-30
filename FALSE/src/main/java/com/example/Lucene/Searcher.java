@@ -20,6 +20,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.queryparser.simple.SimpleQueryParser;
 
 public class Searcher {
 	IndexSearcher indexSearcher;
@@ -53,7 +54,7 @@ public class Searcher {
 	public Query constructCombinedQuery(String[] querySearches, String[] queryFields, BooleanClause.Occur occurance) throws ParseException{
 		ArrayList<Query> queryList = new ArrayList<>();
 		for(int i = 0; i < queryFields.length; i++){
-			Query currentQuery = new QueryParser(queryFields[i], new StandardAnalyzer()).parse(querySearches[i]);
+			Query currentQuery = new  SimpleQueryParser(new StandardAnalyzer(), querySearches[i]).parse(queryFields[i]);
 			queryList.add(currentQuery);
 		}
 

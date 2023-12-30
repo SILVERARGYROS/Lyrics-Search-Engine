@@ -294,7 +294,7 @@
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="740.0">
                <children>
-                  <Button fx:id="editButton" disable="true" layoutX="479.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="101.0" style="-fx-background-radius: 6;" text="Edit" textFill="WHITE">
+                  <Button fx:id="editButton" disable="true" layoutX="479.0" layoutY="10.0" mnemonicParsing="false" onAction="#edit" prefHeight="37.0" prefWidth="101.0" style="-fx-background-radius: 6;" text="Edit" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -320,7 +320,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="similarityButton" layoutX="479.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="187.0" style="-fx-background-radius: 6;" text="View Similar Albums" textFill="WHITE">
+                  <Button fx:id="similarityButton" layoutX="479.0" layoutY="10.0" mnemonicParsing="false" onAction="#viewSimilar" prefHeight="37.0" prefWidth="187.0" style="-fx-background-radius: 6;" text="View Similar Albums" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>

@@ -1,6 +1,5 @@
 package com.example.FXControllers;
 
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -11,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.ScoreDoc;
 
 public class ViewSelectedSongPageController {
 
@@ -21,9 +22,6 @@ public class ViewSelectedSongPageController {
     private TextField artistTextField;
     
     @FXML
-    private TextField linkTextField;
-    
-    @FXML
     private TextArea lyricsTextArea;
 
     @FXML
@@ -31,14 +29,12 @@ public class ViewSelectedSongPageController {
 
     @FXML
     private Button similarityButton;
-    
 
     @FXML
     public void initialize(){
         Document document = App.getViewingDocument();
         songTextField.setText(document.get("Song"));
         artistTextField.setText(document.get("Artist"));
-        linkTextField.setText(document.get("Link"));
         lyricsTextArea.setText(document.get("Lyrics"));
     }
 
@@ -60,11 +56,10 @@ public class ViewSelectedSongPageController {
 
     @FXML
     private void edit() throws IOException{
-        App.getLuceneManager().removeSongFromIndex(App.getViewingScoredoc());
+        // App.getLuceneManager().removeSongFromIndex(App.getViewingScoredoc());
         ArrayList<String> fields = new ArrayList<>();
         fields.add(songTextField.getText());
         fields.add(artistTextField.getText());
-        fields.add(linkTextField.getText());
         fields.add(lyricsTextArea.getText());
 
         try {
@@ -74,5 +69,14 @@ public class ViewSelectedSongPageController {
             System.out.println("Something when wrong, load error UI. Exception: " + e);
             App.switchToAddFailurePage();
         }
+    }
+
+    @FXML
+    private void viewSimilar() throws IOException, ParseException{
+        System.out.println("DEBUG: INSIDE SIMILARITY METHOD");
+        Document document = App.getViewingDocument();
+        ScoreDoc[] scoreDocs = App.getLuceneManager().relatedSongSearch(document);
+        App.setSearchResults(scoreDocs);
+        App.switchToSimpleSongSearchPage();
     }
 }

@@ -41,7 +41,7 @@ public class SimpleSongSearchPageController {
     private FlowPane placeHolder;
 
     @FXML
-    private void initialize(){
+    private void initialize() throws IOException, ParseException{
         searchButton.disableProperty().bind(
             Bindings.isEmpty(searchTextField.textProperty())
         );
@@ -74,6 +74,7 @@ public class SimpleSongSearchPageController {
             deselect(artistButton);
             select(lyricsButton);
         });
+        loadResults();
     }
     
     @FXML
@@ -112,7 +113,6 @@ public class SimpleSongSearchPageController {
     @FXML
     private void search() throws IOException, ParseException{
         String searchString = searchTextField.getText();
-        App.setSearchString(searchString);
         ScoreDoc[] results = App.getLuceneManager().simpleSongSearch(searchString, searchField);
         App.setSearchResults(results);
         loadResults();

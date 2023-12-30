@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.ScoreDoc;
 
 public class ViewSelectedAlbumPageController {
 
@@ -25,9 +27,9 @@ public class ViewSelectedAlbumPageController {
     
     @FXML
     private TextField yearTextField;
-
+    
     @FXML
-    private Button confirmButton;
+    private Button similarityButton;
     
 
     @FXML
@@ -71,5 +73,14 @@ public class ViewSelectedAlbumPageController {
             System.out.println("Something when wrong, load error UI. Exception: " + e);
             App.switchToAddFailurePage();
         }
+    }
+
+        @FXML
+    private void viewSimilar() throws IOException, ParseException{
+        System.out.println("DEBUG: INSIDE SIMILARITY METHOD");
+        Document document = App.getViewingDocument();
+        ScoreDoc[] scoreDocs = App.getLuceneManager().relatedAlbumSearch(document);
+        App.setSearchResults(scoreDocs);
+        App.switchToSimpleAlbumSearchPage();
     }
 }

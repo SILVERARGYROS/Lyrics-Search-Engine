@@ -229,19 +229,20 @@ public class LuceneManager {
 		Searcher searcher = new Searcher(indexDir);
 
 		// Get field names and searches
-		String[] fieldNames = new String[]{};
-		String[] fieldSearches = new String[]{};
+		String[] fieldNames = new String[document.getFields().size()];	
+		String[] fieldSearches = new String[document.getFields().size()];
 		
 		int i = 0;
-		for(IndexableField field: document.getFields(indexDir)){
+		for(IndexableField field: document.getFields()){
 			fieldNames[i] = (field.name());
 			fieldSearches[i] = (field.stringValue());
 			i++;
 		}
 
 		// Construct query
-		Query query = searcher.constructCombinedQuery(fieldNames, fieldSearches, Occur.MUST);
+		Query query = searcher.constructCombinedQuery(fieldNames, fieldSearches, Occur.SHOULD);
 
+		System.out.println("\n\nDEEBUG SIMILAR QUERY: " + query + "\n\n");
 		// Execute query
 		TopDocs hits = searcher.search(query);
 

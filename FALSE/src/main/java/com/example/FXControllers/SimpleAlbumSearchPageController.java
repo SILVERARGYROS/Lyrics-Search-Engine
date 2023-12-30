@@ -128,7 +128,6 @@ public class SimpleAlbumSearchPageController {
     @FXML
     private void search() throws IOException, ParseException{
         String searchString = searchTextField.getText();
-        App.setSearchString(searchString);
         ScoreDoc[] results = App.getLuceneManager().simpleAlbumSearch(searchString, searchField);
         App.setSearchResults(results);
         loadResults();
@@ -136,7 +135,6 @@ public class SimpleAlbumSearchPageController {
 
     @FXML
     private void loadResults() throws IOException, ParseException{
-        searchTextField.setText(App.getSearchString());
         for(ScoreDoc scoreDoc: App.getSearchResults()){
 
             // Get document
