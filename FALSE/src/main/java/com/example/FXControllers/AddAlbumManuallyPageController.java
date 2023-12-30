@@ -52,7 +52,7 @@ public class AddAlbumManuallyPageController {
     }
 
     @FXML
-    private void addSong(){
+    private void addAlbum(){
         ArrayList<String> fields = new ArrayList<>();
         fields.add(albumTextField.getText());
         fields.add(artistTextField.getText());

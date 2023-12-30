@@ -288,7 +288,7 @@
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="740.0">
                <children>
-                  <Button fx:id="confirmButton" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" onAction="#addSong" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to bottom right, #78DF7C, #37A83C); -fx-background-radius: 6;" styleClass="normaltext" text="Confirm" textFill="WHITE">
+                  <Button fx:id="confirmButton" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" onAction="#addAlbum" prefHeight="37.0" prefWidth="115.0" style="-fx-background-color: linear-gradient(to bottom right, #78DF7C, #37A83C); -fx-background-radius: 6;" styleClass="normaltext" text="Confirm" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
