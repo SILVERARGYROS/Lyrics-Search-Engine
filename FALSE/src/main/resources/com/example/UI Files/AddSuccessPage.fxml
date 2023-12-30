@@ -168,7 +168,7 @@
                      </image>
                   </ImageView>
                   <Label prefHeight="54.0" prefWidth="160.0" text="Data added successfully!" textAlignment="CENTER" textFill="#47bb6e" />
-                  <Button fx:id="home_button122" mnemonicParsing="false" onAction="#switchToAddPage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
+                  <Button fx:id="home_button122" mnemonicParsing="false" onAction="#switchToHomePage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Home" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
