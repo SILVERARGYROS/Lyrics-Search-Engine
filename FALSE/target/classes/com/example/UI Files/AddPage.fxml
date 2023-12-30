@@ -29,7 +29,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </ImageView>
-            <Button fx:id="home_button" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
+            <Button fx:id="home_button" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: ##232323; -fx-background-radius: 12;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>

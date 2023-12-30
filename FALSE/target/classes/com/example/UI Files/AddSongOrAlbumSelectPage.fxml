@@ -31,7 +31,7 @@
             </ImageView>
             <Button fx:id="home_button" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
                <graphic>
-                  <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
+                  <VBox alignment="CENTER" onDragDetected="#switchToHomePage" prefHeight="97.0" prefWidth="105.0">
                      <children>
                         <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -50,7 +50,7 @@
                   </VBox>
                </graphic>
             </Button>
-            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
+            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" onAction="#switchToSettingsPage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -78,7 +78,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="740.0">
                <children>
-                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#switchToAddPage" prefHeight="37.0" prefWidth="37.0" style="-fx-background-radius: 30;" styleClass="addpagebutton" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -177,7 +177,7 @@
             </HBox>
             <VBox alignment="CENTER" prefHeight="461.0" prefWidth="697.0" VBox.vgrow="ALWAYS">
                <children>
-                  <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 12 12 0 0;" text="Add Song">
+                  <Button mnemonicParsing="false" onAction="#switchToAddSongManuallyPage" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 12 12 0 0;" text="Add Song">
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>
@@ -210,7 +210,7 @@
                      </styleClass>
                   </Button>
                   <Line endX="255.0" startX="-100.0" stroke="#2b2b2b" />
-                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 0 0 12 12;" text="Add Album">
+                  <Button layoutX="170.0" layoutY="206.0" mnemonicParsing="false" onAction="#switchToAddAlbumManuallyPage" prefHeight="100.0" prefWidth="355.0" style="-fx-background-radius: 0 0 12 12;" text="Add Album">
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                            <image>

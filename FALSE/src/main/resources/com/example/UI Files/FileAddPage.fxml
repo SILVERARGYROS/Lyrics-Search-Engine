@@ -31,7 +31,7 @@
                   <Insets top="30.0" />
                </VBox.margin>
             </ImageView>
-            <Button fx:id="home_button" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: #232323; -fx-background-radius: 12;">
+            <Button fx:id="home_button" mnemonicParsing="false" onAction="#switchToHomePage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-color: ##232323; -fx-background-radius: 12;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -55,7 +55,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
+            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" onAction="#switchToSettingsPage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #232323;">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -86,7 +86,7 @@
          <children>
             <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="735.0" VBox.vgrow="NEVER">
                <children>
-                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: #232323; -fx-background-radius: 30;" text="Button">
+                  <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#switchToAddPage" prefHeight="37.0" prefWidth="37.0" style="-fx-background-color: #232323; -fx-background-radius: 30;" text="Button">
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -204,11 +204,11 @@
                   </Label>
                   <HBox prefHeight="231.0" prefWidth="200.0">
                      <children>
-                        <Button fx:id="home_button1" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: #181818; -fx-background-radius: 12 0 0 12;">
+                        <Button fx:id="fileButton" mnemonicParsing="false" onAction="#chooseFile" prefHeight="231.0" prefWidth="231.0" style="-fx-background-color: #181818; -fx-background-radius: 12 0 0 12;">
                            <graphic>
                               <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                                  <children>
-                                    <ImageView fitHeight="47.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="fileImageView" fitHeight="47.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../media/File%20add.png" />
                                        </image>
@@ -216,7 +216,7 @@
                                           <Insets bottom="10.0" />
                                        </VBox.margin>
                                     </ImageView>
-                                    <Label styleClass="options" text="Click to add File" textFill="WHITE">
+                                    <Label fx:id="fileLabel" styleClass="options" text="Click to add File" textFill="WHITE">
                                        <font>
                                           <Font name="High Tower Text" size="12.0" />
                                        </font>
@@ -264,7 +264,7 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <Button fx:id="home_button11" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-radius: 6;" text="Song" textFill="WHITE">
+                                          <Button fx:id="songButton" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-radius: 6;" text="Song" textFill="WHITE">
                                              <effect>
                                                 <DropShadow blurType="ONE_PASS_BOX">
                                                    <color>
@@ -283,7 +283,7 @@
                                                 <String fx:value="filepageorangebutton" />
                                              </styleClass>
                                           </Button>
-                                          <Button fx:id="home_button12" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-radius: 6;" text="Lyrics" textFill="WHITE" GridPane.columnIndex="1">
+                                          <Button fx:id="lyricsButton" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-radius: 6;" text="Lyrics" textFill="WHITE" GridPane.columnIndex="1">
                                              <effect>
                                                 <DropShadow blurType="ONE_PASS_BOX">
                                                    <color>
@@ -299,7 +299,7 @@
                                                 <String fx:value="filepagegreybutton" />
                                              </styleClass>
                                           </Button>
-                                          <Button fx:id="home_button121" layoutX="151.0" layoutY="10.0" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-radius: 6;" text="Album" textFill="WHITE" GridPane.columnIndex="2">
+                                          <Button fx:id="albumButton" layoutX="151.0" layoutY="10.0" mnemonicParsing="false" prefHeight="231.0" prefWidth="231.0" style="-fx-background-radius: 6;" text="Album" textFill="WHITE" GridPane.columnIndex="2">
                                              <effect>
                                                 <DropShadow blurType="ONE_PASS_BOX">
                                                    <color>
@@ -322,7 +322,7 @@
                                     </GridPane>
                                  </children>
                               </HBox>
-                              <CheckBox mnemonicParsing="false" text="Ignore First Line of File" textFill="#d4d4d4">
+                              <CheckBox fx:id="checkbox" mnemonicParsing="false" text="Ignore First Line of File" textFill="#d4d4d4">
                                  <VBox.margin>
                                     <Insets top="15.0" />
                                  </VBox.margin>
@@ -341,7 +341,7 @@
             </VBox>
             <HBox alignment="TOP_RIGHT" prefHeight="71.0" prefWidth="740.0">
                <children>
-                  <Button fx:id="home_button1221" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Confirm" textFill="WHITE">
+                  <Button fx:id="confirmButton" disable="true" layoutX="613.0" layoutY="10.0" mnemonicParsing="false" onAction="#addFile" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Confirm" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>
@@ -360,7 +360,7 @@
                         <String fx:value="confirmbutton" />
                      </styleClass>
                   </Button>
-                  <Button fx:id="home_button122" mnemonicParsing="false" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
+                  <Button fx:id="home_button122" mnemonicParsing="false" onAction="#switchToAddPage" prefHeight="37.0" prefWidth="115.0" style="-fx-background-radius: 6;" text="Back" textFill="WHITE">
                      <effect>
                         <DropShadow blurType="ONE_PASS_BOX">
                            <color>

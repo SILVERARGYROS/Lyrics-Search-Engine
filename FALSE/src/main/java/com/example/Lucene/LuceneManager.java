@@ -3,6 +3,8 @@ package com.example.Lucene;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexableField;
@@ -119,18 +121,18 @@ public class LuceneManager {
 		songIndexer.commit();
 	}
 
-	public void addAlbumFileToIndex(File file) throws IOException, ParseException{
-		albumIndexer.indexFile(file, "albums");
+	public void addAlbumFileToIndex(File file, boolean ignoreFirstLine) throws IOException, ParseException{
+		albumIndexer.indexFile(file, "albums", ignoreFirstLine);
 		albumIndexer.commit();
 	}
 
-	public void addSongFileToIndex(File file) throws IOException, ParseException{
-		songIndexer.indexFile(file, "songs");
+	public void addSongFileToIndex(File file, boolean ignoreFirstLine) throws IOException, ParseException{
+		songIndexer.indexFile(file, "songs", ignoreFirstLine);
 		songIndexer.commit();
 	}
 
-	public void addLyricsFileToIndex(File file) throws IOException, ParseException{
-		songIndexer.indexFile(file, "lyrics");
+	public void addLyricsFileToIndex(File file, boolean ignoreFirstLine) throws IOException, ParseException{
+		songIndexer.indexFile(file, "lyrics", ignoreFirstLine);
 		songIndexer.commit();
 	}
 
@@ -272,17 +274,46 @@ public class LuceneManager {
 	
 	// https://reintech.io/blog/java-web-scraping-extracting-data-from-websites
 	// https://github.com/jagrosh/JLyrics/blob/master/README.md
-	public Document getFromSource(String songName, String source) throws IOException, InterruptedException, ExecutionException{
-		LyricsClient client = new LyricsClient(source);
-        Lyrics lyrics = client.getLyrics(songName).get();
-		
-		String[] fields = {lyrics.getTitle(), lyrics.getAuthor(), lyrics.getContent(), lyrics.getSource()};
-		Document document = songIndexer.createSongDocument(fields);
-  
-		System.out.println("Title: " + lyrics.getTitle() + " Author: " + lyrics.getAuthor() + " \nLyrics: \n\n" + lyrics.getContent() + "\n Source: " + lyrics.getSource());
-		System.out.println("Out of url method");
+	public Document getFromSource(String songName) throws IOException, InterruptedException, ExecutionException{
+		Document document = null;
+		try{
+			LyricsClient client = new LyricsClient(LuceneSettings.getSCRAPING_SOURCE());
+			Lyrics lyrics = client.getLyrics(songName).get();
+			
+			String[] fields = {lyrics.getAuthor(), lyrics.getSource(), lyrics.getTitle(), lyrics.getContent()};
+			document = songIndexer.createSongDocument(fields);
+	  
+			System.out.println("Title: " + lyrics.getTitle() + " Author: " + lyrics.getAuthor() + " \nLyrics: \n\n" + lyrics.getContent() + "\n Source: " + lyrics.getSource());
+		}
+		catch(Exception e){
+			System.out.println("Document not found! Returning null document. Exception: " + e);
+		}
 
 		return document;
+	}
+
+	public String[] getSongFields(Document document){
+		String[] fields = new String[document.getFields().size()];
+
+		fields[0] = document.get("General");
+		fields[1] = document.get("Song");
+		fields[2] = document.get("Artist");
+		fields[3] = document.get("Song_Link");
+		fields[4] = document.get("Lyrics");
+
+		return fields;
+	}
+
+	public String[] getAlbumFields(Document document){
+		String[] fields = new String[document.getFields().size()];
+
+		fields[0] = document.get("General");
+		fields[1] = document.get("Album");
+		fields[2] = document.get("Artist");
+		fields[3] = document.get("Year");
+		fields[4] = document.get("Album_Type");
+
+		return fields;
 	}
 
 	public void setMAX_SEARCH(int x){

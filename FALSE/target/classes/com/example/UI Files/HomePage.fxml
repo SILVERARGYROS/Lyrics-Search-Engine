@@ -163,7 +163,7 @@
                         </Button>
                         <VBox alignment="CENTER_LEFT" prefHeight="271.0" prefWidth="231.0" spacing="11.0">
                            <children>
-                              <Button fx:id="add_button" mnemonicParsing="false" prefHeight="101.6" prefWidth="188.48" style="-fx-background-radius: 0 12 0 0;" styleClass="mainmenuaddbutton">
+                              <Button fx:id="add_button" mnemonicParsing="false" onAction="#switchToAddPage" prefHeight="101.6" prefWidth="188.48" style="-fx-background-color: linear-gradient(to bottom right, #78DF7C, #37A83C); -fx-background-radius: 0 12 0 0;" styleClass="mainmenuaddbutton">
                                  <graphic>
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                                        <children>
