@@ -57,8 +57,8 @@ public class AdvancedSongSearchPageController {
     }
 
     @FXML
-    private void switchToAddSongOrAlbumSelectPage() throws IOException {
-        App.switchToAddSongOrAlbumSelectPage();
+    private void switchToSearchSongOrAlbumSelectPage() throws IOException {
+        App.switchToSearchSongOrAlbumSelectPage();
     }
 
     @FXML

@@ -9,6 +9,9 @@ import com.example.App;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.search.ScoreDoc;
+
 public class AdvancedAlbumSearchPageController {
 
     @FXML
@@ -24,11 +27,11 @@ public class AdvancedAlbumSearchPageController {
     private TextField yearTextField;
 
     @FXML
-    private Button confirmButton;
+    private Button searchButton;
 
     @FXML
     public void initialize(){
-        confirmButton.disableProperty().bind(
+        searchButton.disableProperty().bind(
             Bindings.isEmpty(albumTextField.textProperty())
             .and(Bindings.isEmpty(artistTextField.textProperty()))
             .and(Bindings.isEmpty(typeTextField.textProperty()))
@@ -47,25 +50,34 @@ public class AdvancedAlbumSearchPageController {
     }
 
     @FXML
-    private void switchToAddSongOrAlbumSelectPage() throws IOException {
-        App.switchToAddSongOrAlbumSelectPage();
+    private void switchToSearchSongOrAlbumSelectPage() throws IOException {
+        App.switchToSearchSongOrAlbumSelectPage();
     }
 
     @FXML
-    private void addAlbum() throws IOException{
-        ArrayList<String> fields = new ArrayList<>();
-        fields.add(albumTextField.getText());
-        fields.add(artistTextField.getText());
-        fields.add(typeTextField.getText());
-        fields.add(yearTextField.getText());
+    private void search() throws IOException, ParseException{
+        String[] fields = new String[4];
+        String[] values = new String[4];
 
-        try {
-            App.getLuceneManager().addAlbumToIndex(fields);
-            App.switchToAddSuccessPage();
-        } catch (Exception e) {
-            System.out.println("Something when wrong, load error UI. Exception: " + e);
-            App.switchToAddFailurePage();
-        }
+        fields[0] = "Artist";
+        fields[1] = "Album";
+        fields[2] = "Album_Type";
+        fields[3] = "Year";
+        values[0] = albumTextField.getText().strip();
+        values[1] = artistTextField.getText().strip();
+        values[2] = typeTextField.getText().strip();
+        values[3] = yearTextField.getText().strip();
 
+        ScoreDoc[] results = App.getLuceneManager().advancedSongSearch(fields, values);
+        App.setSearchResults(results);
+        App.switchToSimpleSongSearchPage();
+    }
+    
+    @FXML
+    private void resetFields() throws IOException{
+        albumTextField.setText("");
+        artistTextField.setText("");
+        typeTextField.setText("");
+        yearTextField.setText("");
     }
 }
