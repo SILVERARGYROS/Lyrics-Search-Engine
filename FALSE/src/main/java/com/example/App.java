@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.classic.ParseException;
 
 import com.example.Lucene.LuceneManager;
@@ -29,8 +30,10 @@ public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
+
     private static LuceneManager luceneManager;
-    
+    private static Document viewingDocument = null;
+
     public static Stage getStage() {
         return stage;
     }
@@ -39,11 +42,20 @@ public class App extends Application {
         return luceneManager;
     }
 
+    public static Document getViewingDocument() {
+        return viewingDocument;
+    }
+
+    public static void setViewingDocument(Document viewingDocument) {
+        App.viewingDocument = viewingDocument;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
         App.stage = stage;
         scene = new Scene(loadFXML("HomePage"), 900, 500);
         stage.setScene(scene);
+        stage.setTitle("FALSE");
         stage.setMinWidth(900);
         stage.setMinHeight(535);
         stage.show();
@@ -81,6 +93,7 @@ public class App extends Application {
 
     public static void switchToAddPage() throws IOException{
         setRoot("AddPage");
+        System.out.println("Switching to add page");
     }
 
     public static void switchToAddSongOrAlbumSelectPage() throws IOException{

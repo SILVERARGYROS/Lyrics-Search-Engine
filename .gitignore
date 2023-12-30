@@ -23,3 +23,10 @@ FALSE/Index/albums/segments_2
 *.class
 *.lock
 FALSE/Index/songs/segments_3
+*.fdt
+*.nvd
+*.fnm
+*.nvm
+*.tvd
+*.tvm
+*.tvx

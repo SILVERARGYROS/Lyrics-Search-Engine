@@ -30,6 +30,4 @@ public class AddPageController {
     private void switchToAddByGuessPage() throws IOException {
         App.switchToAddByGuessPage();
     }
-
-
 }

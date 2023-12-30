@@ -22,7 +22,7 @@ public class AddSongManuallyPageController {
     private TextField linkTextField;
     
     @FXML
-    private TextArea lyricsTextField;
+    private TextArea lyricsTextArea;
 
     @FXML
     private Button confirmButton;
@@ -33,7 +33,7 @@ public class AddSongManuallyPageController {
             Bindings.isEmpty(songTextField.textProperty())
             .and(Bindings.isEmpty(artistTextField.textProperty()))
             .and(Bindings.isEmpty(linkTextField.textProperty()))
-            .and(Bindings.isEmpty(lyricsTextField.textProperty()))
+            .and(Bindings.isEmpty(lyricsTextArea.textProperty()))
         );
     }
 
@@ -59,8 +59,7 @@ public class AddSongManuallyPageController {
         fields.add(songTextField.getText());
         fields.add(artistTextField.getText());
         fields.add(linkTextField.getText());
-        fields.add(lyricsTextField.getText());
-
+        fields.add(lyricsTextArea.getText());
 
         try {
             App.getLuceneManager().addSongToIndex(fields);
@@ -70,6 +69,5 @@ public class AddSongManuallyPageController {
             System.out.println("Something when wrong, load error UI. Exception: " + e);
             // Load error UI
         }
-
     }
 }

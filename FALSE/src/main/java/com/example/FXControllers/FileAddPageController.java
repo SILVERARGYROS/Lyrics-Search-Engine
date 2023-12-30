@@ -4,7 +4,6 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -12,8 +11,6 @@ import com.example.App;
 
 import java.io.File;
 import java.io.IOException;
-
-import org.apache.lucene.queryparser.classic.ParseException;
 
 public class FileAddPageController {
 
@@ -90,12 +87,12 @@ public class FileAddPageController {
 
     @FXML
     private void select(Button button){
-        button.setStyle("-fx-background-color:  linear-gradient(to bottom right, #FF2490, #FFA149); -fx-background-radius: 6 6 6 6");
+        button.setStyle("-fx-background-color: linear-gradient(to bottom right, #FF2490, #FFA149); -fx-background-radius: 6");
     }
 
     @FXML
     private void unselect(Button button){
-        button.setStyle("-fx-background-color:   linear-gradient(to bottom right, #2A2A2A, #181818); -fx-background-radius: 6 6 6 6");
+        button.setStyle("-fx-background-color: linear-gradient(to bottom right, #2A2A2A, #181818); -fx-background-radius: 6");
     }
 
     @FXML

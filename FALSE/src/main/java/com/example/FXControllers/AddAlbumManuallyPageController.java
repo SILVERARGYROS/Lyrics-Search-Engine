@@ -59,7 +59,6 @@ public class AddAlbumManuallyPageController {
         fields.add(typeTextField.getText());
         fields.add(yearTextField.getText());
 
-
         try {
             App.getLuceneManager().addAlbumToIndex(fields);
             // Load Confirmation UI
