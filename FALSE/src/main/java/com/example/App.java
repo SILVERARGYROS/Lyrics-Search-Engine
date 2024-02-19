@@ -7,8 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URISyntaxException;
+import java.util.stream.Collectors;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.queryparser.classic.ParseException;
@@ -101,6 +105,11 @@ public class App extends Application {
     private static Parent loadFXML(String fxml) throws IOException {
         System.out.println("DEBUG " + App.class.getCanonicalName());
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("UI files/" + fxml + ".fxml"));
+        // System.out.println(App.class.getResourceAsStream("UI files/" + fxml + ".fxml"));
+
+        // String string = (new BufferedReader(new InputStreamReader(App.class.getResourceAsStream("UI Files/" + fxml + ".fxml")))).lines().collect(Collectors.joining("\n"));
+        // System.out.println("STRING == " + string);
+        // return fxmlLoader.load(new ByteArrayInputStream(string.getBytes()));
         return fxmlLoader.load();
     }
 
@@ -190,7 +199,7 @@ public class App extends Application {
         System.exit(0);
     }
 
-    public static void main(String[] args) {
+    public static void appMain(String[] args) {
         launch();
     }
 }

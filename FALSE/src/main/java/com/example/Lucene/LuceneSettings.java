@@ -104,10 +104,20 @@ public class LuceneSettings {
 		SCRAPING_POOL.put(3, "MusixMatch");
 		SCRAPING_POOL.put(4, "MusicMatch");
 		SCRAPING_POOL.put(5, "LyricsFreak");
-		SCRAPING_POOL.put(6, "MusixMatch");
+		// SCRAPING_POOL.put(6, "MusixMatch");
 
 		settingsDir = path;
-		pullSettingsFromFile(settingsDir);
+		File f = new File(settingsDir);
+		if(f.exists() && !f.isDirectory()) { 
+			pullSettingsFromFile(settingsDir);
+		}
+		else{
+			// Loading default settings
+			MAX_SEARCH = 100;
+			SIMILARITY_METHOD = SIMILARITY_POOL.get(1);
+			SCRAPING_SOURCE = SCRAPING_POOL.get(2);
+			pushSettingsToFile();
+		}
 	}
 
 	public static void pullSettingsFromFile(String path) throws FileNotFoundException{

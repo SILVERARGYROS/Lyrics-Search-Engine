@@ -1,4 +1,5 @@
 package com.example.Lucene;
+import com.example.App;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,18 +44,33 @@ public class LuceneManager {
 		path = new File(".").getCanonicalPath();
 		System.out.println("PROJECT RUNNING PATH: " + path);
 
+		// Creating Folder System
+		if(new File("./SilverLuceneProjectAppData").mkdirs()){	// If data folder doesn't exist
+			// Creating data folder	
+			new File("./SilverLuceneProjectAppData/Data").mkdirs();
+			new File("./SilverLuceneProjectAppData/Data/albums").mkdirs();
+			new File("./SilverLuceneProjectAppData/Data/songs").mkdirs();
+			new File("./SilverLuceneProjectAppData/Data/lyrics").mkdirs();
+			new File("./SilverLuceneProjectAppData/Data/settings").mkdirs();
+
+			// Creating index folder
+			new File("./SilverLuceneProjectAppData/Index").mkdirs();
+			new File("./SilverLuceneProjectAppData/Index/albums").mkdirs();
+			new File("./SilverLuceneProjectAppData/Index/songs").mkdirs();
+		}
+
 		// Initializing settings
-		settingsDir = path + "\\FALSE\\Data\\settings\\LuceneSettings.conf";
-		LuceneSettings.InstantiateSettings(settingsDir); 
+		settingsDir = path + "/AppData/Data/settings/LuceneSettings.conf";
+		LuceneSettings.InstantiateSettings(settingsDir);
 
 		// Initializing song file input path
-		songIndexDir = path + "\\FALSE\\Index\\songs";
-		albumIndexDir = path + "\\FALSE\\Index\\albums";
+		songIndexDir = path + "/AppData/Index/songs";
+		albumIndexDir = path + "/AppData/Index/albums";
 		
 		// Initializing album file input path
-		songDataDir = path + "\\FALSE\\Data\\songs";
-		lyricsDataDir = path + "\\FALSE\\Data\\lyrics";
-		albumDataDir = path + "\\FALSE\\Data\\albums";
+		// songDataDir = App.class.getResource("data/songs").toString();
+		// lyricsDataDir = path + App.class.getResource("data/lyrics").toString();
+		// albumDataDir = path + App.class.getResource("data/albums").toString();
 
 		songIndexer = new Indexer(songIndexDir);
 		albumIndexer = new Indexer(albumIndexDir);
@@ -70,7 +86,7 @@ public class LuceneManager {
 
 	public void initializeIndexes() throws IOException, ParseException {
 		createAlbumIndex(albumDataDir);
-		// createSongIndex(songDataDir, lyricsDataDir);
+		createSongIndex(songDataDir, lyricsDataDir);
 	}
 
 	public void close(){

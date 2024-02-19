@@ -1,7 +1,0 @@
-0,5765,Taylor Swift Lyrics,Taylor Swift,album,2006
-1,6432,Taylor Swift Lyrics,Sounds Of The Season: The Taylor Swift Holiday Collection,EP,2007
-2,6995,Taylor Swift Lyrics,Fearless,album,2008
-3,10358,Taylor Swift Lyrics,Speak Now,album,2010
-4,24353,Taylor Swift Lyrics,Red,album,2012
-5,33536,Taylor Swift Lyrics,1989,album,2014
-6,49737,Taylor Swift Lyrics,Reputation,album,2017

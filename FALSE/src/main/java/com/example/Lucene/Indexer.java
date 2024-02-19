@@ -86,14 +86,14 @@ public class Indexer {
 		writer.commit();
 
 		int albumNumDocs = 0;
-		// get all files in the data directory
-		File[] files = new File(dataDirPath).listFiles();
-		for (File file : files) {
-			if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
-				albumNumDocs = indexFile(file, "albums", true);
-			}
-		}
-		writer.commit();
+		// // get all files in the data directory
+		// File[] files = new File(dataDirPath).listFiles();
+		// for (File file : files) {
+		// 	if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
+		// 		albumNumDocs = indexFile(file, "albums", true);
+		// 	}
+		// }
+		// writer.commit();
 
 		return albumNumDocs;
 	}
@@ -114,14 +114,14 @@ public class Indexer {
 		writer.addDocument(new Document());
 		writer.commit();
 
-		// Index all song files
-		File[] songFiles = new File(songDataDirPath).listFiles();
-		for (File file : songFiles) {
-			if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
-				songNumDocs = indexFile(file, "songs", true);
-			}
-		}
-		writer.commit();
+		// // Index all song files
+		// File[] songFiles = new File(songDataDirPath).listFiles();
+		// for (File file : songFiles) {
+		// 	if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
+		// 		songNumDocs = indexFile(file, "songs", true);
+		// 	}
+		// }
+		// writer.commit();
 
 
 		/* DEBUG CODE */
@@ -152,15 +152,15 @@ public class Indexer {
 		/* DEBUG CODE */
 
 
-		// Index all lyrics files
-		System.out.println(new File(lyricsDataDirPath).getCanonicalPath());
-		File[] lyricFiles = new File(lyricsDataDirPath).listFiles();
-		for (File file : lyricFiles) {
-			if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
-				lyricsNumDocs = indexFile(file, "lyrics", true);
-			}
-		}
-		writer.commit();
+		// // Index all lyrics files
+		// System.out.println(new File(lyricsDataDirPath).getCanonicalPath());
+		// File[] lyricFiles = new File(lyricsDataDirPath).listFiles();
+		// for (File file : lyricFiles) {
+		// 	if (!file.isDirectory() && !file.isHidden() && file.exists() && file.canRead() && filter.accept(file)) {
+		// 		lyricsNumDocs = indexFile(file, "lyrics", true);
+		// 	}
+		// }
+		// writer.commit();
 
 		int numDocs[] = {songNumDocs, lyricsNumDocs};
 		return numDocs;
