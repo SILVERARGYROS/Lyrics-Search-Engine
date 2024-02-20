@@ -14,6 +14,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #1d1d1d;" stylesheets="@../stylesheets/fonts.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.FXControllers.SettingsPageController">
@@ -52,7 +54,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" onAction="#switchToSettingsPage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: #FF24901A;">
+            <Button fx:id="settings_button" layoutX="19.0" layoutY="115.0" mnemonicParsing="false" onAction="#switchToSettingsPage" prefHeight="108.0" prefWidth="122.0" style="-fx-background-radius: 12; -fx-background-color: linear-gradient(to right, #FFA1491A, #FF24901A);">
                <graphic>
                   <VBox alignment="CENTER" prefHeight="97.0" prefWidth="105.0">
                      <children>
@@ -64,7 +66,23 @@
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </ImageView>
-                        <Label styleClass="normaltext" text="Settings" textFill="#ff2490" />
+                        <Label styleClass="normaltext" text="Settings">
+                           <textFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                 <stops>
+                                    <Stop>
+                                       <color>
+                                          <Color red="1.0" green="0.6313725709915161" blue="0.2862745225429535" />
+                                       </color>
+                                    </Stop>
+                                    <Stop offset="1.0">
+                                       <color>
+                                          <Color red="1.0" green="0.1411764770746231" blue="0.5647059082984924" />
+                                       </color>
+                                    </Stop>
+                                 </stops>
+                              </LinearGradient>
+                           </textFill></Label>
                      </children>
                   </VBox>
                </graphic>
@@ -257,7 +275,7 @@
                      <children>
                         <VBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="378.0">
                            <children>
-                              <Label prefHeight="19.0" prefWidth="229.0" styleClass="titles" text="Self Destruct (for funzies!!!)" textFill="WHITE">
+                              <Label prefHeight="19.0" prefWidth="229.0" styleClass="titles" text="Remove All Data" textFill="WHITE">
                                  <font>
                                     <Font name="High Tower Text" size="24.0" />
                                  </font>
@@ -265,7 +283,7 @@
                                     <Insets bottom="5.0" />
                                  </VBox.margin>
                               </Label>
-                              <Button mnemonicParsing="false" onAction="#clear" prefHeight="37.0" prefWidth="139.0" style="-fx-background-radius: 6;" text="Self Destruct" textFill="WHITE">
+                              <Button mnemonicParsing="false" onAction="#clear" prefHeight="37.0" prefWidth="139.0" style="-fx-background-radius: 6;" text="Delete All" textFill="WHITE">
                                  <effect>
                                     <DropShadow blurType="ONE_PASS_BOX">
                                        <color>
