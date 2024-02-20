@@ -108,7 +108,7 @@ public class ViewSelectedAlbumPageController {
         }
     }
 
-        @FXML
+    @FXML
     private void viewSimilar() throws IOException, ParseException{
         System.out.println("DEBUG: INSIDE SIMILARITY METHOD");
         Document document = App.getViewingDocument();

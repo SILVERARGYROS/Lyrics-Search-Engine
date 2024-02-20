@@ -43,7 +43,7 @@ public class Searcher {
 		indexDirectory = FSDirectory.open(indexPath);
 		indexReader = DirectoryReader.open(indexDirectory);	
 		indexSearcher = new IndexSearcher(indexReader);
-		indexSearcher.setSimilarity(new CTFIDFSimilarity());
+		indexSearcher.setSimilarity(LuceneSettings.getSIMILARITY_METHOD());
 		queryParser = new QueryParser(fieldName, new StandardAnalyzer());
 	}
 

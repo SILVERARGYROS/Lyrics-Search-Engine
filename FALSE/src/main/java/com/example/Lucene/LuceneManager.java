@@ -45,6 +45,7 @@ public class LuceneManager {
 		System.out.println("PROJECT RUNNING PATH: " + path);
 
 		// Creating Folder System
+		new File("./SilverLuceneProjectAppData").mkdirs();	// If data folder doesn't exist
 		// Creating data folder	
 		new File("./SilverLuceneProjectAppData/Data").mkdirs();
 		new File("./SilverLuceneProjectAppData/Data/settings").mkdirs();
@@ -55,12 +56,12 @@ public class LuceneManager {
 		new File("./SilverLuceneProjectAppData/Index/songs").mkdirs();
 
 		// Initializing settings
-		settingsDir = path + "/SilverLuceneProjectAppdata/Data/settings/LuceneSettings.conf";
+		settingsDir = path + "/SilverLuceneProjectAppData/Data/settings/LuceneSettings.conf";
 		LuceneSettings.InstantiateSettings(settingsDir);
 
 		// Initializing song file input path
-		songIndexDir = path + "/SilverLuceneProjectAppdata/Index/songs";
-		albumIndexDir = path + "/SilverLuceneProjectAppdata/Index/albums";
+		songIndexDir = path + "/SilverLuceneProjectAppData/Index/songs";
+		albumIndexDir = path + "/SilverLuceneProjectAppData/Index/albums";
 		
 		// Initializing album file input path
 		// songDataDir = App.class.getResource("data/songs").toString();
@@ -307,7 +308,7 @@ public class LuceneManager {
 			LyricsClient client = new LyricsClient(LuceneSettings.getSCRAPING_SOURCE());
 			Lyrics lyrics = client.getLyrics(songName).get();
 			
-			String[] fields = {lyrics.getAuthor(), lyrics.getSource(), lyrics.getTitle(), lyrics.getContent()};
+			String[] fields = { lyrics.getTitle(), lyrics.getAuthor(), lyrics.getSource(), lyrics.getContent()};
 			document = songIndexer.createSongDocument(fields);
 	  
 			System.out.println("Title: " + lyrics.getTitle() + " Author: " + lyrics.getAuthor() + " \nLyrics: \n\n" + lyrics.getContent() + "\n Source: " + lyrics.getSource());
@@ -343,27 +344,46 @@ public class LuceneManager {
 		return fields;
 	}
 
-	public void clearCollection() throws IOException, ParseException{
-		Query query = new MatchAllDocsQuery();
+	public void clearCollection() {
+		// Query query = new MatchAllDocsQuery();
 
-		// Instantiate Searchers
-		Searcher songSearcher = new Searcher(songIndexDir);
-		Searcher albumSearcher = new Searcher(albumIndexDir);
+		// // Instantiate Searchers
+		// Searcher songSearcher = new Searcher(songIndexDir);
+		// Searcher albumSearcher = new Searcher(albumIndexDir);
 
-		// Get ScoreDocs
-		ScoreDoc[] songScoredocs = songSearcher.search(query).scoreDocs;
-		ScoreDoc[] albumScoredocs = albumSearcher.search(query).scoreDocs;
+		// // Get ScoreDocs
+		// ScoreDoc[] songScoredocs = songSearcher.search(query).scoreDocs;
+		// ScoreDoc[] albumScoredocs = albumSearcher.search(query).scoreDocs;
+		// System.out.println("CLEAR DEBUG - #SONG SCOREDOCS = " + songScoredocs.length + " #ALBUM SCOREDOCS = " + albumScoredocs.length);
 
-		// Remove Documents
-		for(ScoreDoc scoredoc: songScoredocs){
-			songIndexer.removeDocument(scoredoc);
+		// // Remove Documents
+		// for(ScoreDoc scoredoc: songScoredocs){
+		// 	songIndexer.removeDocument(scoredoc);
+		// } 
+		// songIndexer.commit();
+
+		// for(ScoreDoc scoredoc: albumScoredocs){
+		// 	albumIndexer.removeDocument(scoredoc);
+		// }
+		// albumIndexer.commit();
+
+		
+		// songSearcher.close();
+		// albumSearcher.close();
+
+		
+		// https://stackoverflow.com/questions/24733281/delete-all-index-data-files-in-disk-using-apache-lucene
+		try {
+			songIndexer.deleteAll();
+			songIndexer.commit();
+	
+			albumIndexer.deleteAll();
+			albumIndexer.commit();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("ERROR! Could not erase data. Please try again later or do it manually yourself.");
 		}
-		for(ScoreDoc scoredoc: albumScoredocs){
-			songIndexer.removeDocument(scoredoc);
-		}
-
-		songSearcher.close();
-		albumSearcher.close();
 	}
 
 	public void setMAX_SEARCH(int x){

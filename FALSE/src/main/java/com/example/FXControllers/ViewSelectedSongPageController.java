@@ -20,6 +20,9 @@ public class ViewSelectedSongPageController {
     
     @FXML
     private TextField artistTextField;
+
+    @FXML
+    private TextField linkTextField;
     
     @FXML
     private TextArea lyricsTextArea;
@@ -36,6 +39,7 @@ public class ViewSelectedSongPageController {
         songTextField.setText(document.get("Song"));
         artistTextField.setText(document.get("Artist"));
         lyricsTextArea.setText(document.get("Lyrics"));
+        linkTextField.setText(document.get("Song_Link"));
 
         songTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if(oldValue != newValue) {
@@ -44,6 +48,12 @@ public class ViewSelectedSongPageController {
         });
 
         artistTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if(oldValue != newValue) {
+                editButton.setDisable(false);
+            }
+        });
+
+        linkTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if(oldValue != newValue) {
                 editButton.setDisable(false);
             }

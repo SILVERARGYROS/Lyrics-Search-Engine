@@ -81,8 +81,7 @@ public class Indexer {
 			return 0;
 		}
 
-		// Committing an empty document to initialize the index 
-		writer.addDocument(new Document());
+		// Initializing the index 
 		writer.commit();
 
 		int albumNumDocs = 0;
@@ -110,8 +109,7 @@ public class Indexer {
 		int songNumDocs = 0;
 		int lyricsNumDocs = 0;
 
-		// Committing an empty document to initialize the index 
-		writer.addDocument(new Document());
+		// Initializing the index 
 		writer.commit();
 
 		// // Index all song files
@@ -261,9 +259,9 @@ public class Indexer {
 					// Construct and add new (/corrected) document 
 					Document correctedDocument = new Document();
 					correctedDocument.add(matchingDocument.getField("General"));
+					correctedDocument.add(matchingDocument.getField("Song"));
 					correctedDocument.add(currentDocument.getField("Artist"));
 					correctedDocument.add(currentDocument.getField("Song_Link"));
-					correctedDocument.add(matchingDocument.getField("Song"));
 					correctedDocument.add(matchingDocument.getField("Lyrics"));
 
 					writer.addDocument(correctedDocument);
@@ -323,9 +321,9 @@ public class Indexer {
 					// Construct and add new (/corrected) document 
 					Document correctedDocument = new Document();
 					correctedDocument.add(currentDocument.getField("General"));
+					correctedDocument.add(currentDocument.getField("Song"));
 					correctedDocument.add(matchingDocument.getField("Artist"));
 					correctedDocument.add(matchingDocument.getField("Song_Link"));
-					correctedDocument.add(currentDocument.getField("Song"));
 					correctedDocument.add(currentDocument.getField("Lyrics"));
 
 					writer.addDocument(correctedDocument);
@@ -374,7 +372,7 @@ public class Indexer {
 		while((currentRecord = reader.readNext()) != null){ // Song_ID,singer_name (Artist),song_name,song_href
 			
 			// Mapping the fields to create document
-			String[] currentRecordFields = {currentRecord[2], currentRecord[4], currentRecord[3], "not_defined"};
+			String[] currentRecordFields = {currentRecord[3], currentRecord[2], currentRecord[4], "not_defined"};
 			document = createSongDocument(currentRecordFields);
 
 			System.out.println("LOOP DEBUGU documentfield Song == " + document.get("Song"));
@@ -400,7 +398,7 @@ public class Indexer {
 			while((currentRecord = reader.readNext()) != null){ // link (href),artist (Artist),song_name,lyrics
 
 				// Mapping the fields to create document
-				String[] currentRecordFields = {currentRecord[2], currentRecord[1], currentRecord[3], currentRecord[4]};
+				String[] currentRecordFields = {currentRecord[3], currentRecord[2], currentRecord[1], currentRecord[4]};
 				document = createSongDocument(currentRecordFields);
 
 				System.out.println("LOOP DEBUGU documentfield song_name == " + document.get("Song"));
@@ -425,9 +423,9 @@ public class Indexer {
 		// index general field
 		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Field.Store.YES);
 		// index artist name
-		TextField artistNameField = new TextField("Artist", fields[0].toLowerCase().replace(" lyrics", ""), Field.Store.YES);
+		TextField albumNameField = new TextField("Album", fields[0].toLowerCase(), Field.Store.YES);
 		// index artist name
-		TextField albumNameField = new TextField("Album", fields[1].toLowerCase(), Field.Store.YES);
+		TextField artistNameField = new TextField("Artist", fields[1].toLowerCase().replace(" lyrics", ""), Field.Store.YES);
 		// index album_type
 		TextField albumTypeField = new TextField("Album_Type", fields[2].toLowerCase(), Field.Store.YES);
 		// index album_year
@@ -444,17 +442,21 @@ public class Indexer {
 		return document;
 	}
 
+	/**
+	 * @param fields - An array of string containing document fields in this exact order: Name, Artist, Link, Lyrics
+	 * @return A Document object with the fields from the input String array.
+	 */
 	public Document createSongDocument(String[] fields){
 		// index general field
 		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Field.Store.YES);
+		// index Song Name
+		TextField songNameField = new TextField("Song", fields[0].toLowerCase(), Field.Store.YES);
 		// index artist name
-		TextField artistName = new TextField("Artist", fields[0].toLowerCase().replace(" lyrics", ""), Field.Store.YES);
+		TextField artistName = new TextField("Artist", fields[1].toLowerCase().replace(" lyrics", ""), Field.Store.YES);
 		// index link
 		fieldConf.setTokenized(false);
-		TextField songHrefField = new TextField("Song_Link", fields[1].toLowerCase(), Field.Store.YES);
+		TextField songHrefField = new TextField("Song_Link", fields[2].toLowerCase(), Field.Store.YES);
 		fieldConf.setTokenized(true);
-		// index Song Name
-		TextField songNameField = new TextField("Song", fields[2].toLowerCase(), Field.Store.YES);
 		// index lyrics
 		TextField lyricsField = new TextField("Lyrics", constructLyricsFieldString(fields[3].toLowerCase()), Field.Store.YES);
 
@@ -567,5 +569,9 @@ public class Indexer {
 		// Debug 
 		System.out.println(App.RED + "Lyrics: \n" + lyrics + App.RESET);
 		return lyrics;
+	}
+
+	public void deleteAll() throws IOException{
+		writer.deleteAll();
 	}
 }
