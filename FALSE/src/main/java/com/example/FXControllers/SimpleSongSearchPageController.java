@@ -2,6 +2,7 @@ package com.example.FXControllers;
 
 import com.example.App;
 // import com.jfoenix.utils.JFXHighlighter;
+import com.example.Lucene.LuceneConstants;
 
 import java.io.IOException;
 
@@ -20,7 +21,7 @@ import javafx.scene.paint.Color;
 
 public class SimpleSongSearchPageController {
 
-    String searchField = "General" ;
+    String searchField = LuceneConstants.GENERAL ;
 
     @FXML 
     private TextField searchTextField;
@@ -50,28 +51,28 @@ public class SimpleSongSearchPageController {
         );
 
         generalButton.setOnAction( e-> {
-            searchField = "General";
+            searchField = LuceneConstants.GENERAL;
             select(generalButton);
             deselect(songButton);
             deselect(artistButton);
             deselect(lyricsButton);
         });
         songButton.setOnAction( e-> {
-            searchField = "Song";
+            searchField = LuceneConstants.SONG_NAME;
             deselect(generalButton);
             select(songButton);
             deselect(artistButton);
             deselect(lyricsButton);
         });
         artistButton.setOnAction( e-> {
-            searchField = "Artist";
+            searchField = LuceneConstants.SONG_ARTIST;
             deselect(generalButton);
             deselect(songButton);
             select(artistButton);
             deselect(lyricsButton);
         });
         lyricsButton.setOnAction( e-> {
-            searchField = "Lyrics";
+            searchField = LuceneConstants.SONG_LYRICS;
             deselect(generalButton);
             deselect(songButton);
             deselect(artistButton);
@@ -143,8 +144,8 @@ public class SimpleSongSearchPageController {
             SongInformationButtonController resultController = fxmlLoader.getController();
 
             //setup fxml
-            resultController.setSongLabel(document.get("Song"));
-            resultController.setArtistLabel(document.get("Artist"));
+            resultController.setSongLabel(document.get(LuceneConstants.SONG_NAME));
+            resultController.setArtistLabel(document.get(LuceneConstants.SONG_ARTIST));
             resultController.setScoreLabel(score + "");
             resultController.setScoreDoc(scoreDoc);
 
@@ -164,7 +165,7 @@ public class SimpleSongSearchPageController {
             placeHolder.getChildren().add(resultNode);
 
             System.out.println("DEBUG: LOADED RESULTS");
-            System.out.println("Song: " + document.get("Song") + " Artist: " + document.get("Artist"));
+            System.out.println("Song: " + document.get(LuceneConstants.SONG_NAME) + " Artist: " + document.get(LuceneConstants.SONG_ARTIST));
         }
     }
 }

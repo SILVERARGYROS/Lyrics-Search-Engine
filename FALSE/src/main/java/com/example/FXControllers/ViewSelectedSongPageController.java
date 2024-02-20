@@ -6,6 +6,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import com.example.App;
+import com.example.Lucene.LuceneConstants;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -36,10 +38,10 @@ public class ViewSelectedSongPageController {
     @FXML
     public void initialize(){
         Document document = App.getViewingDocument();
-        songTextField.setText(document.get("Song"));
-        artistTextField.setText(document.get("Artist"));
-        lyricsTextArea.setText(document.get("Lyrics"));
-        linkTextField.setText(document.get("Song_Link"));
+        songTextField.setText(document.get(LuceneConstants.SONG_NAME));
+        artistTextField.setText(document.get(LuceneConstants.SONG_ARTIST));
+        lyricsTextArea.setText(document.get(LuceneConstants.SONG_LYRICS));
+        linkTextField.setText(document.get(LuceneConstants.SONG_LINK));
 
         songTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if(oldValue != newValue) {
@@ -92,7 +94,7 @@ public class ViewSelectedSongPageController {
         App.getLuceneManager().removeSongFromIndex(App.getViewingScoredoc());
         ArrayList<String> fields = new ArrayList<>();
         fields.add(artistTextField.getText());
-        fields.add(App.getViewingDocument().get("Song_Link"));
+        fields.add(App.getViewingDocument().get(LuceneConstants.SONG_LINK));
         fields.add(songTextField.getText());
         fields.add(lyricsTextArea.getText());
         try {

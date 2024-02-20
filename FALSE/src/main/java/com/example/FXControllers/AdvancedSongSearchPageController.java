@@ -7,6 +7,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import com.example.App;
+import com.example.Lucene.LuceneConstants;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -66,9 +68,9 @@ public class AdvancedSongSearchPageController {
         String[] fields = new String[3];
         String[] values = new String[3];
 
-        fields[0] = "Song";
-        fields[1] = "Artist";
-        fields[2] = "Lyrics";
+        fields[0] = LuceneConstants.SONG_NAME;
+        fields[1] = LuceneConstants.SONG_ARTIST;
+        fields[2] = LuceneConstants.SONG_LYRICS;
         values[0] = songTextField.getText().strip();
         values[1] = artistTextField.getText().strip();
         values[2] = lyricsTextArea.getText().strip();

@@ -96,7 +96,7 @@ public class SettingsPageController {
 
     @FXML
     private void clear() throws IOException, ParseException{
-        System.out.println("DEBUG CLEARING DATA");
+        System.out.println("DATA CLEARED");
         App.getLuceneManager().clearCollection();
     }
 }

@@ -1,6 +1,8 @@
 package com.example.FXControllers;
 
 import com.example.App;
+import com.example.Lucene.LuceneConstants;
+
 import java.io.IOException;
 
 import org.apache.lucene.document.Document;
@@ -17,7 +19,7 @@ import javafx.scene.layout.FlowPane;
 
 public class SimpleAlbumSearchPageController {
     
-    String searchField = "General" ;
+    String searchField = LuceneConstants.GENERAL ;
 
     @FXML 
     private TextField searchTextField;
@@ -50,7 +52,7 @@ public class SimpleAlbumSearchPageController {
         );
 
         generalButton.setOnAction( e-> {
-            searchField = "General";
+            searchField = LuceneConstants.GENERAL;
             select(generalButton);
             deselect(albumButton);
             deselect(artistButton);
@@ -58,7 +60,7 @@ public class SimpleAlbumSearchPageController {
             deselect(yearButton);
         });
         albumButton.setOnAction( e-> {
-            searchField = "Album";
+            searchField = LuceneConstants.ALBUM_NAME;
             deselect(generalButton);
             select(albumButton);
             deselect(artistButton);
@@ -67,7 +69,7 @@ public class SimpleAlbumSearchPageController {
 
         });
         artistButton.setOnAction( e-> {
-            searchField = "Artist";
+            searchField = LuceneConstants.ALBUM_ARTIST;
             deselect(generalButton);
             deselect(albumButton);
             select(artistButton);
@@ -75,7 +77,7 @@ public class SimpleAlbumSearchPageController {
             deselect(yearButton);
         });
         typeButton.setOnAction( e-> {
-            searchField = "Album_Type";
+            searchField = LuceneConstants.ALBUM_TYPE;
             deselect(generalButton);
             deselect(albumButton);
             deselect(artistButton);
@@ -83,7 +85,7 @@ public class SimpleAlbumSearchPageController {
             deselect(yearButton);
         });
         yearButton.setOnAction( e-> {
-            searchField = "Year";
+            searchField = LuceneConstants.ALBUM_YEAR;
             deselect(generalButton);
             deselect(albumButton);
             deselect(artistButton);
@@ -135,6 +137,8 @@ public class SimpleAlbumSearchPageController {
 
     @FXML
     private void loadResults() throws IOException, ParseException{
+        String searchString = searchTextField.getText().toLowerCase().strip();
+
         searchTextField.setText("");
         placeHolder.getChildren().clear();
         for(ScoreDoc scoreDoc: App.getSearchResults()){
@@ -151,20 +155,29 @@ public class SimpleAlbumSearchPageController {
             AlbumInformationButtonController resultController = fxmlLoader.getController();
 
             //setup fxml
-            resultController.setAlbumLabel(document.get("Album"));
-            resultController.setYearLabel(document.get("Year"));
+            resultController.setAlbumLabel(document.get(LuceneConstants.ALBUM_NAME));
+            resultController.setYearLabel(document.get(LuceneConstants.ALBUM_YEAR));
             resultController.setScoreLabel(score + "");
             resultController.setScoreDoc(scoreDoc);
-            resultController.setDocument(document);
 
             // (Will need to find matches before setting this one)
-            resultController.setMatchLabel("");
+            String fieldValue = document.get(searchField);
+            String[] searchTerms = searchString.split(" ");
+            for(String term: searchTerms){
+    
+                // highlighter.highlight(resultController.getMatchLabel(), term);      
+                fieldValue = fieldValue.replace(term,"***" + term + "***");
+            }
+            fieldValue = fieldValue.replace("*** ***", " ");
+            resultController.setMatchLabel(fieldValue);
+
+            resultController.setDocument(document);
 
             //add fxml
             placeHolder.getChildren().add(resultNode);
 
             System.out.println("DEBUG: LOADED RESULTS");
-            System.out.println("Album: " + document.get("Album") + " Artist: " + document.get("Artist"));
+            System.out.println("Album: " + document.get(LuceneConstants.ALBUM_NAME) + " Artist: " + document.get(LuceneConstants.ALBUM_ARTIST));
         }
     }
 }

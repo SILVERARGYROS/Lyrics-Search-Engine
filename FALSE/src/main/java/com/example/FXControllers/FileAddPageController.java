@@ -10,6 +10,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 import com.example.App;
+import com.example.Lucene.LuceneConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.net.URISyntaxException;
 
 public class FileAddPageController {
 
-    private String filetype = "songs";
+    private String filetype = LuceneConstants.SONG_DATATYPE;
     private boolean ignoreFirstLine = false;
     File selectedFile = null;
 
@@ -48,19 +49,19 @@ public class FileAddPageController {
     @FXML
     public void initialize(){
         songButton.setOnAction( e-> {
-            filetype = "songs";
+            filetype = LuceneConstants.SONG_DATATYPE;
             select(songButton);
             deselect(lyricsButton);
             deselect(albumButton);
         });
         lyricsButton.setOnAction( e-> {
-            filetype = "lyrics";
+            filetype = LuceneConstants.LYRICS_DATATYPE;
             deselect(songButton);
             select(lyricsButton);
             deselect(albumButton);
         });
         albumButton.setOnAction( e-> {
-            filetype = "albums";
+            filetype = LuceneConstants.ALBUM_DATATYPE;
             deselect(songButton);
             deselect(lyricsButton);
             select(albumButton);
@@ -118,13 +119,13 @@ public class FileAddPageController {
     @FXML
     private void addFile() throws IOException{
         try {
-            if(filetype.equals("songs")){
+            if(filetype.equals(LuceneConstants.SONG_DATATYPE)){
                 App.getLuceneManager().addSongFileToIndex(selectedFile, ignoreFirstLine);
             } 
-            else if (filetype.equals("lyrics")){
+            else if (filetype.equals(LuceneConstants.LYRICS_DATATYPE)){
                 App.getLuceneManager().addLyricsFileToIndex(selectedFile, ignoreFirstLine);
             }
-            else if(filetype.equals("albums")){
+            else if(filetype.equals(LuceneConstants.ALBUM_DATATYPE)){
                 App.getLuceneManager().addAlbumFileToIndex(selectedFile, ignoreFirstLine);
             }
 

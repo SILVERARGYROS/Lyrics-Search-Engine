@@ -6,6 +6,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 import com.example.App;
+import com.example.Lucene.LuceneConstants;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -59,10 +61,10 @@ public class AdvancedAlbumSearchPageController {
         String[] fields = new String[4];
         String[] values = new String[4];
 
-        fields[0] = "Artist";
-        fields[1] = "Album";
-        fields[2] = "Album_Type";
-        fields[3] = "Year";
+        fields[0] = LuceneConstants.ALBUM_ARTIST;
+        fields[1] = LuceneConstants.ALBUM_NAME;
+        fields[2] = LuceneConstants.ALBUM_TYPE;
+        fields[3] = LuceneConstants.ALBUM_YEAR;
         values[0] = albumTextField.getText().strip();
         values[1] = artistTextField.getText().strip();
         values[2] = typeTextField.getText().strip();

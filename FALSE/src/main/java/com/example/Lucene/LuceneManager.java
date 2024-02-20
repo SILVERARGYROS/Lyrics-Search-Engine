@@ -45,23 +45,23 @@ public class LuceneManager {
 		System.out.println("PROJECT RUNNING PATH: " + path);
 
 		// Creating Folder System
-		new File("./SilverLuceneProjectAppData").mkdirs();	// If data folder doesn't exist
+		new File(LuceneConstants.ROOT_DIRECTORY).mkdirs();	// If data folder doesn't exist
 		// Creating data folder	
-		new File("./SilverLuceneProjectAppData/Data").mkdirs();
-		new File("./SilverLuceneProjectAppData/Data/settings").mkdirs();
+		new File(LuceneConstants.DATA_DIRECTORY).mkdirs();
+		new File(LuceneConstants.SETTINGS_DIRECTORY).mkdirs();
 
 		// Creating index folder
-		new File("./SilverLuceneProjectAppData/Index").mkdirs();
-		new File("./SilverLuceneProjectAppData/Index/albums").mkdirs();
-		new File("./SilverLuceneProjectAppData/Index/songs").mkdirs();
+		new File(LuceneConstants.INDEX_DIRECTORY).mkdirs();
+		new File(LuceneConstants.SONG_INDEX_DIRECTORY).mkdirs();
+		new File(LuceneConstants.ALBUM_INDEX_DIRECTORY).mkdirs();
 
 		// Initializing settings
-		settingsDir = path + "/SilverLuceneProjectAppData/Data/settings/LuceneSettings.conf";
+		settingsDir = path + LuceneConstants.SETTINGS_FILE_DIRECTORY;
 		LuceneSettings.InstantiateSettings(settingsDir);
 
 		// Initializing song file input path
-		songIndexDir = path + "/SilverLuceneProjectAppData/Index/songs";
-		albumIndexDir = path + "/SilverLuceneProjectAppData/Index/albums";
+		songIndexDir = path + "/" + LuceneConstants.SONG_INDEX_DIRECTORY;
+		albumIndexDir = path + "/" + LuceneConstants.ALBUM_INDEX_DIRECTORY;
 		
 		// Initializing album file input path
 		// songDataDir = App.class.getResource("data/songs").toString();
@@ -90,17 +90,11 @@ public class LuceneManager {
 	}
 
 	private void createAlbumIndex(String dataDir) throws IOException, ParseException {
-		long startTime = System.currentTimeMillis();
-		int numIndexed = albumIndexer.createAlbumIndex(dataDir, new TextFileFilter());
-		long endTime = System.currentTimeMillis();
-		System.out.println(numIndexed + " Album(s) indexed, time taken: " + (endTime-startTime) + " ms");
+		albumIndexer.createAlbumIndex(dataDir, new TextFileFilter());
 	}
 
 	private void createSongIndex(String songDataDir, String lyricsDataDir) throws IOException, ParseException {
-		long startTime = System.currentTimeMillis();
-		int numIndexed[] = songIndexer.createSongIndex(songDataDir, lyricsDataDir, new TextFileFilter());
-		long endTime = System.currentTimeMillis();
-		System.out.println(numIndexed[0] + " Songs(s) indexed, time taken: "  + numIndexed[1] + " Lyrics(s) indexed, time taken: " + (endTime-startTime) + " ms");
+		songIndexer.createSongIndex(songDataDir, lyricsDataDir, new TextFileFilter());
 	}
 	
 	public void addAlbumToIndex(ArrayList<String> fields) throws IOException{
@@ -137,17 +131,17 @@ public class LuceneManager {
 	}
 
 	public void addAlbumFileToIndex(File file, boolean ignoreFirstLine) throws IOException, ParseException{
-		albumIndexer.indexFile(file, "albums", ignoreFirstLine);
+		albumIndexer.indexFile(file, LuceneConstants.ALBUM_DATATYPE, ignoreFirstLine);
 		albumIndexer.commit();
 	}
 
 	public void addSongFileToIndex(File file, boolean ignoreFirstLine) throws IOException, ParseException{
-		songIndexer.indexFile(file, "songs", ignoreFirstLine);
+		songIndexer.indexFile(file, LuceneConstants.SONG_DATATYPE, ignoreFirstLine);
 		songIndexer.commit();
 	}
 
 	public void addLyricsFileToIndex(File file, boolean ignoreFirstLine) throws IOException, ParseException{
-		songIndexer.indexFile(file, "lyrics", ignoreFirstLine);
+		songIndexer.indexFile(file, LuceneConstants.LYRICS_DATATYPE, ignoreFirstLine);
 		songIndexer.commit();
 	}
 
@@ -181,7 +175,9 @@ public class LuceneManager {
 		
 		// Score Debug
 		for(ScoreDoc scoreDoc : hits.scoreDocs) {
-			System.out.println("SCORE DEBUG == " + scoreDoc.score);
+			if(LuceneConstants.SEARCH_DEBUG){
+				System.out.println("SCORE DEBUG == " + scoreDoc.score);
+			}
 			// System.out.println("File: " + doc.get(LuceneConstants.FILE_PATH));
 		}
 		
@@ -219,7 +215,9 @@ public class LuceneManager {
 		
 		// Score Debug
 		for(ScoreDoc scoreDoc : hits.scoreDocs) {
-			System.out.println("SCORE DEBUG == " + scoreDoc.score);
+			if(LuceneConstants.SEARCH_DEBUG){
+				System.out.println("SCORE DEBUG == " + scoreDoc.score);
+			}
 			// System.out.println("File: " + doc.get(LuceneConstants.FILE_PATH));
 		}
 		
@@ -257,7 +255,10 @@ public class LuceneManager {
 		// Construct query
 		Query query = searcher.constructCombinedQuery(fieldNames, fieldSearches, Occur.SHOULD);
 
-		System.out.println("\n\nDEEBUG SIMILAR QUERY: " + query + "\n\n");
+		if(LuceneConstants.SEARCH_DEBUG){
+			System.out.println("\n\nDEEBUG SIMILAR QUERY: " + query + "\n\n");
+		}
+
 		// Execute query
 		TopDocs hits = searcher.search(query);
 
@@ -270,7 +271,9 @@ public class LuceneManager {
 		
 		// Score Debug
 		for(ScoreDoc scoreDoc : hits.scoreDocs) {
-			System.out.println("SCORE DEBUG == " + scoreDoc.score);
+			if(LuceneConstants.SEARCH_DEBUG){
+				System.out.println("SCORE DEBUG == " + scoreDoc.score);
+			}
 			// System.out.println("File: " + doc.get(LuceneConstants.FILE_PATH));
 		}
 
@@ -308,7 +311,7 @@ public class LuceneManager {
 			LyricsClient client = new LyricsClient(LuceneSettings.getSCRAPING_SOURCE());
 			Lyrics lyrics = client.getLyrics(songName).get();
 			
-			String[] fields = { lyrics.getTitle(), lyrics.getAuthor(), lyrics.getSource(), lyrics.getContent()};
+			String[] fields = { lyrics.getTitle(), lyrics.getAuthor(), lyrics.getURL(), lyrics.getContent()};
 			document = songIndexer.createSongDocument(fields);
 	  
 			System.out.println("Title: " + lyrics.getTitle() + " Author: " + lyrics.getAuthor() + " \nLyrics: \n\n" + lyrics.getContent() + "\n Source: " + lyrics.getSource());
@@ -323,11 +326,11 @@ public class LuceneManager {
 	public String[] getSongFields(Document document){
 		String[] fields = new String[document.getFields().size()];
 
-		fields[0] = document.get("General");
-		fields[1] = document.get("Song");
-		fields[2] = document.get("Artist");
-		fields[3] = document.get("Song_Link");
-		fields[4] = document.get("Lyrics");
+		fields[0] = document.get(LuceneConstants.GENERAL);
+		fields[1] = document.get(LuceneConstants.SONG_NAME);
+		fields[2] = document.get(LuceneConstants.SONG_ARTIST);
+		fields[3] = document.get(LuceneConstants.SONG_LINK);
+		fields[4] = document.get(LuceneConstants.SONG_LYRICS);
 
 		return fields;
 	}
@@ -335,11 +338,11 @@ public class LuceneManager {
 	public String[] getAlbumFields(Document document){
 		String[] fields = new String[document.getFields().size()];
 
-		fields[0] = document.get("General");
-		fields[1] = document.get("Album");
-		fields[2] = document.get("Artist");
-		fields[3] = document.get("Year");
-		fields[4] = document.get("Album_Type");
+		fields[0] = document.get(LuceneConstants.GENERAL);
+		fields[1] = document.get(LuceneConstants.ALBUM_NAME);
+		fields[2] = document.get(LuceneConstants.ALBUM_ARTIST);
+		fields[3] = document.get(LuceneConstants.ALBUM_YEAR);
+		fields[4] = document.get(LuceneConstants.ALBUM_TYPE);
 
 		return fields;
 	}

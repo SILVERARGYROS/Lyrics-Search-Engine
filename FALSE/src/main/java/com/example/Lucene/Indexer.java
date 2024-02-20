@@ -169,7 +169,7 @@ public class Indexer {
 
 		int numDocs = 0;
 
-		if(datatype.equalsIgnoreCase("albums")){
+		if(datatype.equalsIgnoreCase(LuceneConstants.ALBUM_DATATYPE)){
 			ArrayList<Document> receivedList = getAlbumDocuments(file, ignoreFirstLine);
 			
 			// Checking if album already exists
@@ -180,10 +180,10 @@ public class Indexer {
 
 			for(Document currentDocument: receivedList){
 				// 2. Create TermQueries for every common field
-				Query artistNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
-				Query albumNameQuery = new QueryParser("Album", new StandardAnalyzer()).parse("\"" + currentDocument.get("Album") + "\"");
-				Query albumTypeQuery = new QueryParser("Album_Type", new StandardAnalyzer()).parse("\"" + currentDocument.get("Album_Type") + "\"");
-				Query albumYearQuery = new QueryParser("Year", new StandardAnalyzer()).parse("\"" + currentDocument.get("Year") + "\"");
+				Query artistNameQuery = new QueryParser(LuceneConstants.ALBUM_ARTIST, new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
+				Query albumNameQuery = new QueryParser(LuceneConstants.ALBUM_NAME, new StandardAnalyzer()).parse("\"" + currentDocument.get("Album") + "\"");
+				Query albumTypeQuery = new QueryParser(LuceneConstants.ALBUM_TYPE, new StandardAnalyzer()).parse("\"" + currentDocument.get("Album_Type") + "\"");
+				Query albumYearQuery = new QueryParser(LuceneConstants.ALBUM_YEAR, new StandardAnalyzer()).parse("\"" + currentDocument.get("Year") + "\"");
 				
 				// 3. Build booleanQuery
 				BooleanQuery booleanQuery = new BooleanQuery.Builder()
@@ -209,7 +209,7 @@ public class Indexer {
 			}
 			searcher.close();
 		}
-		else if (datatype.equalsIgnoreCase("songs")){
+		else if (datatype.equalsIgnoreCase(LuceneConstants.SONG_DATATYPE)){
 			ArrayList<Document> receivedList = getSongDocuments(file);
 			
 			// Checking if song already exists
@@ -226,8 +226,8 @@ public class Indexer {
 				// System.out.println("DEBUG currentDocument song_href == " + currentDocument.get("Song_Link"));
 
 				// 2. Create TermQueries for every common field
-				Query songNameQuery = new QueryParser("Song", new StandardAnalyzer()).parse("\"" + currentDocument.get("Song") + "\"");
-				Query albumNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
+				Query songNameQuery = new QueryParser(LuceneConstants.SONG_NAME, new StandardAnalyzer()).parse("\"" + currentDocument.get(LuceneConstants.SONG_NAME) + "\"");
+				Query albumNameQuery = new QueryParser(LuceneConstants.SONG_ARTIST, new StandardAnalyzer()).parse("\"" + currentDocument.get(LuceneConstants.SONG_ARTIST) + "\"");
 	
 				// DEBUG
 				// System.out.println("DEBUG songNameQuery song_name == " + songNameQuery);
@@ -247,10 +247,14 @@ public class Indexer {
 					writer.addDocument(currentDocument);
 				}
 				else{ // found matching document(s)
-					System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
+					if(LuceneConstants.INDEX_DEBUG){
+						System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
+					}
 	
 					// Get first matching document
-					System.out.println("DEBUG TFIDF SCORE == " + results.scoreDocs[0].score);
+					if(LuceneConstants.INDEX_DEBUG){
+						System.out.println("DEBUG TFIDF SCORE == " + results.scoreDocs[0].score);
+					}
 					Document matchingDocument = searcher.getDocument(results.scoreDocs[0]);
 	
 					// Delete old document(s)
@@ -258,11 +262,11 @@ public class Indexer {
 					
 					// Construct and add new (/corrected) document 
 					Document correctedDocument = new Document();
-					correctedDocument.add(matchingDocument.getField("General"));
-					correctedDocument.add(matchingDocument.getField("Song"));
-					correctedDocument.add(currentDocument.getField("Artist"));
-					correctedDocument.add(currentDocument.getField("Song_Link"));
-					correctedDocument.add(matchingDocument.getField("Lyrics"));
+					correctedDocument.add(matchingDocument.getField(LuceneConstants.GENERAL));
+					correctedDocument.add(matchingDocument.getField(LuceneConstants.SONG_NAME));
+					correctedDocument.add(currentDocument.getField(LuceneConstants.SONG_ARTIST));
+					correctedDocument.add(currentDocument.getField(LuceneConstants.SONG_LINK));
+					correctedDocument.add(matchingDocument.getField(LuceneConstants.SONG_LYRICS));
 
 					writer.addDocument(correctedDocument);
 				}
@@ -271,7 +275,7 @@ public class Indexer {
 			}
 			searcher.close();
 		}
-		else if (datatype.equalsIgnoreCase("lyrics")){
+		else if (datatype.equalsIgnoreCase(LuceneConstants.LYRICS_DATATYPE)){
 			ArrayList<Document> receivedList = getLyricsDocuments(file);
 			
 			// Checking if song already exists
@@ -289,8 +293,8 @@ public class Indexer {
 				// System.out.println("DEBUG currentDocument song_href == " + currentDocument.get("Song_Link"));
 
 				// 2. Create TermQueries for every common field
-				Query songNameQuery = new QueryParser("Song", new StandardAnalyzer()).parse("\"" + currentDocument.get("Song") + "\"");
-				Query albumNameQuery = new QueryParser("Artist", new StandardAnalyzer()).parse("\"" + currentDocument.get("Artist") + "\"");
+				Query songNameQuery = new QueryParser(LuceneConstants.SONG_NAME, new StandardAnalyzer()).parse("\"" + currentDocument.get(LuceneConstants.SONG_NAME) + "\"");
+				Query albumNameQuery = new QueryParser(LuceneConstants.SONG_ARTIST, new StandardAnalyzer()).parse("\"" + currentDocument.get(LuceneConstants.SONG_ARTIST) + "\"");
 	
 				// DEBUG
 				// System.out.println("DEBUG songNameQuery song_name == " + songNameQuery);
@@ -310,7 +314,9 @@ public class Indexer {
 					writer.addDocument(currentDocument);
 				}
 				else{ // found matching document(s)
-					System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
+					if(LuceneConstants.INDEX_DEBUG){
+						System.out.println("DUPLICATE DEBUG: DUPLICATE DOCUMENT FOUND");
+					}
 	
 					// Get first matching document
 					Document matchingDocument = searcher.getDocument(results.scoreDocs[0]);
@@ -320,11 +326,11 @@ public class Indexer {
 					
 					// Construct and add new (/corrected) document 
 					Document correctedDocument = new Document();
-					correctedDocument.add(currentDocument.getField("General"));
-					correctedDocument.add(currentDocument.getField("Song"));
-					correctedDocument.add(matchingDocument.getField("Artist"));
-					correctedDocument.add(matchingDocument.getField("Song_Link"));
-					correctedDocument.add(currentDocument.getField("Lyrics"));
+					correctedDocument.add(currentDocument.getField(LuceneConstants.GENERAL));
+					correctedDocument.add(currentDocument.getField(LuceneConstants.SONG_NAME));
+					correctedDocument.add(matchingDocument.getField(LuceneConstants.SONG_ARTIST));
+					correctedDocument.add(matchingDocument.getField(LuceneConstants.SONG_LINK));
+					correctedDocument.add(currentDocument.getField(LuceneConstants.SONG_LYRICS));
 
 					writer.addDocument(correctedDocument);
 				}
@@ -336,7 +342,11 @@ public class Indexer {
 		else{
 			System.out.println("File type not recognized. Please code more carefully.");
 		}
-		System.out.println("DEBUG DATATYPE = " + datatype);
+
+		if(LuceneConstants.INDEX_DEBUG){
+			System.out.println("DEBUG DATATYPE = " + datatype);
+		}
+		
 		return numDocs;
 	}
 
@@ -375,9 +385,11 @@ public class Indexer {
 			String[] currentRecordFields = {currentRecord[3], currentRecord[2], currentRecord[4], "not_defined"};
 			document = createSongDocument(currentRecordFields);
 
-			System.out.println("LOOP DEBUGU documentfield Song == " + document.get("Song"));
-			System.out.println("LOOP DEBUGU documentfield Artist == " + document.get("Artist"));
-			System.out.println("LOOP DEBUGU documentfield Song_Link == " + document.get("Song_Link"));
+			if(LuceneConstants.INDEX_DEBUG){
+				System.out.println("LOOP DEBUGU documentfield Song == " + document.get("Song"));
+				System.out.println("LOOP DEBUGU documentfield Artist == " + document.get("Artist"));
+				System.out.println("LOOP DEBUGU documentfield Song_Link == " + document.get("Song_Link"));
+			}
 
 			docList.add(document);
 		}
@@ -401,9 +413,11 @@ public class Indexer {
 				String[] currentRecordFields = {currentRecord[3], currentRecord[2], currentRecord[1], currentRecord[4]};
 				document = createSongDocument(currentRecordFields);
 
-				System.out.println("LOOP DEBUGU documentfield song_name == " + document.get("Song"));
-				System.out.println("LOOP DEBUGU documentfield Artist == " + document.get("Artist"));
-				System.out.println("LOOP DEBUGU documentfield song_href == " + document.get("Song_Link"));
+				if(LuceneConstants.INDEX_DEBUG){
+					System.out.println("LOOP DEBUGU documentfield song_name == " + document.get("Song"));
+					System.out.println("LOOP DEBUGU documentfield Artist == " + document.get("Artist"));
+					System.out.println("LOOP DEBUGU documentfield song_href == " + document.get("Song_Link"));
+				}
 
 				docList.add(document);
 			}
@@ -421,15 +435,15 @@ public class Indexer {
 
 	public Document createAlbumDocument(String[] fields){
 		// index general field
-		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Field.Store.YES);
+		TextField generalField = new TextField(LuceneConstants.GENERAL, constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Field.Store.YES);
 		// index artist name
-		TextField albumNameField = new TextField("Album", fields[0].toLowerCase(), Field.Store.YES);
+		TextField albumNameField = new TextField(LuceneConstants.ALBUM_NAME, fields[0].toLowerCase(), Field.Store.YES);
 		// index artist name
-		TextField artistNameField = new TextField("Artist", fields[1].toLowerCase().replace(" lyrics", ""), Field.Store.YES);
+		TextField artistNameField = new TextField(LuceneConstants.SONG_ARTIST, fields[1].toLowerCase().replace(" lyrics", ""), Field.Store.YES);
 		// index album_type
-		TextField albumTypeField = new TextField("Album_Type", fields[2].toLowerCase(), Field.Store.YES);
+		TextField albumTypeField = new TextField(LuceneConstants.ALBUM_TYPE, fields[2].toLowerCase(), Field.Store.YES);
 		// index album_year
-		TextField albumYearField = new TextField("Year", fields[3].toLowerCase(), Field.Store.YES);
+		TextField albumYearField = new TextField(LuceneConstants.ALBUM_YEAR, fields[3].toLowerCase(), Field.Store.YES);
 
 		// document.add(contentField);
 		Document document = new Document();
@@ -448,17 +462,17 @@ public class Indexer {
 	 */
 	public Document createSongDocument(String[] fields){
 		// index general field
-		TextField generalField = new TextField("General", constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Field.Store.YES);
+		TextField generalField = new TextField(LuceneConstants.GENERAL, constructGeneralFieldString(Arrays.asList(fields)).strip().toLowerCase(), Field.Store.YES);
 		// index Song Name
-		TextField songNameField = new TextField("Song", fields[0].toLowerCase(), Field.Store.YES);
+		TextField songNameField = new TextField(LuceneConstants.SONG_NAME, fields[0].toLowerCase(), Field.Store.YES);
 		// index artist name
-		TextField artistName = new TextField("Artist", fields[1].toLowerCase().replace(" lyrics", ""), Field.Store.YES);
+		TextField artistName = new TextField(LuceneConstants.SONG_ARTIST, fields[1].toLowerCase().replace(" lyrics", ""), Field.Store.YES);
 		// index link
 		fieldConf.setTokenized(false);
-		TextField songHrefField = new TextField("Song_Link", fields[2].toLowerCase(), Field.Store.YES);
+		TextField songHrefField = new TextField(LuceneConstants.SONG_LINK, fields[2].toLowerCase(), Field.Store.YES);
 		fieldConf.setTokenized(true);
 		// index lyrics
-		TextField lyricsField = new TextField("Lyrics", constructLyricsFieldString(fields[3].toLowerCase()), Field.Store.YES);
+		TextField lyricsField = new TextField(LuceneConstants.SONG_LYRICS, constructLyricsFieldString(fields[3].toLowerCase()), Field.Store.YES);
 
 		Document document = new Document();
 		document.add(generalField);
@@ -500,7 +514,7 @@ public class Indexer {
 			searcher = new Searcher(this.indexDirectoryPath);
 			Document document = searcher.getDocument(scoreDoc);
 
-			Query query = new QueryParser("General", new StandardAnalyzer()).parse("\"" + document.get("General") + "\"");
+			Query query = new QueryParser(LuceneConstants.GENERAL, new StandardAnalyzer()).parse("\"" + document.get("General") + "\"");
 			BooleanQuery booleanQuery = new BooleanQuery.Builder()
 			.add(query, Occur.MUST)
 			.build();
@@ -532,8 +546,10 @@ public class Indexer {
 
 	public String lyricsFilter(String lyrics, String pattern){
 		// Debug 
-		System.out.println(App.BLUE + "Lyrics: \n" + lyrics + App.RESET);
-		System.out.println(App.BLUE + "pattern == " + pattern + App.RESET);
+		if(LuceneConstants.LYRICS_DEBUG){
+			System.out.println(App.BLUE + "Lyrics: \n" + lyrics + App.RESET);
+			System.out.println(App.BLUE + "pattern == " + pattern + App.RESET);
+		}
 		
 		// find text block
 		String block;
@@ -541,7 +557,9 @@ public class Indexer {
 			block = lyrics.split("\\[" + pattern)[1].replace(":", "").replace("\\]", "").split("\n\n")[0].strip() + "\n\n";
 		}
 		catch(IndexOutOfBoundsException e){
-			System.out.println("tag not found, skipping...");
+			if(LuceneConstants.LYRICS_DEBUG){
+				System.out.println("tag not found, skipping...");
+			}
 			return lyrics;
 		}
 		lyrics = lyrics.replace(block, "");
@@ -550,8 +568,11 @@ public class Indexer {
 		String[] occurances = lyrics.split("\\[");
 		for(String occurance: occurances){
 			String tag = occurance.split("\\]")[0];
-			System.out.println(App.YELLOW + "DEBUG tag == " + tag + App.RESET);
-			
+
+			if(LuceneConstants.LYRICS_DEBUG){
+				System.out.println(App.YELLOW + "DEBUG tag == " + tag + App.RESET);
+			}
+
 			if (tag.contains(pattern) || tag.equalsIgnoreCase(pattern + ":") || tag.equalsIgnoreCase("repeat " + pattern) || tag.equalsIgnoreCase("repeat-" + pattern)){
 				lyrics = lyrics.replace("[" + tag + "]", block);
 			}	
@@ -567,7 +588,9 @@ public class Indexer {
 		}
 
 		// Debug 
-		System.out.println(App.RED + "Lyrics: \n" + lyrics + App.RESET);
+		if(LuceneConstants.LYRICS_DEBUG){
+			System.out.println(App.RED + "Lyrics: \n" + lyrics + App.RESET);
+		}
 		return lyrics;
 	}
 

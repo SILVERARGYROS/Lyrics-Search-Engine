@@ -54,9 +54,14 @@ public class Searcher {
 	public Query constructCombinedQuery(String[] queryFields, String[] queryValues, BooleanClause.Occur occurance) throws ParseException{
 		ArrayList<Query> queryList = new ArrayList<>();
 		for(int i = 0; i < queryValues.length; i++){
-			System.out.println("DEBUG QUERY IS: " + queryValues[i]);
+			if(LuceneConstants.SEARCH_DEBUG){
+				System.out.println("DEBUG QUERY IS: " + queryValues[i]);
+			}
+			
 			if(queryValues[i].strip().isEmpty()){
-				System.out.println("DEBUG CONTNINUE: " + queryValues[i]);
+				if(LuceneConstants.SEARCH_DEBUG){
+					System.out.println("DEBUG CONTNINUE: " + queryValues[i]);
+				}
 				continue;
 			}
 			Query currentQuery = new  SimpleQueryParser(new StandardAnalyzer(), queryFields[i]).parse(queryValues[i]);

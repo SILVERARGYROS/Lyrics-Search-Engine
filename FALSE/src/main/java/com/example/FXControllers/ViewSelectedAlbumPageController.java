@@ -7,6 +7,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 import com.example.App;
+import com.example.Lucene.LuceneConstants;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -38,10 +40,10 @@ public class ViewSelectedAlbumPageController {
     @FXML
     public void initialize(){
         Document document = App.getViewingDocument();
-        albumTextField.setText(document.get("Album"));
-        artistTextField.setText(document.get("Artist"));
-        typeTextField.setText(document.get("Album_Type"));
-        yearTextField.setText(document.get("Year"));
+        albumTextField.setText(document.get(LuceneConstants.ALBUM_NAME));
+        artistTextField.setText(document.get(LuceneConstants.ALBUM_ARTIST));
+        typeTextField.setText(document.get(LuceneConstants.ALBUM_TYPE));
+        yearTextField.setText(document.get(LuceneConstants.ALBUM_YEAR));
         
         albumTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if(oldValue != newValue) {
