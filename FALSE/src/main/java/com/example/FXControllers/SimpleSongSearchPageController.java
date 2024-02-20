@@ -1,6 +1,8 @@
 package com.example.FXControllers;
 
 import com.example.App;
+// import com.jfoenix.utils.JFXHighlighter;
+
 import java.io.IOException;
 
 import org.apache.lucene.document.Document;
@@ -14,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
 
 public class SimpleSongSearchPageController {
 
@@ -120,6 +123,10 @@ public class SimpleSongSearchPageController {
 
     @FXML
     private void loadResults() throws IOException, ParseException{
+        String searchString = searchTextField.getText().toLowerCase().strip();
+        // JFXHighlighter highlighter = new JFXHighlighter();
+        // highlighter.setPaint(Color.YELLOW);
+
         searchTextField.setText("");
         placeHolder.getChildren().clear();
         for(ScoreDoc scoreDoc: App.getSearchResults()){
@@ -140,11 +147,19 @@ public class SimpleSongSearchPageController {
             resultController.setArtistLabel(document.get("Artist"));
             resultController.setScoreLabel(score + "");
             resultController.setScoreDoc(scoreDoc);
-            resultController.setDocument(document);
 
             // (Will need to find matches before setting this one)
-            resultController.setMatchLabel("");
-
+            String fieldValue = document.get(searchField);
+            String[] searchTerms = searchString.split(" ");
+            for(String term: searchTerms){
+  
+                // highlighter.highlight(resultController.getMatchLabel(), term);      
+                fieldValue = fieldValue.replace(term,"***" + term + "***");
+            }
+            fieldValue = fieldValue.replace("*** ***", " ");
+            resultController.setMatchLabel(fieldValue);
+            
+            resultController.setDocument(document);
             //add fxml
             placeHolder.getChildren().add(resultNode);
 

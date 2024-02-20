@@ -516,7 +516,7 @@ public class Indexer {
 	public String constructGeneralFieldString(Collection<String> collection){
 		String generalString = "";
 		for(String field: collection){
-			generalString += field + "_";
+			generalString += field + " ";
 		}
 		return generalString;
 	}

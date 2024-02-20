@@ -144,6 +144,14 @@
       <version>8.9.0</version>
     </dependency>
 
+    <!-- https://github.com/sshahine/JFoenix -->
+    <!-- <dependency>
+        <groupId>com.jfoenix</groupId>
+        <artifactId>jfoenix</artifactId>
+        <version>9.0.10</version>
+    </dependency> -->
+
+
     <!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-common
     <dependency>
       <groupId>org.apache.lucene</groupId>
