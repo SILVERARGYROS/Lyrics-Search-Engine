@@ -45,27 +45,22 @@ public class LuceneManager {
 		System.out.println("PROJECT RUNNING PATH: " + path);
 
 		// Creating Folder System
-		if(new File("./SilverLuceneProjectAppData").mkdirs()){	// If data folder doesn't exist
-			// Creating data folder	
-			new File("./SilverLuceneProjectAppData/Data").mkdirs();
-			new File("./SilverLuceneProjectAppData/Data/albums").mkdirs();
-			new File("./SilverLuceneProjectAppData/Data/songs").mkdirs();
-			new File("./SilverLuceneProjectAppData/Data/lyrics").mkdirs();
-			new File("./SilverLuceneProjectAppData/Data/settings").mkdirs();
+		// Creating data folder	
+		new File("./SilverLuceneProjectAppData/Data").mkdirs();
+		new File("./SilverLuceneProjectAppData/Data/settings").mkdirs();
 
-			// Creating index folder
-			new File("./SilverLuceneProjectAppData/Index").mkdirs();
-			new File("./SilverLuceneProjectAppData/Index/albums").mkdirs();
-			new File("./SilverLuceneProjectAppData/Index/songs").mkdirs();
-		}
+		// Creating index folder
+		new File("./SilverLuceneProjectAppData/Index").mkdirs();
+		new File("./SilverLuceneProjectAppData/Index/albums").mkdirs();
+		new File("./SilverLuceneProjectAppData/Index/songs").mkdirs();
 
 		// Initializing settings
-		settingsDir = path + "/AppData/Data/settings/LuceneSettings.conf";
+		settingsDir = path + "/SilverLuceneProjectAppdata/Data/settings/LuceneSettings.conf";
 		LuceneSettings.InstantiateSettings(settingsDir);
 
 		// Initializing song file input path
-		songIndexDir = path + "/AppData/Index/songs";
-		albumIndexDir = path + "/AppData/Index/albums";
+		songIndexDir = path + "/SilverLuceneProjectAppdata/Index/songs";
+		albumIndexDir = path + "/SilverLuceneProjectAppdata/Index/albums";
 		
 		// Initializing album file input path
 		// songDataDir = App.class.getResource("data/songs").toString();
